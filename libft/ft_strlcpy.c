@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:04:46 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:04:48 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	size_t		srclen;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	srclen = ft_strlen(src);
+	if (srclen + 1 < size)
+		ft_memcpy(dst, src, srclen + 1);
+	else if (size != 0)
+	{
+		ft_memcpy(dst, src, size - 1);
+		dst[size - 1] = '\0';
+	}
+	return (srclen);
 }

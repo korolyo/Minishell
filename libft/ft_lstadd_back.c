@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 21:58:43 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 21:58:45 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	t_list	*final;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	if (!lst && !new)
+		return ;
+	if (!(*lst))
+	{
+		*lst = new;
+		return ;
+	}
+	final = *lst;
+	while (final->next != NULL)
+		final = final->next;
+	final->next = new;
 }

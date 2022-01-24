@@ -1,18 +1,20 @@
 
 NAME	=	minishell
 
-SOURCES_LIST	= 	main.c\
-
+SOURCES_LIST	= 	main.c \
+					parsing.c \
+					parsing2.c \
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -g
-LIBRARIES =	-lft\
+LIBRARIES =	-lft -lreadline\
 	-L$(LIBFT_DIRECTORY) \
 
 INCLUDES = -I$(LIBFT_HEADERS) -I$(HEADERS_DIR)
 
 HEADERS_LIST = \
-	minishell.h
+	minishell.h\
+
 HEADERS_DIR	=	./includes/
 HEADERS =	$(addprefix $(HEADERS_DIR), $(HEADERS_LIST))
 

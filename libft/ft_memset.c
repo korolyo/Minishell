@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:01:36 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:01:38 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+void	*ft_memset(void *s, int c, size_t n)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	unsigned char	*p;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	p = s;
+	while (n-- > 0)
+		*p++ = c;
+	return (s);
 }

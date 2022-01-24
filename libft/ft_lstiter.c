@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 21:59:32 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 21:59:34 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	t_list	*tmp;
+	t_list	*nextnode;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	tmp = lst;
+	while (tmp != NULL)
+	{
+		nextnode = tmp->next;
+		f(tmp->content);
+		tmp = nextnode;
+	}
 }

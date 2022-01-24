@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:01:00 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:01:02 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	unsigned char	*p;
+	unsigned char	*ischarfind;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	p = (unsigned char *) s;
+	ischarfind = NULL;
+	while (n--)
+	{
+		if (*p != (unsigned char)c)
+		{
+			p++;
+		}
+		else
+		{
+			ischarfind = p;
+			break ;
+		}
+	}
+	return (ischarfind);
 }

@@ -18,8 +18,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-# include <readline.h>
-# include <history.h>
+//# include <readline.h>
+//# include <history.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
@@ -44,5 +44,8 @@ struct		s_data
 {
 
 };
+
+void	parse_line(char *str);
+void	ft_quotes(char *str, int i);
 
 #endif

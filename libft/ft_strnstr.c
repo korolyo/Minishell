@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:05:48 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:05:52 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+char	*ft_strnstr(const char *big, const char *little, size_t blen)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	size_t	llen;
+	size_t	i;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	llen = ft_strlen(little);
+	i = 0;
+	if (0 == llen)
+		return ((char *)big);
+	while (i < blen)
+	{
+		if (big[0] == little[0] && (ft_strncmp(big, little, llen) == 0))
+			return ((char *)big);
+		if (i + llen >= blen || !*big)
+			return (NULL);
+		big++;
+		i++;
+	}
+	return (NULL);
 }

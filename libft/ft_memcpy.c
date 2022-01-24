@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:01:18 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:01:21 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	unsigned char		*pdest;
+	unsigned const char	*psource;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	pdest = (unsigned char *)dest;
+	psource = (unsigned const char *)src;
+	if ((pdest == NULL) && (psource == NULL))
+		return (NULL);
+	while (n)
+	{
+		*(pdest++) = *(psource++);
+		n--;
+	}
+	return (dest);
 }

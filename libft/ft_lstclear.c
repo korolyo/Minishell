@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 21:59:08 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 21:59:11 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	t_list	*tmp;
+	t_list	*nextnode;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	tmp = *lst;
+	while (tmp != NULL)
+	{
+		nextnode = tmp->next;
+		del(tmp->content);
+		free(tmp);
+		tmp = nextnode;
+	}
+	*lst = NULL;
 }

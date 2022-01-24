@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:05:13 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:05:15 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	char			*res;
+	unsigned int	len;
+	unsigned int	index;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	len = ft_strlen(s);
+	index = 0;
+	res = (char *) ft_calloc(sizeof(char), len + 1);
+	if (res == NULL)
+		return (NULL);
+	while (index < len)
+	{
+		res[index] = f(index, s[index]);
+		index++;
+	}
+	return ((char *)res);
 }

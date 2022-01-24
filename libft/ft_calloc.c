@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 21:56:51 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 21:57:02 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	void	*p;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	if (nmemb == 0 || size == 0)
+	{
+		size = 1;
+		nmemb = size;
+	}
+	p = (void *)malloc(nmemb * size);
+	if (NULL == p)
+		return (NULL);
+	ft_bzero(p, nmemb * size);
+	return (p);
 }

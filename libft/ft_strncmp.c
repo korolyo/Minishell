@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:05:30 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:05:33 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	unsigned const char	*str1;
+	unsigned const char	*str2;
+	int					status;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	str1 = (unsigned const char *) s1;
+	str2 = (unsigned const char *) s2;
+	status = 0;
+	if (s1 == s2 || n == 0)
+		return (status);
+	while (n)
+	{
+		if (*str1 != *str2++)
+			return (*str1 - *(--str2));
+		if (*str1++ == 0)
+			break ;
+		n--;
+	}
+	return (status);
 }

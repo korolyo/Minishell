@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:04:12 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:04:18 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+char	*ft_strdup(const char *src)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	int		l;
+	char	*dest;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	l = ft_strlen(src);
+	dest = malloc(sizeof(*src) * (l + 1));
+	if (dest == ((void *)0))
+		return (((void *)0));
+	l = 0;
+	while (src[l])
+	{
+		dest[l] = src[l];
+		l++;
+	}
+	dest[l] = src[l];
+	return (dest);
 }

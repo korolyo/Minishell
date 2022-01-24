@@ -1,26 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:01:09 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:01:10 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	unsigned char	*p;
+	unsigned char	*q;
+	int				comparestatus;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	p = (unsigned char *)s1;
+	q = (unsigned char *)s2;
+	comparestatus = 0;
+	if (s1 == s2)
+		return (0);
+	while (n--)
+	{
+		if (*p != *q)
+		{
+			comparestatus = *p - *q;
+			break ;
+		}
+		p++;
+		q++;
+	}
+	return (comparestatus);
 }

@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
-/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
+/*   Created: 2021/08/04 22:06:16 by acollin           #+#    #+#             */
+/*   Updated: 2021/08/04 22:06:18 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char *envp[])
+char	*ft_strrchr(const char *s, int c)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	const char	*s1;
+	char		*save;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	save = 0;
+	s1 = s;
+	while (*s1)
+	{
+		if (*s1 == (char) c)
+			save = (char *) s1;
+		s1++;
+	}
+	if (c == '\0')
+		save = (char *) s1;
+	return (save);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,15 +12,38 @@
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char *envp[])
+void ft_quotes(char *str, int i)
 {
-	char *str;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	int j;
 
-	str = "comma'n'd";
-//	preparse(str);
-	parse_line(str);
-	exit(EXIT_SUCCESS);
+	j = i;
+	while (str[++i] != ''')
+
+}
+
+void	parse_line(char *str)
+{
+//	""  ''  \  $  ;  '_'  |  >  >>  <
+	int i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] == ''')
+			ft_quotes(str, i);
+//		if (str[i] == '\"')
+//			ft_doublequotes(str, i);
+//		if (str[i]) == '\ ')
+//			ft_whitespace(str, i);
+//		if (str[i]) == '$')
+//			ft_dollar(str, i);
+//		if (str[i] == '\\')
+//			ft_backslash(str, i);
+//		if (str[i] == '\;')
+//			ft_semicolon(str, i);
+//		if (str[i] == '\|')
+//			ft_pipe(str, i);
+//		if (str[i] == '>' || str[i] == '>>' || str[i] == '<')
+//			ft_redirect(str, i);
+	}
 }
