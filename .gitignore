@@ -52,6 +52,6 @@ Mkfile.old
 dkms.conf
 # Trash directories
 .idea
-.cmake-build-debug
+cmake-build-debug
 .DS_Store
 CMakeLists.txt
