@@ -2,6 +2,7 @@
 NAME	=	minishell
 
 SOURCES_LIST	= 	main.c \
+					preparse.c \
 					parsing.c \
 					parsing2.c \
 

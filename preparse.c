@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   preparse.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,24 +12,34 @@
 
 #include "minishell.h"
 
-void	clear_all(char *prompt)
+char	*preparse_quotes(char *prompt, int *i)
 {
+	int 	j;
+	char	*tmp;
+
+	j = *i;
+	while (prompt[++(*i)])
+		if (prompt[*i] == '\'')
+			break ;
+	tmp = ft_substr(prompt, 0, j - 1);
 	free(prompt);
+	return (tmp);
 }
 
-int	main(int argc, char **argv, char *envp[])
+// Divide string from readline to lexical tokens (each token is linked list
+// node:
+void	preparse(char *prompt, t_textbuf *textbuf)
 {
-	char *prompt;
-//	t_textbuf textbuf;
-	(void)argc;
-	(void)argv;
+	int	i;
+	int	k;
 
-	prompt = readline("minishell >");
-//	preparse(prompt, &textbuf);
-	if (*prompt)
-		parse_line(prompt, envp);
-	printf("%s\n", prompt);
-	add_history(prompt);
-	clear_all(prompt);
-	exit(EXIT_SUCCESS);
+	i = -1;
+	k = 0;
+	while (prompt[++i])
+	{
+		while (prompt[i] == ' ')
+			i++;
+		if (prompt[i] == '\'')
+			textbuf->token[k] = preparse_quotes(prompt, &i);
+	}
 }
