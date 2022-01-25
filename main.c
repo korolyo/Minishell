@@ -12,15 +12,25 @@
 
 #include "minishell.h"
 
+void	clear_all(char *prompt)
+{
+	free(prompt);
+}
+
 int	main(int argc, char **argv, char *envp[])
 {
 	char *str;
+	char *prompt;
 	(void)argc;
 	(void)argv;
-	(void)envp;
 
-	str = "comma'n'd";
+	str = "Hello";
+	prompt = readline("minishell >");
 //	preparse(str);
-	parse_line(str);
+	if (*prompt)
+		parse_line(prompt, envp);
+	printf("%s\n", prompt);
+	add_history(prompt);
+	clear_all(prompt);
 	exit(EXIT_SUCCESS);
 }

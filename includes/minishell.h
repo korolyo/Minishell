@@ -42,10 +42,13 @@ typedef struct s_data	t_data;
 
 struct		s_data
 {
-
+	char *env_key;
 };
 
-void	parse_line(char *str);
-void	ft_quotes(char *str, int i);
+void	parse_line(char *str, char **envp);
+char	*ft_quotes(char *prompt, int *i);
+char	*ft_dollar(char *prompt, int *i, t_data *data, char **envp);
+int		is_key(char c);
+void	clear_all(char *prompt);
 
 #endif

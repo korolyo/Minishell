@@ -12,31 +12,93 @@
 
 #include "minishell.h"
 
-void ft_quotes(char *str, int i)
+int	is_key(char c)
 {
-	int j;
-
-	j = i;
-	while (str[++i] != ''')
-
+	if (c == '_' || ft_isalnum(c))
+		return (1);
+	return (0);
 }
 
-void	parse_line(char *str)
+char	*ft_dollar(char *prompt, int *i, t_data *data, char **envp)
+{
+	int		j;
+	int		k;
+	int		z;
+	char	*temp;
+	char	*temp2;
+	char	*temp3;
+
+	j = *i;
+	k = -1;
+	z = 0;
+	while (prompt[++(*i)])
+		if (!is_key(prompt[*i]))
+			break ;
+	if (*i == j + 1)
+		return(prompt);
+	data->env_key = ft_substr(prompt, j + 1, *i - j);
+	temp3 = ft_substr(prompt, *i + 1, ft_strlen(prompt) - *i -1);
+	while (envp[++k])
+	{
+		if ((strstr(envp[k], data->env_key)))
+		{
+			while (envp[k][z] != '=' && envp[k][z])
+				z++;
+			temp2 = ft_substr(envp[k], 0, z);
+			if (ft_strncmp(data->env_key, temp2, ft_strlen(temp2)) == 0)
+				break ;
+		}
+
+	}
+	temp2 = ft_substr(envp[k], z + 1, ft_strlen(envp[k] - z));
+//	printf("temp2 = %s", temp2);
+	temp = ft_substr(prompt, 0, j);
+	temp = ft_strjoin(temp, temp2);
+	temp = ft_strjoin(temp, temp3);
+//	temp = getenv(data->env_key);
+//	printf("temp = %s\n", temp);
+	free(prompt);
+	return (prompt);
+}
+
+char	*ft_quotes(char *prompt, int *i)
+{
+	int		j;
+	char	*temp;
+	char	*temp2;
+	char	*temp3;
+
+	j = *i;
+	while (prompt[++(*i)])
+		if (prompt[(*i)] == '\'')
+			break ;
+	temp = ft_substr(prompt, 0, j);
+	temp2 = ft_substr(prompt, j + 1, *i - j);
+	temp3 = ft_substr(prompt, *i + 1, ft_strlen(prompt) - *i - 1);
+	temp = ft_strjoin(temp, temp2);
+	temp = ft_strjoin(temp, temp3);
+	free(prompt);
+	return (temp);
+}
+
+void	parse_line(char *prompt, char **envp)
 {
 //	""  ''  \  $  ;  '_'  |  >  >>  <
-	int i;
+	int		i;
+	t_data	data;
 
 	i = -1;
-	while (str[++i])
+//	data = (t_data *)malloc(sizeof(t_data));
+	while (prompt[++i])
 	{
-		if (str[i] == ''')
-			ft_quotes(str, i);
+		if (prompt[i] == '\'')
+			prompt = ft_quotes(prompt, &i);
 //		if (str[i] == '\"')
 //			ft_doublequotes(str, i);
 //		if (str[i]) == '\ ')
 //			ft_whitespace(str, i);
-//		if (str[i]) == '$')
-//			ft_dollar(str, i);
+		if (prompt[i] == '$')
+			prompt = ft_dollar(prompt, &i, &data, envp);
 //		if (str[i] == '\\')
 //			ft_backslash(str, i);
 //		if (str[i] == '\;')
