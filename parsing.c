@@ -31,6 +31,7 @@ char	*ft_dollar(char *prompt, int *i, t_data *data, char **envp)
 	j = *i;
 	k = -1;
 	z = 0;
+
 	while (prompt[++(*i)])
 		if (!is_key(prompt[*i]))
 			break ;
