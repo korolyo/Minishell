@@ -81,7 +81,7 @@ char	*ft_quotes(char *prompt, int *i)
 	return (temp);
 }
 
-void	parse_line(char *prompt, char **envp)
+char	*parse_line(char *prompt, char **envp)
 {
 //	""  ''  \  $  ;  '_'  |  >  >>  <
 	int		i;
@@ -93,12 +93,12 @@ void	parse_line(char *prompt, char **envp)
 	{
 		if (prompt[i] == '\'')
 			prompt = ft_quotes(prompt, &i);
+		if (prompt[i] == '$')
+			prompt = ft_dollar(prompt, &i, &data, envp);
 //		if (str[i] == '\"')
 //			ft_doublequotes(str, i);
 //		if (str[i]) == '\ ')
 //			ft_whitespace(str, i);
-		if (prompt[i] == '$')
-			prompt = ft_dollar(prompt, &i, &data, envp);
 //		if (str[i] == '\\')
 //			ft_backslash(str, i);
 //		if (str[i] == '\;')
@@ -108,4 +108,5 @@ void	parse_line(char *prompt, char **envp)
 //		if (str[i] == '>' || str[i] == '>>' || str[i] == '<')
 //			ft_redirect(str, i);
 	}
+	return (prompt);
 }

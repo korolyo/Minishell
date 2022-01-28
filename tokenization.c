@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,24 +12,16 @@
 
 #include "minishell.h"
 
-void	clear_all(char *prompt)
+char	*tokenization(t_tlist *tlist, char *prompt)
 {
+	char	*tmp;
+	int		i;
+
+	i = -1;
+	while (prompt[++i])
+	{
+		;
+	}
 	free(prompt);
-}
-
-int	main(void)
-{
-	char		*prompt;
-//	t_tlist		tokens;
-	extern char	**envp;
-
-	prompt = readline("minishell >");
-	prompt = preparse(prompt);
-//	tokenization(&tokens, prompt);
-//	if (*prompt)
-//		prompt = parse_line(prompt, envp);
-	printf("%s\n", prompt);
-	add_history(prompt);
-	clear_all(prompt);
-	exit(EXIT_SUCCESS);
+	return (tmp);
 }

@@ -28,18 +28,19 @@ char	*preparse_quotes(char *prompt, int *i)
 
 // Divide string from readline to lexical tokens (each token is linked list
 // node:
-void	preparse(char *prompt, t_textbuf *textbuf)
+char	*preparse(char *prompt)
 {
-	int	i;
-	int	k;
+	int		i;
+	char	*tmp;
 
 	i = -1;
-	k = 0;
 	while (prompt[++i])
 	{
-		while (prompt[i] == ' ')
+		while (prompt[i] == ' ' || prompt[i] == '\t')
 			i++;
-		if (prompt[i] == '\'')
-			textbuf->token[k] = preparse_quotes(prompt, &i);
+		break;
 	}
+	tmp = ft_substr(prompt, i, ft_strlen(prompt) - i + 1);
+	free(prompt);
+	return (tmp);
 }

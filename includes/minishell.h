@@ -18,8 +18,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
-//# include <readline.h>
-//# include <history.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
@@ -38,22 +36,23 @@
 # include <errno.h>
 # include <limits.h>
 
-typedef struct s_data		t_data;
-typedef struct s_textbuf	t_textbuf;
+typedef struct s_data	t_data;
+typedef struct s_tlist	t_tlist;
 
 struct		s_data
 {
 	char *env_key;
 };
 
-struct	s_textbuf
+struct			s_tlist
 {
-	char		**token;
-	t_textbuf	*next;
+	char		*token;
+	t_tlist		*next;
 };
 
-void	preparse(char *prompt, t_textbuf *textbuf);
-void	parse_line(char *str, char **envp);
+char	*preparse(char *prompt);
+void	tokenization(t_tlist *tokens, char *prompt);
+char	*parse_line(char *prompt, char **envp);
 char	*ft_quotes(char *prompt, int *i);
 char	*ft_dollar(char *prompt, int *i, t_data *data, char **envp);
 int		is_key(char c);
