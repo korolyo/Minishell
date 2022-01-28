@@ -17,17 +17,19 @@ void	clear_all(char *prompt)
 	free(prompt);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*prompt;
 //	t_tlist		tokens;
-	extern char	**envp;
+//	extern char	**envp;
+	(void)argc;
+	(void)argv;
 
 	prompt = readline("minishell >");
 	prompt = preparse(prompt);
 //	tokenization(&tokens, prompt);
-//	if (*prompt)
-//		prompt = parse_line(prompt, envp);
+	if (*prompt)
+		prompt = parse_line(prompt, envp);
 	printf("%s\n", prompt);
 	add_history(prompt);
 	clear_all(prompt);

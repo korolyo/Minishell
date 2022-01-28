@@ -73,7 +73,7 @@ char	*ft_quotes(char *prompt, int *i)
 		if (prompt[(*i)] == '\'')
 			break ;
 	temp = ft_substr(prompt, 0, j);
-	temp2 = ft_substr(prompt, j + 1, *i - j);
+	temp2 = ft_substr(prompt, j + 1, *i - j - 1);
 	temp3 = ft_substr(prompt, *i + 1, ft_strlen(prompt) - *i - 1);
 	temp = ft_strjoin(temp, temp2);
 	temp = ft_strjoin(temp, temp3);
