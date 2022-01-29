@@ -30,6 +30,8 @@ char	*preparse_quotes(char *prompt, int *i)
 // node:
 char	*preparse(char *prompt)
 {
+	//незакрытая ковычка, два пайпа, две точки с запятой, незакрытый бэкслэш,
+//	пайк точка запятая, команда с пайпа, команда с точки с запятой
 	int		i;
 	char	*tmp;
 
