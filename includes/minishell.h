@@ -53,7 +53,9 @@ struct			s_tlist
 char	*preparse(char *prompt);
 void	tokenization(t_tlist *tokens, char *prompt);
 char	*parse_line(char *prompt, char **envp);
+char	*ft_slash(char *prompt, int *i);
 char	*ft_quotes(char *prompt, int *i);
+char	*double_quotes(char *prompt, int *i);
 char	*ft_dollar(char *prompt, int *i, t_data *data, char **envp);
 int		is_key(char c);
 void	clear_all(char *prompt);
