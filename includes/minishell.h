@@ -36,6 +36,9 @@
 # include <errno.h>
 # include <limits.h>
 
+# define CMD		11
+# define	REDIR	22
+
 typedef struct s_data	t_data;
 typedef struct s_tlist	t_tlist;
 
@@ -47,17 +50,22 @@ struct		s_data
 struct			s_tlist
 {
 	char		*token;
+	int 		type;
+	char 		*infile;
+	char 		*outfile;
+	char 		*args;
 	t_tlist		*next;
 };
 
 char	*preparse(char *prompt);
 void	tokenization(t_tlist *tokens, char *prompt);
 char	*parse_line(char *prompt, char **envp);
-char	*ft_slash(char *prompt, int *i);
+char	*ft_backslash(char *prompt, int *i);
 char	*ft_quotes(char *prompt, int *i);
-char	*double_quotes(char *prompt, int *i);
+char	*ft_doublequotes(char *prompt, int *i);
 char	*ft_dollar(char *prompt, int *i, t_data *data, char **envp);
 int		is_key(char c);
 void	clear_all(char *prompt);
+void    rl_replace_line(const char *buffer, int val);
 
 #endif

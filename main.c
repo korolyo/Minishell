@@ -20,14 +20,13 @@ void	clear_all(char *prompt)
 int	main(int argc, char **argv, char **envp)
 {
 	char		*prompt;
-//	t_tlist		tokens;
-//	extern char	**envp;
+	t_tlist		tokens;
 	(void)argc;
 	(void)argv;
 
 	prompt = readline("minishell >");
 	prompt = preparse(prompt);
-//	tokenization(&tokens, prompt);
+	tokenization(&tokens, prompt);
 	if (*prompt)
 		prompt = parse_line(prompt, envp);
 	printf("%s\n", prompt);
