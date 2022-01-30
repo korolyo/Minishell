@@ -82,14 +82,14 @@ char	*ft_quotes(char *prompt, int *i)
 	return (temp);
 }
 
-char	*ft_slash(char *prompt, int *i)
+char	*ft_backslash(char *prompt, int *i)
 {
 	char	*tmp;
 	char	*tmp2;
 
 	tmp = ft_substr(prompt, 0, *i);
-	tmp2 = ft_strdup(prompt, *i + 1);
-	tmp = strjoin(tmp, tmp2);
+	tmp2 = ft_strdup(prompt + *i + 1);
+	tmp = ft_strjoin(tmp, tmp2);
 	free(prompt);
 	++(*i);
 	return (tmp);
@@ -102,7 +102,6 @@ char	*parse_line(char *prompt, char **envp)
 	t_data	data;
 
 	i = -1;
-	data = (t_data *)malloc(sizeof(t_data));
 	while (prompt[++i])
 	{
 		if (prompt[i] == '\'')
@@ -112,7 +111,7 @@ char	*parse_line(char *prompt, char **envp)
 		if (prompt[i] == '\\')
 			prompt = ft_backslash(prompt, &i);
 		if (prompt[i] == '\"')
-			ft_doublequotes(prompt, &i);
+			prompt = ft_doublequotes(prompt, &i);
 //		if (str[i]) == '\ ')
 //			ft_whitespace(str, i);
 //		if (str[i] == '\;')
@@ -122,6 +121,6 @@ char	*parse_line(char *prompt, char **envp)
 //		if (str[i] == '>' || str[i] == '>>' || str[i] == '<')
 //			ft_redirect(str, i);
 	}
-	free(data);
+//	free(&data);
 	return (prompt);
 }

@@ -12,16 +12,32 @@
 
 #include "minishell.h"
 
-char	*tokenization(t_tlist *tlist, char *prompt)
+void	tokenization(t_tlist *tokens, char *prompt)
 {
-	char	*tmp;
 	int		i;
+	int		j;
 
 	i = -1;
 	while (prompt[++i])
 	{
-		;
+		if (is_key(prompt[i]))
+		{
+			j = i;
+			while (is_key(prompt[i]))
+				i++;
+			tokens->token = ft_strdup(prompt + i - j);
+		}
+		if (prompt[i] != ' ' || prompt[i] != '\\'|| prompt[i] != '|'
+			|| prompt[i] != ';' || prompt[i] != '\t' || prompt[i] != '\n')
+			break ;
+		if (prompt[i] == '>' || prompt[i] == '<')
+			tokens->type = REDIR;
+		if (prompt[i] == '-')
+		{
+			j = i;
+			while (ft_isalnum(prompt[i]))
+				i++;
+			tokens->args = ft_strdup(prompt + i - j);
+		}
 	}
-	free(prompt);
-	return (tmp);
 }
