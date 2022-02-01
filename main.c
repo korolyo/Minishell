@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **envp)
 
 	prompt = readline("minishell >");
 	prompt = preparse(prompt);
-	lexer(prompt);
+//	lexer(prompt);
 //	if (*prompt)
 //		prompt = parse_line(prompt, envp);
 //	printf("main check \n");

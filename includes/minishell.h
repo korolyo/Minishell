@@ -56,7 +56,6 @@ struct			s_tlist
 	char 		*infile;
 	char 		*outfile;
 	char		*cmd;
-	int 		type;
 	char 		*args;
 	t_tlist		*next;
 };

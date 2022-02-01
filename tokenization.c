@@ -1,18 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-<<<<<<< HEAD
-<<<<<<< HEAD
 /*   tokenization.c                                     :+:      :+:    :+:   */
-=======
-/*   parsing.c                                          :+:      :+:    :+:   */
->>>>>>> aac3de6956a0406042df3c0d7ac8715c229f056e
-=======
-/*   parsing.c                                          :+:      :+:    :+:   */
-=======
-/*   tokenization.c                                     :+:      :+:    :+:   */
->>>>>>> ebce6a8... preparsing is done
->>>>>>> 73c8c19... preparsing is done
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -36,18 +25,7 @@ void	tokenization(t_tlist *tokens, char *prompt)
 			j = i;
 			while (is_key(prompt[i]))
 				i++;
-<<<<<<< HEAD
-<<<<<<< HEAD
 			tokens->cmd = ft_strdup(prompt + i - j);
-=======
-			tokens->token = ft_strdup(prompt + i - j);
->>>>>>> aac3de6956a0406042df3c0d7ac8715c229f056e
-=======
-			tokens->token = ft_strdup(prompt + i - j);
-=======
-			tokens->cmd = ft_strdup(prompt + i - j);
->>>>>>> ebce6a8... preparsing is done
->>>>>>> 73c8c19... preparsing is done
 		}
 		if (prompt[i] != ' ' || prompt[i] != '\\'|| prompt[i] != '|'
 			|| prompt[i] != ';' || prompt[i] != '\t' || prompt[i] != '\n')
