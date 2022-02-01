@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+<<<<<<< HEAD
 char *str_delete_part(char *prompt, int start, int end, int flag_mid)
 {
 	char	*tmp;
@@ -107,10 +108,33 @@ char	*preparse(char *prompt)
 	 * 			бэкслэш, пайп точка запятая, команда с пайпа,
 	 * 			команда с точки с запятой
 	*/
+=======
+char	*preparse_quotes(char *prompt, int *i)
+{
+	int 	j;
+	char	*tmp;
+
+	j = *i;
+	while (prompt[++(*i)])
+		if (prompt[*i] == '\'')
+			break ;
+	tmp = ft_substr(prompt, 0, j - 1);
+	free(prompt);
+	return (tmp);
+}
+
+// Divide string from readline to lexical tokens (each token is linked list
+// node:
+char	*preparse(char *prompt)
+{
+	//незакрытая ковычка, два пайпа, две точки с запятой, незакрытый бэкслэш,
+//	пайк точка запятая, команда с пайпа, команда с точки с запятой
+>>>>>>> aac3de6956a0406042df3c0d7ac8715c229f056e
 	int		i;
 	char	*tmp;
 
 	i = -1;
+<<<<<<< HEAD
 	tmp = prompt;
 	while (prompt[++i])
 	{
@@ -127,6 +151,15 @@ char	*preparse(char *prompt)
 			break ;
 		}
 	}
+=======
+	while (prompt[++i])
+	{
+		while (prompt[i] == ' ' || prompt[i] == '\t')
+			i++;
+		break;
+	}
+	tmp = ft_substr(prompt, i, ft_strlen(prompt) - i + 1);
+>>>>>>> aac3de6956a0406042df3c0d7ac8715c229f056e
 	free(prompt);
 	return (tmp);
 }

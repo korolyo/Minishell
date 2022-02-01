@@ -20,6 +20,7 @@ void	clear_all(char *prompt)
 int	main(int argc, char **argv, char **envp)
 {
 	char		*prompt;
+<<<<<<< HEAD
 	(void)argc;
 	(void)argv;
 	(void)envp;
@@ -30,6 +31,17 @@ int	main(int argc, char **argv, char **envp)
 //	if (*prompt)
 //		prompt = parse_line(prompt, envp);
 //	printf("main check \n");
+=======
+	t_tlist		tokens;
+	(void)argc;
+	(void)argv;
+
+	prompt = readline("minishell >");
+	prompt = preparse(prompt);
+	tokenization(&tokens, prompt);
+	if (*prompt)
+		prompt = parse_line(prompt, envp);
+>>>>>>> aac3de6956a0406042df3c0d7ac8715c229f056e
 	printf("%s\n", prompt);
 	add_history(prompt);
 	clear_all(prompt);
