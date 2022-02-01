@@ -16,25 +16,30 @@
 // linked list node):
 void	lexer(char *prompt)
 {
-
 	int		i;
-	int		j;
 	t_tlist	*tokens;
 
 	i = -1;
-	init_lexer(prompt, tokens);
+	tokens = init_lexer(prompt, &tokens);
 	while (prompt[++i])
 	{
-		if (prompt[i] == DELIM)
-			next_token;
+		if (ft_strchr("DELIM", prompt[i]))
+			i++;
 		if (prompt[i] == '\\')
-			lexer_slash;
+			lexer_slash(tokens, prompt, &i);
 		if (prompt[i] == ';')
-			lexer_semicolon;
+			lexer_semicolon(tokens, prompt, &i);
 		if (prompt[i] == '\'\"')
-			lexer_prompt;
+			//экранирует все до пробела пайпа или редиректа или ";"
+			lexer_quotes(tokens, prompt, &i);
 		if (ft_strchr("><", prompt[i])
-			lexer_redir;
-
+			lexer_redir(tokens, prompt, &i);
+		if (prompt[i] >= 'a' && prompt[i] <= 'z')
+			lexer_cmd(tokens, prompt, &i);
+		if (prompt[i] == '$')
+			lexer_env(tokens, prompt, &i);
+		if (prompt[i] == '|')
+			lexer_pipe(tokens, prompt, &i);
+		i++;
 	}
 }

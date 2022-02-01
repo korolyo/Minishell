@@ -35,9 +35,18 @@
 # include <string.h>
 # include <errno.h>
 # include <limits.h>
+//TOKEN types
+# define CMD			11
+# define ARG			88
+# define	REDIR		22
+# define SEMICOLON	33
+# define PIPE		44
+# define ENV			55
+# define HERE_DOC	66
+# define ENV			77
 
-# define CMD		11
-# define	REDIR	22
+
+# define DELIM	" \t"
 
 # define DELETE_MID 7
 

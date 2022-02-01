@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,26 +12,52 @@
 
 #include "minishell.h"
 
-void	clear_all(char *prompt)
+t_tlist	*lexer_slash(t_tlist *tokens, char *prompt, int *i)
 {
-	free(prompt);
+	t_tlist	*tmp;
+
+
+	return (tmp);
 }
 
-int	main(int argc, char **argv, char **envp)
+t_tlist	*lexer_semicolon(t_tlist *tokens, char *prompt, int *i)
 {
-	char		*prompt;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	t_tlist	*tmp;
 
-	prompt = readline("minishell >");
-	prompt = preparse(prompt);
-	lexer(prompt);
-//	if (*prompt)
-//		prompt = parse_line(prompt, envp);
-//	printf("main check \n");
-	printf("%s\n", prompt);
-	add_history(prompt);
-	clear_all(prompt);
-	exit(EXIT_SUCCESS);
+	return (tmp);
+}
+
+t_tlist	*lexer_quotes(t_tlist *tokens, char *prompt, int *i)
+{
+	t_tlist	*tmp;
+
+	return (tmp);
+}
+
+t_tlist	*lexer_redir(t_tlist *tokens, char *prompt, int *i)
+{
+	t_tlist	*tmp;
+
+	return (tmp);
+}
+
+t_tlist	*lexer_cmd(t_tlist *tokens, char *prompt, int *i)
+{
+	t_tlist	*tmp;
+
+	return (tmp);
+}
+
+t_tlist	*lexer_env(t_tlist *tokens, char *prompt, int *i)
+{
+	t_tlist	*tmp;
+
+	return (tmp);
+}
+
+t_tlist	*lexer_pipe(t_tlist *tokens, char *prompt, int *i)
+{
+	t_tlist	*tmp;
+
+	return (tmp);
 }
