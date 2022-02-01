@@ -39,6 +39,8 @@
 # define CMD		11
 # define	REDIR	22
 
+# define DELETE_MID 7
+
 typedef struct s_data	t_data;
 typedef struct s_tlist	t_tlist;
 
@@ -53,11 +55,19 @@ struct			s_tlist
 	int 		type;
 	char 		*infile;
 	char 		*outfile;
+	char		*cmd;
 	char 		*args;
 	t_tlist		*next;
 };
 
+//Preparsing
 char	*preparse(char *prompt);
+char	*preparse_delim(char *prompt, int i);
+int		preparse_quotes(char *prompt, int i);
+int		preparse_redir(char *prompt, int i);
+// Preparsing utils
+char *str_delete_part(char *prompt, int start, int end, int flag_mid);
+
 void	tokenization(t_tlist *tokens, char *prompt);
 char	*parse_line(char *prompt, char **envp);
 char	*ft_backslash(char *prompt, int *i);

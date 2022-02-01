@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -25,7 +25,7 @@ void	tokenization(t_tlist *tokens, char *prompt)
 			j = i;
 			while (is_key(prompt[i]))
 				i++;
-			tokens->token = ft_strdup(prompt + i - j);
+			tokens->cmd = ft_strdup(prompt + i - j);
 		}
 		if (prompt[i] != ' ' || prompt[i] != '\\'|| prompt[i] != '|'
 			|| prompt[i] != ';' || prompt[i] != '\t' || prompt[i] != '\n')

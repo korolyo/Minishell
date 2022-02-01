@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,27 +12,29 @@
 
 #include "minishell.h"
 
-void	clear_all(char *prompt)
+// Divide preparsed string from readline to lexical tokens (each token is
+// linked list node):
+void	lexer(char *prompt)
 {
-	free(prompt);
-}
 
-int	main(int argc, char **argv, char **envp)
-{
-	char		*prompt;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	int		i;
+	int		j;
+	t_tlist	*tokens;
 
-	prompt = readline("minishell >");
-	prompt = preparse(prompt);
-	lexer(prompt);
+	i = -1;
+	init_lexer(prompt, tokens);
+	while (prompt[++i])
+	{
+		if (prompt[i] == DELIM)
+			next_token;
+		if (prompt[i] == '\\')
+			lexer_slash;
+		if (prompt[i] == ';')
+			lexer_semicolon;
+		if (prompt[i] == '\'\"')
+			lexer_prompt;
+		if (ft_strchr("><", prompt[i])
+			lexer_redir;
 
-//	if (*prompt)
-//		prompt = parse_line(prompt, envp);
-//	printf("main check \n");
-	printf("%s\n", prompt);
-	add_history(prompt);
-	clear_all(prompt);
-	exit(EXIT_SUCCESS);
+	}
 }

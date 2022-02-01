@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,27 +12,41 @@
 
 #include "minishell.h"
 
-void	clear_all(char *prompt)
+t_tlist	*tlistnew(char *cmd, int type, char *args)
 {
-	free(prompt);
+	t_tlist	*tmp;
+
+	if (!(tmp = (t_tlist *)malloc(sizeof(t_tlist))))
+			return (NULL);
+	tmp->type = type;
+	tmp->cmd = ft_strdup(cmd);
+	tmp->args = NULL;
+	tmp->next = NULL;
+	return (tmp);
 }
 
-int	main(int argc, char **argv, char **envp)
+void tlistadd_back(t_tlist **head_token, t_tlist *newtoken)
 {
-	char		*prompt;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	t_tlist	*final;
 
-	prompt = readline("minishell >");
-	prompt = preparse(prompt);
-	lexer(prompt);
+	if(!head_token && !newtoken)
+		return ;
+	if (!(*head_token))
+	{
+		*head_token = newtoken;
+		return ;
+	}
+	final = *head_token;
+	while (final->next != NULL)
+		final = final->next;
+	final->next = newtoken;
+}
 
-//	if (*prompt)
-//		prompt = parse_line(prompt, envp);
-//	printf("main check \n");
-	printf("%s\n", prompt);
-	add_history(prompt);
-	clear_all(prompt);
-	exit(EXIT_SUCCESS);
+int init_lexer(t_tlist *token, char *prompt)
+{
+	t_tlist	*token_head;
+	t_tlist	*token;
+
+	if (!)
+	return (1);
 }
