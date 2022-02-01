@@ -39,11 +39,8 @@
 # define CMD		11
 # define	REDIR	22
 
-<<<<<<< HEAD
 # define DELETE_MID 7
 
-=======
->>>>>>> aac3de6956a0406042df3c0d7ac8715c229f056e
 typedef struct s_data	t_data;
 typedef struct s_tlist	t_tlist;
 
@@ -54,20 +51,16 @@ struct		s_data
 
 struct			s_tlist
 {
-<<<<<<< HEAD
-	char		*cmd;
-	int 		type;
-=======
 	char		*token;
 	int 		type;
 	char 		*infile;
 	char 		*outfile;
->>>>>>> aac3de6956a0406042df3c0d7ac8715c229f056e
+	char		*cmd;
+	int 		type;
 	char 		*args;
 	t_tlist		*next;
 };
 
-<<<<<<< HEAD
 //Preparsing
 char	*preparse(char *prompt);
 char	*preparse_delim(char *prompt, int i);
@@ -76,9 +69,6 @@ int		preparse_redir(char *prompt, int i);
 // Preparsing utils
 char *str_delete_part(char *prompt, int start, int end, int flag_mid);
 
-=======
-char	*preparse(char *prompt);
->>>>>>> aac3de6956a0406042df3c0d7ac8715c229f056e
 void	tokenization(t_tlist *tokens, char *prompt);
 char	*parse_line(char *prompt, char **envp);
 char	*ft_backslash(char *prompt, int *i);
