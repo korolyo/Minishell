@@ -97,7 +97,7 @@ char	*ft_backslash(char *prompt, int *i)
 
 char	*parse_line(char *prompt, char **envp)
 {
-//	""  ''  \  $  ;  '_'  |  >  >>  <
+//	""  ''  \  $  ;  '_'  |  >  >>  < <<
 	int		i;
 	t_data	data;
 
