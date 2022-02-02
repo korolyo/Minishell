@@ -36,14 +36,17 @@
 # include <errno.h>
 # include <limits.h>
 //TOKEN types
-# define CMD			11
-# define ARG			88
-# define	REDIR		22
-# define SEMICOLON	33
-# define PIPE		44
-# define ENV			55
-# define HERE_DOC	66
-# define ENV			77
+# define CMD				11
+# define ARG				12
+# define	REDIR			22
+# define REDIR_APPEND	23
+# define REDIR_INPUT		24
+# define HERE_DOC		25
+# define SEMICOLON		33
+# define PIPE			44
+# define ENV				55
+# define QUOTES			88
+# define BACKSLASH		99
 
 
 # define DELIM	" \t"
@@ -66,6 +69,7 @@ struct			s_tlist
 	char 		*outfile;
 	char		*cmd;
 	char 		*args;
+	char 		*envkey;
 	t_tlist		*next;
 };
 
@@ -77,7 +81,17 @@ int		preparse_redir(char *prompt, int i);
 // Preparsing utils
 char *str_delete_part(char *prompt, int start, int end, int flag_mid);
 
-void	tokenization(t_tlist *tokens, char *prompt);
+//LEXER:
+void	lexer(char *prompt);
+void	lexer_slash(t_tlist **tokens, char *prompt, int *i);
+void	lexer_semicolon(t_tlist **tokens, char *prompt, int *i);
+void	lexer_quotes(t_tlist **tokens, char *prompt, int *i);
+void	lexer_redir(t_tlist **tokens, char *prompt, int *i);
+void	lexer_cmd(t_tlist **tokens, char *prompt, int *i);
+void	lexer_env(t_tlist **tokens, char *prompt, int *i);
+void	lexer_pipe(t_tlist **tokens, char *prompt, int *i);
+
+//Parsing
 char	*parse_line(char *prompt, char **envp);
 char	*ft_backslash(char *prompt, int *i);
 char	*ft_quotes(char *prompt, int *i);
