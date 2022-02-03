@@ -82,9 +82,10 @@ int		preparse_redir(char *prompt, int i);
 char *str_delete_part(char *prompt, int start, int end, int flag_mid);
 
 //LEXER:
-void	lexer(char *prompt);
-void	lexer_slash(t_tlist **tokens, char *prompt, int *i);
-void	lexer_semicolon(t_tlist **tokens, char *prompt, int *i);
+void	init_lexer(t_tlist *token);
+void	lexer(char *prompt, t_tlist **tokens);
+void	lexer_backslash(t_tlist **tokens, char *prompt, int *i);
+void	lexer_semicolon(t_tlist **tokens);
 void	lexer_quotes(t_tlist **tokens, char *prompt, int *i);
 void	lexer_redir(t_tlist **tokens, char *prompt, int *i);
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i);
@@ -100,5 +101,13 @@ char	*ft_dollar(char *prompt, int *i, t_data *data, char **envp);
 int		is_key(char c);
 void	clear_all(char *prompt);
 void    rl_replace_line(const char *buffer, int val);
+
+//UTILS:
+
+t_tlist	*tlistnew(char *cmd, int type, char *args);
+void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
+
+//DEBUG:
+void	print_tokens(t_tlist *tokens);
 
 #endif

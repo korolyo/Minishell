@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,11 +16,11 @@ void	lexer_backslash(t_tlist **tokens, char *prompt, int *i)
 {
 	t_tlist	*tmp;
 
-	tmp = tlistnew("\\", SLASH, prompt[i]);
+	tmp = tlistnew("\\", BACKSLASH, &prompt[*i]);
 	tlistadd_back(tokens, tmp);
 }
 
-void	lexer_semicolon(t_tlist **tokens, char *prompt, int *i)
+void	lexer_semicolon(t_tlist **tokens)
 {
 	t_tlist	*tmp;
 
@@ -57,20 +57,26 @@ void	lexer_redir(t_tlist **tokens, char *prompt, int *i)
 
 	j = *i + 1;
 	if (prompt[*i] == '<' && prompt[(*i) + 1] == '<')
+	{
 		tmp = tlistnew("<<", HERE_DOC, NULL);
+		(*i)++;
+	}
 	else if (prompt[*i] == '>' && prompt[(*i) + 1] == '>')
+	{
 		tmp = tlistnew(">>", REDIR_APPEND, NULL);
+		(*i)++;
+	}
 	else if (prompt[*i] == '>')
 		tmp = tlistnew(">", REDIR, NULL);
-	else (prompt[*i] == '<')
+	else if (prompt[*i] == '<')
 		tmp = tlistnew("<", REDIR_INPUT, NULL);
 	while (prompt[*i] == ' ' || ft_isalpha(prompt[*i])
 		|| ft_isdigit(prompt[*i]))
 		i++;
 	if (tmp->type == REDIR || tmp->type == REDIR_APPEND)
-		tmp->outfile = ft_substr(prompt, j, *i - j - 1);
+		tmp->outfile = ft_substr(prompt, j, *i - j);
 	if (tmp->type == REDIR_INPUT)
-		tmp->infile = ft_substr(prompt, j, *i - j - 1);
+		tmp->infile = ft_substr(prompt, j, *i - j);
 	tlistadd_back(tokens, tmp);
 }
 
@@ -83,14 +89,15 @@ void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
 	while (!ft_strchr(" \t$<>|;", prompt[(*i)]))
 		(*i)++;
 	tmp = tlistnew(NULL, CMD, NULL);
-	tmp->cmd = ft_substr(prompt, j, *i - j - 1);
+	tmp->cmd = ft_substr(prompt, j, *i - j);
+	printf("tlist->cmd = |%s|\n", tmp->cmd);
 	if (prompt[*i] == '-')
 	{
 		j = *i;
 		(*i)++;
 		while (ft_isalpha(prompt[*i]))
 			(*i)++;
-		tmp->args = ft_substr(prompt, j, *i - j - 1);
+		tmp->args = ft_substr(prompt, j, *i - j);
 	}
 	tlistadd_back(tokens, tmp);
 }
@@ -124,6 +131,6 @@ void	lexer_pipe(t_tlist **tokens, char *prompt, int *i)
 	while (!ft_strchr(" \t$<>|;", prompt[(*i)]))
 		(*i)++;
 	tmp = tlistnew("|", PIPE, NULL);
-	tmp->cmd = ft_substr(prompt, j, *i - j - 1);
+	tmp->token = ft_substr(prompt, j, *i - j);
 	tlistadd_back(tokens, tmp);
 }

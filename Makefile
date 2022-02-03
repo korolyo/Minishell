@@ -6,6 +6,10 @@ SOURCES_LIST	= 	main.c \
 					preparse.c \
 					parsing.c \
 					parsing2.c \
+					init_lexer.c \
+					lexer.c \
+					lexer1.c \
+
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -g

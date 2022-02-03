@@ -112,10 +112,10 @@ char	*preparse(char *prompt)
 
 	i = -1;
 	tmp = prompt;
-	while (prompt[++i])
+	while (tmp[++i])
 	{
-		if (prompt[i] == ' ' || prompt[i] == '\t')
-			tmp = preparse_delim(prompt, i);
+		if (tmp[i] == ' ' || tmp[i] == '\t')
+			tmp = preparse_delim(tmp, i);
 		if (!(preparse_redir(tmp, i)))
 		{
 			tmp = ft_strdup("Minishell: syntax error with redir symbol");
@@ -128,5 +128,6 @@ char	*preparse(char *prompt)
 		}
 	}
 	free(prompt);
+//	printf("tmp prep = %s\n", tmp);
 	return (tmp);
 }

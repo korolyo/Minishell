@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+// DONT USE/
+// MAYBE DELETE LATER? IDK
 void	tokenization(t_tlist *tokens, char *prompt)
 {
 	int		i;

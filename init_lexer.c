@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   init_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -19,13 +19,17 @@ t_tlist	*tlistnew(char *cmd, int type, char *args)
 	if (!(tmp = (t_tlist *)malloc(sizeof(t_tlist))))
 			return (NULL);
 	tmp->type = type;
+	tmp->token = NULL;
+	tmp->infile = NULL;
+	tmp->outfile = NULL;
+	tmp->envkey = NULL;
 	tmp->cmd = ft_strdup(cmd);
-	tmp->args = NULL;
+	tmp->args = ft_strdup(args);
 	tmp->next = NULL;
 	return (tmp);
 }
 
-void tlistadd_back(t_tlist **head_token, t_tlist *newtoken)
+void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken)
 {
 	t_tlist	*final;
 
@@ -42,11 +46,14 @@ void tlistadd_back(t_tlist **head_token, t_tlist *newtoken)
 	final->next = newtoken;
 }
 
-int init_lexer(t_tlist *token, char *prompt)
+void	init_lexer(t_tlist *token)
 {
-	t_tlist	*token_head;
-	t_tlist	*token;
-
-	if (!)
-	return (1);
+	token->token = NULL;
+	token->type = 0;
+	token->infile = NULL;
+	token->outfile = NULL;
+	token->cmd = NULL;
+	token->args = NULL;
+	token->envkey = NULL;
+	token->next = NULL;
 }
