@@ -17,21 +17,38 @@ void	clear_all(char *prompt)
 	free(prompt);
 }
 
-int	main(int argc, char **argv, char **envp)
+void	print_tokens(t_tlist *tokens)
 {
-	char		*prompt;
-	(void)argc;
-	(void)argv;
-	(void)envp;
+	t_tlist	*current_node;
+	int		i;
 
+	i = 0;
+	current_node = tokens;
+	while (current_node != NULL)
+	{
+		printf("[%s] ->", current_node->cmd);
+		current_node = current_node->next;
+		i++;
+	}
+	printf("\nnum of nodes = %d", i);
+}
+
+int	main(void)
+{
+	char	*prompt;
+	t_tlist	*tokens;
+
+	tokens = NULL;
 	prompt = readline("minishell >");
+	add_history(prompt);
 	prompt = preparse(prompt);
-	lexer(prompt);
+	printf("preparse: |%s|\n", prompt);
+	lexer(prompt, &tokens);
 //	if (*prompt)
 //		prompt = parse_line(prompt, envp);
-//	printf("main check \n");
-	printf("%s\n", prompt);
-	add_history(prompt);
+//	printf("preparse: |%s|\n", prompt);
+	printf("main check \n");
+	print_tokens(tokens);
 	clear_all(prompt);
 	exit(EXIT_SUCCESS);
 }
