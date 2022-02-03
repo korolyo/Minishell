@@ -17,6 +17,8 @@ void	clear_all(char *prompt)
 	free(prompt);
 }
 
+
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*prompt;
@@ -30,7 +32,8 @@ int	main(int argc, char **argv, char **envp)
 //	if (*prompt)
 //		prompt = parse_line(prompt, envp);
 //	printf("main check \n");
-	printf("%s\n", prompt);
+	printf("preparse: %s\n", prompt);
+	printf("tokents")
 	add_history(prompt);
 	clear_all(prompt);
 	exit(EXIT_SUCCESS);
