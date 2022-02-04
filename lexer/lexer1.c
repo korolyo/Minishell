@@ -12,21 +12,21 @@
 
 #include "minishell.h"
 
-void	lexer_backslash(t_tlist **tokens, char *prompt, int *i)
-{
-	t_tlist	*tmp;
-
-	tmp = tlistnew("\\", BACKSLASH, &prompt[*i]);
-	tlistadd_back(tokens, tmp);
-}
-
-void	lexer_semicolon(t_tlist **tokens)
-{
-	t_tlist	*tmp;
-
-	tmp = tlistnew(";", SEMICOLON, NULL);
-	tlistadd_back(tokens, tmp);
-}
+//void	lexer_backslash(t_tlist **tokens, char *prompt, int *i)
+//{
+//	t_tlist	*tmp;
+//
+//	tmp = tlistnew("\\", BACKSLASH, &prompt[*i]);
+//	tlistadd_back(tokens, tmp);
+//}
+//
+//void	lexer_semicolon(t_tlist **tokens)
+//{
+//	t_tlist	*tmp;
+//
+//	tmp = tlistnew(";", SEMICOLON, NULL);
+//	tlistadd_back(tokens, tmp);
+//}
 
 // DO THE LOGIC
 void	lexer_quotes(t_tlist **tokens, char *prompt, int *i)

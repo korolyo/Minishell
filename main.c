@@ -41,14 +41,17 @@ int	main(void)
 	tokens = NULL;
 	prompt = readline("minishell >");
 	add_history(prompt);
-	prompt = preparse(prompt);
-	printf("preparse: |%s|\n", prompt);
-	lexer(prompt, &tokens);
-	print_tokens(tokens);
+	if (prompt)
+	{
+		prompt = preparse(prompt);
+		printf("preparse: |%s|\n", prompt);
+		lexer(prompt, &tokens);
+		print_tokens(tokens);
 //	if (*prompt)
 //		prompt = parse_line(tokens);
 //	printf("preparse: |%s|\n", prompt);
-	printf("main check \n");
-	clear_all(prompt);
+		printf("main check \n");
+		clear_all(prompt);
+	}
 	exit(EXIT_SUCCESS);
 }

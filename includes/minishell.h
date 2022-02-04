@@ -35,20 +35,19 @@
 # include <string.h>
 # include <errno.h>
 # include <limits.h>
-//TOKEN types
+
+// TOKEN types
 # define CMD				11
 # define ARG				12
 # define	REDIR			22
 # define REDIR_APPEND	23
 # define REDIR_INPUT		24
 # define HERE_DOC		25
-# define SEMICOLON		33
 # define PIPE			44
 # define ENV				55
 # define QUOTES			88
-# define BACKSLASH		99
 
-
+// Delimeters:
 # define DELIM	" \t"
 
 # define DELETE_MID 7
@@ -69,7 +68,7 @@ struct			s_tlist
 	t_tlist		*next;
 };
 
-//AST
+// AST
 struct 			s_btree
 {
 	char 		*value;
@@ -78,15 +77,16 @@ struct 			s_btree
 	t_btree		*right;
 };
 
-//Preparsing
+// Preparsing
 char	*preparse(char *prompt);
 char	*preparse_delim(char *prompt, int i);
 int		preparse_quotes(char *prompt, int i);
 int		preparse_redir(char *prompt, int i);
+
 // Preparsing utils
 char	*str_delete_part(char *prompt, int start, int end, int flag_mid);
 
-//LEXER:
+// LEXER:
 void	init_lexer(t_tlist *token);
 void	lexer(char *prompt, t_tlist **tokens);
 void	lexer_backslash(t_tlist **tokens, char *prompt, int *i);
@@ -97,23 +97,25 @@ void	lexer_cmd(t_tlist **tokens, char *prompt, int *i);
 void	lexer_env(t_tlist **tokens, char *prompt, int *i);
 void	lexer_pipe(t_tlist **tokens, char *prompt, int *i);
 
-//Parsing
-char	*parse_line(char *prompt);
+// Parsing
+void	parse_line(t_list *tokens);
+t_btree	*btreenew(int type);
+void	add_child_node(t_btree *parent, t_btree *child);
+void	free_node_tree(t_btree *node);
 
 // MAYBE DELETE LATER... IDK
-char	*ft_backslash(char *prompt, int *i);
 char	*ft_quotes(char *prompt, int *i);
 char	*ft_doublequotes(char *prompt, int *i);
-char	*ft_dollar(char *prompt, int *i, t_data *data, char **envp);
+char	*ft_dollar(char *prompt, int *i, char **envp);
 int		is_key(char c);
 
-//UTILS:
+// UTILS:
 t_tlist	*tlistnew(char *cmd, int type, char *args);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void    rl_replace_line(const char *buffer, int val);
 void	clear_all(char *prompt);
 
-//DEBUG:
+// DEBUG:
 void	print_tokens(t_tlist *tokens);
 
 #endif

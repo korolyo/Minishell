@@ -12,11 +12,6 @@
 
 #include "minishell.h"
 
-t_btree_ast	*btreeAst(t_tlist *tokens)
-{
-
-}
-
 t_tlist	*tlistnew(char *cmd, int type, char *args)
 {
 	t_tlist	*tmp;

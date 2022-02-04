@@ -24,10 +24,10 @@ void	lexer(char *prompt, t_tlist **tokens)
 	{
 		if (ft_strchr("DELIM", prompt[i]))
 			i++;
-		if (prompt[i] == '\\')
-			lexer_backslash(tokens, prompt, &i);
-		if (prompt[i] == ';')
-			lexer_semicolon(tokens);
+//		if (prompt[i] == '\\')
+//			lexer_backslash(tokens, prompt, &i);
+//		if (prompt[i] == ';')
+//			lexer_semicolon(tokens);
 		if (ft_strchr("\'\"", prompt[i]))
 			//экранирует все до пробела пайпа или редиректа или ";"
 			lexer_quotes(tokens, prompt, &i);
