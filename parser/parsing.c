@@ -92,10 +92,10 @@ void	parse_line(t_tlist *tokens)
 	while (tokens)
 	{
 		if (tokens->type == PIPE)
-			parse_pipe(tokens, tokens->type);
+			parse_pipe(&root, tokens, tokens->type);
 		if (tokens->type == REDIR || tokens->type == REDIR_APPEND
 			|| tokens->type == REDIR_INPUT)
-			parse_redir(tokens, tokens->type);
+			parse_redir(&root, tokens, tokens->type);
 		tokens->next = tokens;
 	}
 //	while (prompt[++i])
