@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,43 +12,23 @@
 
 #include "minishell.h"
 
-void	clear_all(char *prompt)
+t_btree	*btreenode(int type)
 {
-	free(prompt);
+	t_btree	*node;
+
+	node = (t_btree *)malloc(sizeof(t_btree));
+	if (!node)
+		return (NULL);
+	node->type = type;
+	node->left = NULL;
+	node->right = NULL;
+	return (node);
 }
 
-void	print_tokens(t_tlist *tokens)
+void add_child_node(t_btree **parent, t_btree *child)
 {
-	t_tlist	*current_node;
-	int		i;
-
-	i = 0;
-	current_node = tokens;
-	while (current_node != NULL)
-	{
-		printf("[%s] ->", current_node->cmd);
-		current_node = current_node->next;
-		i++;
-	}
-	printf("\nnum of nodes = %d", i);
-}
-
-int	main(void)
-{
-	char	*prompt;
-	t_tlist	*tokens;
-
-	tokens = NULL;
-	prompt = readline("minishell >");
-	add_history(prompt);
-	prompt = preparse(prompt);
-	printf("preparse: |%s|\n", prompt);
-	lexer(prompt, &tokens);
-	print_tokens(tokens);
-//	if (*prompt)
-//		prompt = parse_line(tokens);
-//	printf("preparse: |%s|\n", prompt);
-	printf("main check \n");
-	clear_all(prompt);
-	exit(EXIT_SUCCESS);
+	if (!parent || child)
+		return ;
+	if (!parent)
+		pareent = child;
 }
