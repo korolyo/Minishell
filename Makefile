@@ -4,11 +4,12 @@ NAME	=	minishell
 SOURCES_LIST	= 	main.c \
 					tokenization.c \
 					preparse.c \
-					parsing.c \
-					parsing2.c \
-					init_lexer.c \
-					lexer.c \
-					lexer1.c \
+					parser/parsing.c \
+					parser/parsing2.c \
+					parser/parsing_utils.c \
+					lexer/init_lexer.c \
+					lexer/lexer.c \
+					lexer/lexer1.c \
 
 
 CC		= gcc
