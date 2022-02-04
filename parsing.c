@@ -95,11 +95,11 @@ char	*ft_backslash(char *prompt, int *i)
 	return (tmp);
 }
 
-char	*parse_line(char *prompt, char **envp)
+char	*parse_line(t_tlist *tokens)
 {
 //	""  ''  \  $  ;  '_'  |  >  >>  < <<
 	int		i;
-	t_data	data;
+	t_btree	*root;
 
 	i = -1;
 	while (prompt[++i])

@@ -53,14 +53,10 @@
 
 # define DELETE_MID 7
 
-typedef struct s_data	t_data;
 typedef struct s_tlist	t_tlist;
+typedef struct s_btree	t_btree;
 
-struct		s_data
-{
-	char *env_key;
-};
-
+// Lexer linked list:
 struct			s_tlist
 {
 	char		*token;
@@ -73,13 +69,22 @@ struct			s_tlist
 	t_tlist		*next;
 };
 
+//AST
+struct 			s_btree
+{
+	char 		*value;
+	int 		type;
+	t_btree		*left;
+	t_btree		*right;
+};
+
 //Preparsing
 char	*preparse(char *prompt);
 char	*preparse_delim(char *prompt, int i);
 int		preparse_quotes(char *prompt, int i);
 int		preparse_redir(char *prompt, int i);
 // Preparsing utils
-char *str_delete_part(char *prompt, int start, int end, int flag_mid);
+char	*str_delete_part(char *prompt, int start, int end, int flag_mid);
 
 //LEXER:
 void	init_lexer(t_tlist *token);
@@ -93,19 +98,20 @@ void	lexer_env(t_tlist **tokens, char *prompt, int *i);
 void	lexer_pipe(t_tlist **tokens, char *prompt, int *i);
 
 //Parsing
-char	*parse_line(char *prompt, char **envp);
+char	*parse_line(char *prompt);
+
+// MAYBE DELETE LATER... IDK
 char	*ft_backslash(char *prompt, int *i);
 char	*ft_quotes(char *prompt, int *i);
 char	*ft_doublequotes(char *prompt, int *i);
 char	*ft_dollar(char *prompt, int *i, t_data *data, char **envp);
 int		is_key(char c);
-void	clear_all(char *prompt);
-void    rl_replace_line(const char *buffer, int val);
 
 //UTILS:
-
 t_tlist	*tlistnew(char *cmd, int type, char *args);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
+void    rl_replace_line(const char *buffer, int val);
+void	clear_all(char *prompt);
 
 //DEBUG:
 void	print_tokens(t_tlist *tokens);
