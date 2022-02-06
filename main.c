@@ -12,9 +12,11 @@
 
 #include "minishell.h"
 
-void	clear_all(char *prompt)
+void	clear_all(char *prompt, t_tlist *tokens, t_btree *ast)
 {
 	free(prompt);
+	clear_list(tokens);
+	clear_ast(ast);
 }
 
 void	print_tokens(t_tlist *tokens)
@@ -37,12 +39,13 @@ int	main(void)
 {
 	char	*prompt;
 	t_tlist	*tokens;
+	t_btree	*ast;
 
 	tokens = NULL;
 	prompt = readline("minishell >");
-	add_history(prompt);
 	if (prompt)
 	{
+		add_history(prompt);
 		prompt = preparse(prompt);
 		printf("preparse: |%s|\n", prompt);
 		lexer(prompt, &tokens);
@@ -51,7 +54,7 @@ int	main(void)
 //		prompt = parse_line(tokens);
 //	printf("preparse: |%s|\n", prompt);
 		printf("main check \n");
-		clear_all(prompt);
+		clear_all(prompt, &tokens, ast);
 	}
 	exit(EXIT_SUCCESS);
 }

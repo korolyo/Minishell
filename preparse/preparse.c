@@ -103,9 +103,7 @@ int preparse_redir(char *prompt, int i)
 char	*preparse(char *prompt)
 {
 	/*
-	 * Cases:	(незакрытая ковычка), два пайпа, две точки с запятой, незакрытый
-	 * 			бэкслэш, пайп точка запятая, команда с пайпа,
-	 * 			команда с точки с запятой
+	 * Cases:	два пайпа
 	*/
 	int		i;
 	char	*tmp;
@@ -124,6 +122,11 @@ char	*preparse(char *prompt)
 		if (!(preparse_quotes(tmp, i)))
 		{
 			tmp = ft_strdup("Error: No unmatched quotes");
+			break ;
+		}
+		if (!(preparse_pipe(tmp, i)))
+		{
+			tmp = ft_strdup("Error: Unclosed Pipe");
 			break ;
 		}
 	}

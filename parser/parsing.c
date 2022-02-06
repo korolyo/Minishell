@@ -82,11 +82,10 @@ char	*ft_quotes(char *prompt, int *i)
 	return (temp);
 }
 
-void	parse_line(t_tlist *tokens)
+void	parse_line(t_tlist *tokens, t_btree *tokens)
 {
 //	""  ''  $  '_'  |  >  >>  < <<
 	int		i;
-	t_btree	*root;
 
 	i = -1;
 	while (tokens)
