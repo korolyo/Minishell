@@ -2,15 +2,14 @@
 NAME	=	minishell
 
 SOURCES_LIST	= 	main.c \
-					tokenization.c \
-					preparse.c \
+					preparse/preparse.c \
+					preparse/preparse1.d \
 					parser/parsing.c \
 					parser/parsing2.c \
 					parser/parsing_utils.c \
 					lexer/init_lexer.c \
 					lexer/lexer.c \
 					lexer/lexer1.c \
-
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -g

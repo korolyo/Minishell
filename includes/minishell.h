@@ -55,16 +55,16 @@
 typedef struct s_tlist	t_tlist;
 typedef struct s_btree	t_btree;
 
-// Lexer linked list:
+// Lexer linked list of tokens:
 struct			s_tlist
 {
-	char		*token;
+//	char		*token;
 	int 		type;
-	char 		*infile;
-	char 		*outfile;
+//	char 		*infile;
+//	char 		*outfile;
 	char		*cmd;
 	char 		*args;
-	char 		*envkey;
+//	char 		*envkey;
 	t_tlist		*next;
 };
 
@@ -112,6 +112,8 @@ int		is_key(char c);
 // UTILS:
 t_tlist	*tlistnew(char *cmd, int type, char *args);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
+void	tlist_clear(t_tlist **head);
+void	tlist_del(t_tlist *head);
 void    rl_replace_line(const char *buffer, int val);
 void	clear_all(char *prompt);
 

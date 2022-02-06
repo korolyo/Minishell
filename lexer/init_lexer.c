@@ -46,6 +46,38 @@ void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken)
 	final->next = newtoken;
 }
 
+void	tlist_del(t_tlist *head)
+{
+	t_tlist	*tmp;
+
+	tmp = head;
+	head = head->next;
+	if (tmp->cmd)
+		free(tmp->cmd);
+	if (tmp->args)
+		free(tmp->args);
+	free(tmp);
+}
+
+void	tlist_clear(t_tlist **head)
+{
+	t_tlist	*tmp;
+	t_tlist	*nextnode;
+
+	tmp = *head;
+	while (tmp != NULL)
+	{
+		nextnode = tmp->next;
+		if (tmp->cmd)
+			free(tmp->cmd);
+		if (tmp->args)
+			free(tmp->args);
+		free(tmp);
+		tmp = nextnode;
+	}
+	*head = NULL;
+}
+
 void	init_lexer(t_tlist *token)
 {
 	token->token = NULL;
