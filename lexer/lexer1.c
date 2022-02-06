@@ -73,10 +73,8 @@ void	lexer_redir(t_tlist **tokens, char *prompt, int *i)
 	while (prompt[*i] == ' ' || ft_isalpha(prompt[*i])
 		|| ft_isdigit(prompt[*i]))
 		i++;
-	if (tmp->type == REDIR || tmp->type == REDIR_APPEND)
-		tmp->outfile = ft_substr(prompt, j, *i - j);
-	if (tmp->type == REDIR_INPUT)
-		tmp->infile = ft_substr(prompt, j, *i - j);
+	if (tmp->type == REDIR || tmp->type == REDIR_APPEND || REDIR_INPUT)
+		tmp->args = ft_substr(prompt, j, *i - j);
 	tlistadd_back(tokens, tmp);
 }
 
@@ -111,9 +109,9 @@ void	lexer_env(t_tlist **tokens, char *prompt, int *i)
 	j = *i;
 	tmp = tlistnew("$", ENV, NULL);
 	if (!(ft_isalpha(prompt[*i])) || prompt[*i] != '?')
-		tmp->envkey = NULL;
+		tmp->args = NULL;
 	else if (prompt[*i] == '?')
-		tmp->envkey = ft_strdup("?");
+		tmp->args = ft_strdup("?");
 	else if (ft_isalpha(prompt[*i]))
 	{
 		while (ft_isprint(prompt[*i]) || ft_isdigit(prompt[*i]))
@@ -131,6 +129,6 @@ void	lexer_pipe(t_tlist **tokens, char *prompt, int *i)
 	while (!ft_strchr(" \t$<>|;", prompt[(*i)]))
 		(*i)++;
 	tmp = tlistnew("|", PIPE, NULL);
-	tmp->token = ft_substr(prompt, j, *i - j);
+	tmp->args = ft_substr(prompt, j, *i - j);
 	tlistadd_back(tokens, tmp);
 }
