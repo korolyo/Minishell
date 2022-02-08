@@ -3,7 +3,7 @@ NAME	=	minishell
 
 SOURCES_LIST	= 	main.c \
 					preparse/preparse.c \
-					preparse/preparse1.d \
+					preparse/preparse1.c \
 					parser/parsing.c \
 					parser/parsing2.c \
 					parser/parsing_utils.c \

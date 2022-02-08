@@ -12,11 +12,12 @@
 
 #include "minishell.h"
 
-void	clear_all(char *prompt, t_tlist *tokens, t_btree *ast)
+void	clear_all(char *prompt, t_tlist **tokens, t_btree *ast)
 {
 	free(prompt);
-	clear_list(tokens);
+	tlist_clear(tokens);
 	clear_ast(ast);
+	ast = NULL;
 }
 
 void	print_tokens(t_tlist *tokens)
@@ -32,7 +33,7 @@ void	print_tokens(t_tlist *tokens)
 		current_node = current_node->next;
 		i++;
 	}
-	printf("\nnum of nodes = %d", i);
+	printf("\nnum of nodes = %d\n", i);
 }
 
 int	main(void)
@@ -42,6 +43,7 @@ int	main(void)
 	t_btree	*ast;
 
 	tokens = NULL;
+	ast = NULL;
 	prompt = readline("minishell >");
 	if (prompt)
 	{
@@ -50,10 +52,10 @@ int	main(void)
 		printf("preparse: |%s|\n", prompt);
 		lexer(prompt, &tokens);
 		print_tokens(tokens);
-//	if (*prompt)
-//		prompt = parse_line(tokens);
-//	printf("preparse: |%s|\n", prompt);
 		printf("main check \n");
+		if (!(parse_line(&tokens, ast)))
+			printf("problem with AST");
+//	printf("preparse: |%s|\n", prompt);
 		clear_all(prompt, &tokens, ast);
 	}
 	exit(EXIT_SUCCESS);

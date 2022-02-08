@@ -124,11 +124,11 @@ char	*preparse(char *prompt)
 			tmp = ft_strdup("Error: No unmatched quotes");
 			break ;
 		}
-		if (!(preparse_pipe(tmp, i)))
-		{
-			tmp = ft_strdup("Error: Unclosed Pipe");
-			break ;
-		}
+//		if (!(preparse_pipe(tmp, i)))
+//		{
+//			tmp = ft_strdup("Error: Unclosed Pipe");
+//			break ;
+//		}
 	}
 	free(prompt);
 //	printf("tmp prep = %s\n", tmp);

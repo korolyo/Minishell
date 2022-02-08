@@ -19,10 +19,10 @@ t_tlist	*tlistnew(char *cmd, int type, char *args)
 	if (!(tmp = (t_tlist *)malloc(sizeof(t_tlist))))
 			return (NULL);
 	tmp->type = type;
-	tmp->token = NULL;
-	tmp->infile = NULL;
-	tmp->outfile = NULL;
-	tmp->envkey = NULL;
+//	tmp->token = NULL;
+//	tmp->infile = NULL;
+//	tmp->outfile = NULL;
+//	tmp->envkey = NULL;
 	tmp->cmd = ft_strdup(cmd);
 	tmp->args = ft_strdup(args);
 	tmp->next = NULL;
@@ -80,12 +80,12 @@ void	tlist_clear(t_tlist **head)
 
 void	init_lexer(t_tlist *token)
 {
-	token->token = NULL;
+//	token->token = NULL;
 	token->type = 0;
-	token->infile = NULL;
-	token->outfile = NULL;
+//	token->infile = NULL;
+//	token->outfile = NULL;
 	token->cmd = NULL;
 	token->args = NULL;
-	token->envkey = NULL;
+//	token->envkey = NULL;
 	token->next = NULL;
 }
