@@ -45,16 +45,19 @@ int	main(void)
 	tokens = NULL;
 	ast = NULL;
 	prompt = readline("minishell >");
-	if (prompt)
+	if (prompt != '\n')
 	{
+		printf("prompt: |%s|\n", prompt);
 		add_history(prompt);
 		prompt = preparse(prompt);
-		printf("preparse: |%s|\n", prompt);
+//		printf("preparse: |%s|\n", prompt);
 		lexer(prompt, &tokens);
-		print_tokens(tokens);
-		printf("main check \n");
-		if (!(parse_line(&tokens, ast)))
+//		printf("tokens :");
+//		print_tokens(tokens);
+//		printf("main check \n");
+		if (!(parse_line(tokens, ast)))
 			printf("problem with AST");
+//		printf("check\n");
 //	printf("preparse: |%s|\n", prompt);
 		clear_all(prompt, &tokens, ast);
 	}

@@ -70,13 +70,19 @@ void	lexer_redir(t_tlist **tokens, char *prompt, int *i)
 		tmp = tlistnew(">", REDIR, NULL);
 	else if (prompt[*i] == '<')
 		tmp = tlistnew("<", REDIR_INPUT, NULL);
+	(*i)++;
 	while (prompt[*i] == ' ' || ft_isalpha(prompt[*i])
 		|| ft_isdigit(prompt[*i]))
-		i++;
+		(*i)++;
 	if (tmp->type == REDIR || tmp->type == REDIR_APPEND ||
 		tmp->type == REDIR_INPUT)
+	{
+//		printf("*i and j are %d and %d\n", *i, j);
 		tmp->args = ft_substr(prompt, j, *i - j);
+	}
+//	printf("you're in redir fun\n");
 	tlistadd_back(tokens, tmp);
+//	printf("tlist->redir = |%s|\n", tmp->cmd);
 }
 
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
@@ -89,7 +95,7 @@ void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
 		(*i)++;
 	tmp = tlistnew(NULL, CMD, NULL);
 	tmp->cmd = ft_substr(prompt, j, *i - j);
-	printf("tlist->cmd = |%s|\n", tmp->cmd);
+//	printf("tlist->cmd = |%s|\n", tmp->cmd);
 	if (prompt[*i] == '-')
 	{
 		j = *i;
@@ -132,4 +138,5 @@ void	lexer_pipe(t_tlist **tokens, char *prompt, int *i)
 	tmp = tlistnew("|", PIPE, NULL);
 	tmp->args = ft_substr(prompt, j, *i - j);
 	tlistadd_back(tokens, tmp);
+//	printf("tlist->pipe = |%s|\n", tmp->cmd);
 }
