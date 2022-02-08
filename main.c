@@ -45,7 +45,7 @@ int	main(void)
 	tokens = NULL;
 	ast = NULL;
 	prompt = readline("minishell >");
-	if (prompt != '\n')
+	if (prompt)
 	{
 		printf("prompt: |%s|\n", prompt);
 		add_history(prompt);
