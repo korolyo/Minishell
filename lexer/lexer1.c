@@ -73,7 +73,8 @@ void	lexer_redir(t_tlist **tokens, char *prompt, int *i)
 	while (prompt[*i] == ' ' || ft_isalpha(prompt[*i])
 		|| ft_isdigit(prompt[*i]))
 		i++;
-	if (tmp->type == REDIR || tmp->type == REDIR_APPEND || REDIR_INPUT)
+	if (tmp->type == REDIR || tmp->type == REDIR_APPEND ||
+		tmp->type == REDIR_INPUT)
 		tmp->args = ft_substr(prompt, j, *i - j);
 	tlistadd_back(tokens, tmp);
 }
