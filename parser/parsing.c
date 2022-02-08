@@ -19,102 +19,149 @@ int	is_key(char c)
 	return (0);
 }
 
-t_tlist	*left_right_lst()
+t_tlist	*right_lst(t_tlist *tokens)
 {
+	t_tlist	*curr;
 	t_tlist	*newnode;
 
-	newnode = tlistnew()
-	return (newnode);
+	curr = tokens;
+	newnode = NULL;
+	if (curr)
+	{
+		newnode = tlistnew(NULL, 0, NULL);
+		newnode->cmd = ft_strdup(curr->cmd);
+		newnode->type = curr->type;
+		newnode->args = ft_strdup(curr->args);
+		newnode->next = right_lst(curr->next);
+		printf("right side: ");
+		print_tokens(newnode);
+		return (newnode);
+	}
+	return (NULL);
 }
 
-t_btree	*build_ast(t_tlist **tokens)
+t_tlist	*left_lst(t_tlist *tokens, int i)
+{
+	t_tlist	*curr;
+	t_tlist	*newnode;
+
+	curr = tokens;
+	newnode = NULL;
+	i--;
+	if (i > 0)
+	{
+		if (curr == NULL)
+			return (NULL);
+		else
+		{
+			newnode = tlistnew(NULL, 0, NULL);
+			newnode->cmd = ft_strdup(curr->cmd);
+			newnode->type = curr->type;
+			newnode->args = ft_strdup(curr->args);
+			printf(" i = %d, newnode->cmd = |%s|\n", i, newnode->cmd);
+			newnode->next = left_lst(curr->next, i);
+			printf("left side: ");
+			print_tokens(newnode);
+			return (newnode);
+		}
+	}
+	return (NULL);
+}
+
+int find_index(t_tlist *tokens, int type)
+{
+	int	i;
+
+	i = 0;
+	while (tokens)
+	{
+		if (tokens->type == type)
+			return (i);
+		i++;
+		tokens = tokens->next;
+	}
+	return (-1);
+}
+
+t_btree	*build_ast(t_tlist *tokens)
 {
 	t_tlist	*lnode;
 	t_tlist	*left_tmp;
 	t_tlist	*right_tmp;
-	t_tlist	*tmplist;
-	t_tlist	*tmp;
 	t_btree	*tnode;
 	int 	i;
 
 	i = 0;
+//	printf("inside of Build_ast(PIPE)\n");
+	if (!tokens)
+		return (NULL);
 	lnode = tokens;
-	tmp = tokens;
 	tnode = btreenew(0);
-	while (lnode)
+	if ((i = find_index(tokens, PIPE)) != -1)
 	{
-		if (lnode->type == PIPE)
-		{
-			while (i > 0)
-			{
-				left_tmp = tlistnew(tmp->cmd, tmp->type, tmp->args);
-				tlistadd_back(&left_tmp, left_tmp);
-				tmp = tmp->next;
-				printf("i = %d\n", i);
-				i--;
-			}
-			tmp = lnode->next;
-			while (tmp)
-			{
-				right_tmp = tlistnew(tmp->cmd, tmp->type, tmp->args);
-				tlistadd_back(&right_tmp, tmp);
-				tmp = tmp->next;
-			}
-			tnode->type = PIPE;
-//			tlist_del(lnode);
-			tnode->left = build_ast(left_tmp);
-			tnode->right = build_ast(right_tmp);
-		}
 		printf("inside of Build_ast(PIPE)\n");
 		i++;
-		lnode = lnode->next;
+		left_tmp = left_lst(tokens, i);
+//			print_tokens(left_tmp);
+		while (--i > 0)
+			tokens = tokens->next;
+		tnode->type = PIPE;
+		tnode->value = ft_strdup(tokens->cmd);
+		right_tmp = right_lst(tokens->next);
+//			printf("inside of Build_ast(PIPE)\n");
+		tnode->left = build_ast(left_tmp);
+		tnode->right = build_ast(right_tmp);
+		printf("tree in pipe\n");
+		print_tree(tnode);
 	}
-	i = 0;
-	lnode = tokens;
-//	tmp = *tokens;
-	while (lnode)
+	else if (((i = find_index(tokens, REDIR)) != -1)
+		|| ((i = find_index(tokens, REDIR_INPUT)) != -1)
+		|| ((i = find_index(tokens, REDIR_APPEND)) != -1))
 	{
-		if (lnode->type == REDIR || lnode->type == REDIR_INPUT
-			|| lnode->type == REDIR_APPEND)
-		{
-			while (i > 0)
-			{
-				left_tmp = tlistnew(tmp->cmd, tmp->type, tmp->args);
-				tlistadd_back(&left_tmp, tmp);
-				tmp = tmp->next;
-				i--;
-				printf("i = %d inside of Build_ast(REDIR)\n", i);
-				print_tokens(left_tmp);
-			}
-			tmp = lnode->next;
-			while (tmp)
-			{
-				right_tmp = tlistnew(tmp->cmd, tmp->type, tmp->args);
-				tlistadd_back(&right_tmp, tmp);
-				tmp = tmp->next;
-				print_tokens(right_tmp);
-			}
-			tnode->type = REDIR;
-//			tlist_del(lnode);
-			tnode->left = build_ast(left_tmp);
-			tnode->right = build_ast(right_tmp);
-		}
-		printf("inside of Build_ast(REDIR)\n");
 		i++;
-		lnode = lnode->next;
+		printf("inside of Build_ast(REDIR)\n");
+//		printf("i = %d\n", i);
+		left_tmp = left_lst(tokens, i);
+		while (--i > 0)
+			tokens = tokens->next;
+		tnode->type = REDIR;
+		tnode->value = ft_strdup(tokens->cmd);
+		right_tmp = right_lst(tokens->next);
+//		printf("check redir\n");
+		tnode->left = build_ast(left_tmp);
+		tnode->right = build_ast(right_tmp);
+		printf("tree in redir\n");
+		print_tree(tnode);
 	}
-	if (lnode->type == CMD)
+	else if (lnode->type == CMD)
 	{
-		printf("inside of Build_ast(CMD)\n");
+//		printf("inside of Build_ast(CMD)\n");
+		tnode->value = ft_strdup(lnode->cmd);
 		tnode->type = CMD;
-		return (NULL);
+		tnode->left = build_ast(lnode->next);
+//		printf("check\n");
 	}
+//	printf("check\n");
+//	printf("tokens->type = %d\n", tokens->type);
 	return (tnode);
 }
 
-int	parse_line(t_tlist **tokens, t_btree *ast)
+int	parse_line(t_tlist *tokens, t_btree *ast)
 {
-	if (!(ast = build_ast(tokens)))
-		return (0);
+	ast = build_ast(tokens);
+	printf("ast:\n");
+	print_tree(ast);
+//	if (!(ast = build_ast(tokens)))
+//		return (0);
 	return (1);
+}
+
+void print_tree(t_btree *ast)
+{
+	if (ast)
+	{
+		print_tree(ast->left);
+		printf("[%s]\n", ast->value);
+		print_tree(ast->right);
+	}
 }

@@ -98,9 +98,11 @@ void	lexer_env(t_tlist **tokens, char *prompt, int *i);
 void	lexer_pipe(t_tlist **tokens, char *prompt, int *i);
 
 // Parsing
-int		parse_line(t_tlist **tokens, t_btree *ast);
+int		parse_line(t_tlist *tokens, t_btree *ast);
 t_btree	*btreenew(int type);
-t_btree	*build_ast(t_tlist **tokens);
+t_tlist	*left_lst(t_tlist *tokens, int i);
+t_tlist	*right_lst(t_tlist *tokens);
+t_btree	*build_ast(t_tlist *tokens);
 //void	free_node_tree(t_btree *node);
 void	clear_ast(t_btree *ast);
 // MAYBE DELETE LATER... IDK
@@ -119,5 +121,6 @@ void	clear_all(char *prompt, t_tlist **tokens, t_btree *ast);
 
 // DEBUG:
 void	print_tokens(t_tlist *tokens);
+void 	print_tree(t_btree *ast);
 
 #endif
