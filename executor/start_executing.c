@@ -1,18 +1,12 @@
-
-
 #include "minishell.h"
+//ft_make_env_list
+//ft_make_var_list
 
-//char **ft_do_args(char *cmd, char **args)
-//{
-//
-//}
-
-int start_executing(char *cmd, char **args, char **envp)
+int start_executing(char **args)
 
 {
 	int				index;
-	//char 			**args_dup;
-	extern char		**environ;
+	//extern char		**environ;
 	static t_cmd	builtins[] = {
 			{"echo", ft_echo},
 			{"cd", ft_cd},
@@ -26,13 +20,13 @@ int start_executing(char *cmd, char **args, char **envp)
 	index = -1;
 	while (++index < 7)
 	{
-		if (cmd == builtins[index].cmd)
-			return (builtins[index].f_cmd(cmd, args, envp));
+		if (args[0] == builtins[index].cmd)
+			return (builtins[index].f_cmd(args));
 	}
 	if (index == 7)
 	{
-		//args_dup = ft_do_args(cmd, args); собирает из args нужный для execve формат
-		ft_execution(cmd, args, envp);
+		//проверять, если это переменная
+		return (ft_execution(args));
 	}
-	return (0);
+	return (1); //успешное завершение
 }
