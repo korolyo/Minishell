@@ -54,7 +54,8 @@
 // Executor:
 # define MALLOC_ERR	1
 # define FORK_ERR	2
-
+# define MAX_DIRNAME 4096
+# define MAX_FILENAME 255
 
 typedef struct s_tlist	t_tlist;
 typedef struct s_btree	t_btree;
@@ -86,7 +87,7 @@ struct 			s_btree
 typedef struct	s_cmd
 {
 	char	*cmd;
-	int		(*f_cmd)(char *cmd, char **args, char **envp);
+	int		(*f_cmd)(char **args);
 }				t_cmd;
 
 // Preparsing
@@ -126,22 +127,23 @@ char	*ft_dollar(char *prompt, int *i, char **envp);
 int		is_key(char c);
 
 //builtings
-int		ft_echo(char *cmd, char **argv, char **envp);
-int		ft_cd(char *cmd, char **argv, char **envp);
-int		ft_pwd(char *cmd, char **argv, char **envp);
-int		ft_export(char *cmd, char **argv, char **envp);
-int		ft_unset(char *cmd, char **argv, char **envp);
-int		ft_env(char *cmd, char **argv, char **envp);
-int		ft_exit(char *cmd, char **argv, char **envp);
+int		ft_echo(char **args);
+int		ft_cd(char **args);
+int		ft_pwd(char **args);
+int		ft_export(char **args);
+int		ft_unset(char **args);
+int		ft_env(char **args);
+int		ft_exit(char **args);
 
 //Execution
-int		start_executing(char *cmd, char **args, char **envp);
-int		ft_execution(char *cmd, char **argv, char **envp);
-//Exec Utils
-void	*ft_abort(char ***arr, size_t size);
-size_t	get_len(char *str, char c, size_t *i);
-char	**get_str(char ***res, char **str, char c, size_t size);
-size_t	get_arrlen(char const *s, char c);
+int		start_executing(char **args);
+int		ft_execution(char **args);
+
+//Exec Utils - это пока не надо (и вообще не надо, похоже)
+//void	*ft_abort(char ***arr, size_t size);
+//size_t	get_len(char *str, char c, size_t *i);
+//char	**get_str(char ***res, char **str, char c, size_t size);
+//size_t	get_arrlen(char const *s, char c);
 
 // UTILS:
 t_tlist	*tlistnew(int type);
