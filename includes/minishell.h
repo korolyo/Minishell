@@ -38,13 +38,14 @@
 
 // TOKEN types
 # define CMD				11
+# define ARG				12
 # define	REDIR			22
 # define REDIR_APPEND	23
 # define REDIR_INPUT		24
 # define HERE_DOC		25
 # define PIPE			44
 # define ENV				55
-# define QUOTES			88                // ???????????????
+# define QUOTES			88
 
 // Delimeters:
 # define DELIM	" \t"
@@ -68,7 +69,7 @@ struct			s_tlist
 //	char 		*infile;
 //	char 		*outfile;
 	char		**cmd;
-//	char 		*args;
+	char 		*args;
 //	char 		*envkey;
 	t_tlist		*next;
 };
@@ -78,7 +79,7 @@ struct 			s_btree
 {
 	char 		**value;
 	int 		type;
-//	char 		**args;
+	char 		**args;
 	t_btree		*left;
 	t_btree		*right;
 };
@@ -111,7 +112,7 @@ void	lexer_env(t_tlist **tokens, char *prompt, int *i);
 void	lexer_pipe(t_tlist **tokens, int *i);
 
 // Parsing
-int		parse_line(t_tlist *tokens, t_btree *ast);
+t_btree	*parse_line(t_tlist *tokens);
 t_btree	*btreenew(int type);
 t_tlist	*left_lst(t_tlist *tokens, int i);
 t_tlist	*right_lst(t_tlist *tokens);
@@ -136,7 +137,8 @@ int		ft_env(char **args);
 int		ft_exit(char **args);
 
 //Execution
-int		start_executing(char **args);
+t_btree		*start(t_btree *ast);
+int start_execution(char **args);
 int		ft_execution(char **args);
 
 //Exec Utils - это пока не надо (и вообще не надо, похоже)

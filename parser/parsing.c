@@ -144,14 +144,16 @@ t_btree	*build_ast(t_tlist *tokens)
 	return (tnode);
 }
 
-int	parse_line(t_tlist *tokens, t_btree *ast)
+t_btree *parse_line(t_tlist *tokens)
 {
-	ast = build_ast(tokens);
+	t_btree *tmp;
+
+	tmp = build_ast(tokens);
 	printf("ast:\n");
-	print_tree(ast);
-	if (!(ast = build_ast(tokens)))
+	print_tree(tmp);
+	if (!(tmp = build_ast(tokens)))
 		return (0);
-	return (1);
+	return (tmp);
 }
 
 void print_tree(t_btree *ast)

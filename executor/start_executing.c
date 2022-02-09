@@ -2,8 +2,7 @@
 //ft_make_env_list
 //ft_make_var_list
 
-int start_executing(char **args)
-
+int start_execution(char **args)
 {
 	int				index;
 	//extern char		**environ;
@@ -28,5 +27,26 @@ int start_executing(char **args)
 		//проверять, если это переменная
 		return (ft_execution(args));
 	}
-	return (1); //успешное завершение
+	return (1);
 }
+
+t_btree *start(t_btree *ast)
+{
+	int i = -1;
+	if (ast)
+	{
+		printf("check\n");
+		start(ast->left);
+		if (ast->type == CMD)
+		{
+//			printf("CMD = [%s]\n", ast->value[0]);
+			while (ast->value[++i])
+				printf("cmd = [%s]\n", ast->value[i]);
+			start_execution(ast->value);
+		}
+		start(ast->right);
+		return (ast);
+	}
+	return (NULL); //успешное завершение
+}
+
