@@ -20,13 +20,12 @@ void	lexer(char *prompt, t_tlist **tokens)
 
 	//	""  ''  $  '_'  |  >  >>  < <<
 	i = -1;
-	*tokens = NULL;
 	while (prompt[++i])
 	{
 		if (ft_strchr("DELIM", prompt[i]))
 			i++;
 		if (ft_strchr("\'\"", prompt[i]))
-			//экранирует все до пробела пайпа или редиректа или ";"
+			//экранирует все до пробела пайпа или редиректа
 			lexer_quotes(tokens, prompt, &i);
 		if (ft_strchr("><", prompt[i]))
 			lexer_redir(tokens, prompt, &i);
@@ -35,6 +34,6 @@ void	lexer(char *prompt, t_tlist **tokens)
 		if (prompt[i] == '$')
 			lexer_env(tokens, prompt, &i);
 		if (prompt[i] == '|')
-			lexer_pipe(tokens, prompt, &i);
+			lexer_pipe(tokens, &i);
 	}
 }

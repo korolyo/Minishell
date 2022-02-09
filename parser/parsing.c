@@ -28,10 +28,9 @@ t_tlist	*right_lst(t_tlist *tokens)
 	newnode = NULL;
 	if (curr)
 	{
-		newnode = tlistnew(NULL, 0, NULL);
-		newnode->cmd = ft_strdup(curr->cmd);
+		newnode = tlistnew(0);
+		newnode->cmd = curr->cmd;
 		newnode->type = curr->type;
-		newnode->args = ft_strdup(curr->args);
 		newnode->next = right_lst(curr->next);
 //		printf("right side: ");
 //		print_tokens(newnode);
@@ -54,10 +53,9 @@ t_tlist	*left_lst(t_tlist *tokens, int i)
 			return (NULL);
 		else
 		{
-			newnode = tlistnew(NULL, 0, NULL);
-			newnode->cmd = ft_strdup(curr->cmd);
+			newnode = tlistnew(0);
+			newnode->cmd = curr->cmd;
 			newnode->type = curr->type;
-			newnode->args = ft_strdup(curr->args);
 //			printf(" i = %d, newnode->cmd = |%s|\n", i, newnode->cmd);
 			newnode->next = left_lst(curr->next, i);
 //			printf("left side: ");
@@ -106,7 +104,7 @@ t_btree	*build_ast(t_tlist *tokens)
 		while (--i > 0)
 			tokens = tokens->next;
 		tnode->type = PIPE;
-		tnode->value = ft_strdup(tokens->cmd);
+		tnode->value = tokens->cmd;
 		right_tmp = right_lst(tokens->next);
 //			printf("inside of Build_ast(PIPE)\n");
 		tnode->left = build_ast(left_tmp);
@@ -125,7 +123,7 @@ t_btree	*build_ast(t_tlist *tokens)
 		while (--i > 0)
 			tokens = tokens->next;
 		tnode->type = REDIR;
-		tnode->value = ft_strdup(tokens->cmd);
+		tnode->value = tokens->cmd;
 		right_tmp = right_lst(tokens->next);
 //		printf("check redir\n");
 		tnode->left = build_ast(left_tmp);
@@ -133,10 +131,10 @@ t_btree	*build_ast(t_tlist *tokens)
 //		printf("tree in redir\n");
 //		print_tree(tnode);
 	}
-	else if (lnode->type == CMD)
+	else if (lnode->type == CMD || lnode->type == ENV)
 	{
 //		printf("inside of Build_ast(CMD)\n");
-		tnode->value = ft_strdup(lnode->cmd);
+		tnode->value = lnode->cmd;
 		tnode->type = CMD;
 		tnode->left = build_ast(lnode->next);
 //		printf("check\n");
@@ -149,19 +147,23 @@ t_btree	*build_ast(t_tlist *tokens)
 int	parse_line(t_tlist *tokens, t_btree *ast)
 {
 	ast = build_ast(tokens);
-//	printf("ast:\n");
-//	print_tree(ast);
-//	if (!(ast = build_ast(tokens)))
-//		return (0);
+	printf("ast:\n");
+	print_tree(ast);
+	if (!(ast = build_ast(tokens)))
+		return (0);
 	return (1);
 }
 
 void print_tree(t_btree *ast)
 {
+	int	i;
+
+	i = -1;
 	if (ast)
 	{
 		print_tree(ast->left);
-		printf("[%s]\n", ast->value);
+		while (ast->value[++i])
+			printf("[%s]\n", ast->value[i]);
 		print_tree(ast->right);
 	}
 }

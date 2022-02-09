@@ -19,6 +19,7 @@ t_btree	*btreenew(int type)
 	node = (t_btree *)malloc(sizeof(t_btree));
 	if (!node)
 		return (NULL);
+	node->value = (char **)malloc(sizeof(char *) * 2);
 	node->type = type;
 	node->left = NULL;
 	node->right = NULL;

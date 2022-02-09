@@ -12,19 +12,14 @@
 
 #include "minishell.h"
 
-t_tlist	*tlistnew(char *cmd, int type, char *args)
+t_tlist	*tlistnew(int type)
 {
 	t_tlist	*tmp;
 
 	if (!(tmp = (t_tlist *)malloc(sizeof(t_tlist))))
 			return (NULL);
 	tmp->type = type;
-//	tmp->token = NULL;
-//	tmp->infile = NULL;
-//	tmp->outfile = NULL;
-//	tmp->envkey = NULL;
-	tmp->cmd = ft_strdup(cmd);
-	tmp->args = ft_strdup(args);
+	tmp->cmd = NULL;
 	tmp->next = NULL;
 	return (tmp);
 }
@@ -54,8 +49,6 @@ void	tlist_del(t_tlist *head)
 	head = head->next;
 	if (tmp->cmd)
 		free(tmp->cmd);
-	if (tmp->args)
-		free(tmp->args);
 	free(tmp);
 }
 
@@ -70,8 +63,6 @@ void	tlist_clear(t_tlist **head)
 		nextnode = tmp->next;
 		if (tmp->cmd)
 			free(tmp->cmd);
-		if (tmp->args)
-			free(tmp->args);
 		free(tmp);
 		tmp = nextnode;
 	}
@@ -80,12 +71,9 @@ void	tlist_clear(t_tlist **head)
 
 void	init_lexer(t_tlist *token)
 {
-//	token->token = NULL;
 	token->type = 0;
 //	token->infile = NULL;
 //	token->outfile = NULL;
 	token->cmd = NULL;
-	token->args = NULL;
-//	token->envkey = NULL;
 	token->next = NULL;
 }
