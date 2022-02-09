@@ -1,4 +1,6 @@
-#include "header.h"
+
+
+#include "minishell.h"
 //здесь пока только наброски функций
 
 int ft_echo(char *cmd, char **args, char **envp)

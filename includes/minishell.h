@@ -52,6 +52,11 @@
 
 # define DELETE_MID 7
 
+// Executor:
+# define MALLOC_ERR	1
+# define FORK_ERR	2
+
+
 typedef struct s_tlist	t_tlist;
 typedef struct s_btree	t_btree;
 
@@ -73,9 +78,17 @@ struct 			s_btree
 {
 	char 		*value;
 	int 		type;
+	char 		**args;
 	t_btree		*left;
 	t_btree		*right;
 };
+
+//Executor:
+typedef struct	s_cmd
+{
+	char	*cmd;
+	int		(*f_cmd)(char *cmd, char **args, char **envp);
+}				t_cmd;
 
 // Preparsing
 char	*preparse(char *prompt);
@@ -103,13 +116,33 @@ t_btree	*btreenew(int type);
 t_tlist	*left_lst(t_tlist *tokens, int i);
 t_tlist	*right_lst(t_tlist *tokens);
 t_btree	*build_ast(t_tlist *tokens);
+
 //void	free_node_tree(t_btree *node);
 void	clear_ast(t_btree *ast);
+
 // MAYBE DELETE LATER... IDK
 char	*ft_quotes(char *prompt, int *i);
 char	*ft_doublequotes(char *prompt, int *i);
 char	*ft_dollar(char *prompt, int *i, char **envp);
 int		is_key(char c);
+
+//builtings
+int		ft_echo(char *cmd, char **argv, char **envp);
+int		ft_cd(char *cmd, char **argv, char **envp);
+int		ft_pwd(char *cmd, char **argv, char **envp);
+int		ft_export(char *cmd, char **argv, char **envp);
+int		ft_unset(char *cmd, char **argv, char **envp);
+int		ft_env(char *cmd, char **argv, char **envp);
+int		ft_exit(char *cmd, char **argv, char **envp);
+
+//Execution
+int		start_executing(char *cmd, char **args, char **envp);
+int		ft_execution(char *cmd, char **argv, char **envp);
+//Exec Utils
+void	*ft_abort(char ***arr, size_t size);
+size_t	get_len(char *str, char c, size_t *i);
+char	**get_str(char ***res, char **str, char c, size_t size);
+size_t	get_arrlen(char const *s, char c);
 
 // UTILS:
 t_tlist	*tlistnew(char *cmd, int type, char *args);
@@ -117,7 +150,7 @@ void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist **head);
 void	tlist_del(t_tlist *head);
 void    rl_replace_line(const char *buffer, int val);
-void	clear_all(char *prompt, t_tlist **tokens, t_btree *ast);
+void	clear_all(t_tlist **tokens, t_btree *ast);
 
 // DEBUG:
 void	print_tokens(t_tlist *tokens);
