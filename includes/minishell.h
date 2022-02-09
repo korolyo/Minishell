@@ -68,7 +68,7 @@ struct			s_tlist
 	int 		type;
 //	char 		*infile;
 //	char 		*outfile;
-	char		*cmd;
+	char		**cmd;
 	char 		*args;
 //	char 		*envkey;
 	t_tlist		*next;
@@ -77,7 +77,7 @@ struct			s_tlist
 // AST
 struct 			s_btree
 {
-	char 		*value;
+	char 		**value;
 	int 		type;
 	char 		**args;
 	t_btree		*left;
@@ -109,10 +109,10 @@ void	lexer_quotes(t_tlist **tokens, char *prompt, int *i);
 void	lexer_redir(t_tlist **tokens, char *prompt, int *i);
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i);
 void	lexer_env(t_tlist **tokens, char *prompt, int *i);
-void	lexer_pipe(t_tlist **tokens, char *prompt, int *i);
+void	lexer_pipe(t_tlist **tokens, int *i);
 
 // Parsing
-int		parse_line(t_tlist *tokens, t_btree *ast);
+t_btree	*parse_line(t_tlist *tokens);
 t_btree	*btreenew(int type);
 t_tlist	*left_lst(t_tlist *tokens, int i);
 t_tlist	*right_lst(t_tlist *tokens);
@@ -137,7 +137,8 @@ int		ft_env(char **args);
 int		ft_exit(char **args);
 
 //Execution
-int		start_executing(char **args);
+t_btree		*start(t_btree *ast);
+int start_execution(char **args);
 int		ft_execution(char **args);
 
 //Exec Utils - это пока не надо (и вообще не надо, похоже)
@@ -147,7 +148,7 @@ int		ft_execution(char **args);
 //size_t	get_arrlen(char const *s, char c);
 
 // UTILS:
-t_tlist	*tlistnew(char *cmd, int type, char *args);
+t_tlist	*tlistnew(int type);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist **head);
 void	tlist_del(t_tlist *head);

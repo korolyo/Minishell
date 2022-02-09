@@ -64,13 +64,17 @@ int	main(void)
 		printf("preparse: |%s|\n", prompt);
 		lexer(prompt, &tokens);
 		printf("tokens :");
+		printf("check\n");
 		print_tokens(tokens);
-		if (!(parse_line(tokens, ast)))
+		if (!(ast = parse_line(tokens)))
+		{
 			printf("problem with AST");
-//		if (!(start_executing(ast, args, envp)))
-//			printf("problem with executor");            //EXECUTION
-//		printf("check\n");
-//		printf("main check \n");
+		}
+		if (!(start(ast)))
+		{
+			printf("problem with executor");
+		}            //EXECUTION
+		printf("main check \n");
 		clear_all(&tokens, ast);
 	}
 	exit(EXIT_SUCCESS);
