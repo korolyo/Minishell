@@ -38,13 +38,14 @@
 
 // TOKEN types
 # define CMD				11
+# define ARG				12
 # define	REDIR			22
 # define REDIR_APPEND	23
 # define REDIR_INPUT		24
 # define HERE_DOC		25
 # define PIPE			44
 # define ENV				55
-# define QUOTES			88                // ???????????????
+# define QUOTES			88
 
 // Delimeters:
 # define DELIM	" \t"
@@ -67,8 +68,8 @@ struct			s_tlist
 	int 		type;
 //	char 		*infile;
 //	char 		*outfile;
-	char		**cmd;
-//	char 		*args;
+	char		*cmd;
+	char 		*args;
 //	char 		*envkey;
 	t_tlist		*next;
 };
@@ -76,9 +77,9 @@ struct			s_tlist
 // AST
 struct 			s_btree
 {
-	char 		**value;
+	char 		*value;
 	int 		type;
-//	char 		**args;
+	char 		**args;
 	t_btree		*left;
 	t_btree		*right;
 };
@@ -108,7 +109,7 @@ void	lexer_quotes(t_tlist **tokens, char *prompt, int *i);
 void	lexer_redir(t_tlist **tokens, char *prompt, int *i);
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i);
 void	lexer_env(t_tlist **tokens, char *prompt, int *i);
-void	lexer_pipe(t_tlist **tokens, int *i);
+void	lexer_pipe(t_tlist **tokens, char *prompt, int *i);
 
 // Parsing
 int		parse_line(t_tlist *tokens, t_btree *ast);
@@ -146,7 +147,7 @@ int		ft_execution(char **args);
 //size_t	get_arrlen(char const *s, char c);
 
 // UTILS:
-t_tlist	*tlistnew(int type);
+t_tlist	*tlistnew(char *cmd, int type, char *args);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist **head);
 void	tlist_del(t_tlist *head);
