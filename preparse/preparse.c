@@ -24,12 +24,14 @@ char *str_delete_part(char *prompt, int start, int end, int flag_mid)
 	{
 		tmp2 = ft_substr(prompt, start + 1, end - start - 1);
 		tmp = ft_strjoin(tmp, tmp2);
-		free(tmp2);
+		if (tmp2)
+			free(tmp2);
 	}
 	tmp3 = ft_substr(prompt, end + 1, ft_strlen(prompt) - end - 1);
 //	printf("tmp3 = |%s|\n", tmp3);
 	tmp = ft_strjoin(tmp, tmp3);
-	free(tmp3);
+	if (tmp3)
+		free(tmp3);
 	return (tmp);
 }
 
@@ -109,6 +111,8 @@ char	*preparse(char *prompt)
 	char	*tmp;
 
 	i = -1;
+	if (!prompt)
+		return (NULL);
 	tmp = prompt;
 	while (tmp[++i])
 	{

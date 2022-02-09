@@ -12,11 +12,13 @@
 
 #include "minishell.h"
 
-void	clear_all(char *prompt, t_tlist **tokens, t_btree *ast)
+void	clear_all(t_tlist **tokens, t_btree *ast)
 {
-	free(prompt);
-	tlist_clear(tokens);
-	clear_ast(ast);
+	printf("check\n");
+	if (tokens)
+		tlist_clear(tokens);
+	if (ast)
+		clear_ast(ast);
 	ast = NULL;
 }
 
@@ -41,25 +43,37 @@ int	main(void)
 	char	*prompt;
 	t_tlist	*tokens;
 	t_btree	*ast;
+	int		*fd;
+	//EXECUTIOIN
+//	char *args[] = {"mkdir", "my_dir", NULL};
+//	char **envp = NULL;
 
 	tokens = NULL;
 	ast = NULL;
-	prompt = readline("minishell >");
-	if (prompt)
+	fd = NULL;
+//	if (pipe(fd) == -1)
+//		return (-1);
+	while (1)
 	{
+		prompt = readline("minishell >");
 		printf("prompt: |%s|\n", prompt);
-		add_history(prompt);
+		if (prompt)
+			add_history(prompt);
 		prompt = preparse(prompt);
 //		printf("preparse: |%s|\n", prompt);
 		lexer(prompt, &tokens);
 //		printf("tokens :");
 //		print_tokens(tokens);
-//		printf("main check \n");
 		if (!(parse_line(tokens, ast)))
 			printf("problem with AST");
+//		free(prompt);
+
+		if (!(start_executing(ast, args, envp)))
+			printf("problem with executor");//EXECUTION
 //		printf("check\n");
 //	printf("preparse: |%s|\n", prompt);
-		clear_all(prompt, &tokens, ast);
+		printf("main check \n");
+		clear_all(&tokens, ast);
 	}
 	exit(EXIT_SUCCESS);
 }
