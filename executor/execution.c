@@ -22,7 +22,7 @@ int	ft_clear_path_list(char ***path_list)
 
 //принимает путь к исполняемому файлу и аргументы
 // (?)envp - третий параметр. пока не понимаю, зачем он нужен
-int ft_execute_cmd(char *path, char **args, char **envp)
+int ft_execute_cmd(char *path, char **args)
 {
 	pid_t	pid;
 	pid_t	wpid;
@@ -31,7 +31,7 @@ int ft_execute_cmd(char *path, char **args, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(path, args, envp))
+		if (execve(path, args, NULL))
 			perror("minishell");
 		exit(EXIT_FAILURE);
 	}
@@ -61,7 +61,7 @@ char *ft_find_path(char **path_list, char *executor_name)
 		{
 			while ((ent = readdir(dir)) != NULL)
 			{
-				if (!strcmp(ent->d_name, executor_name)) // заменить на функцию из libft
+				if (!ft_strncmp(ent->d_name, executor_name, MAX_FILENAME))
 				{
 					if (closedir(dir) != 0)
 						return (NULL);
@@ -88,28 +88,34 @@ char **ft_parse_path()
 	return (path_list);
 }
 
-int ft_execution(char *cmd, char **args, char **envp)
+int ft_execution(char **args)
 {
 	char **path_list;
 	char *executor_path;
 	char *tmp_path;
 	//char *args[] = {"mkdir", "my_dir", NULL};
-	(void)cmd;
 
 	path_list = ft_parse_path();
 	if (!path_list)
-		return (MALLOC_ERR); //ошибка
+		return (0); //ошибка
 	tmp_path = ft_strjoin("/", args[0]);
 	if (!tmp_path)
-		return (MALLOC_ERR);
+	{
+		free(path_list);
+		return (0); //ошибка
+	}
 	executor_path = ft_strjoin(ft_find_path(path_list, args[0]), tmp_path);
 	if (!executor_path)
-		return (MALLOC_ERR);
-	ft_execute_cmd(executor_path, args, envp);
+	{
+		free(path_list);
+		free(tmp_path);
+		return (0); //ошибка
+	}
+	ft_execute_cmd(executor_path, args);
 	ft_clear_path_list(&path_list);
 	free(tmp_path);
 	free(executor_path);
-	return (EXIT_SUCCESS);
+	return (1); // успешное завершение
 }
 
 
