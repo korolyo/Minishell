@@ -26,32 +26,12 @@ t_btree	*btreenew(int type)
 	return (node);
 }
 
-//void	free_node_tree(t_btree *node)
-//{
-//	t_btree	*child;
-//	t_btree	*next;
-//
-//	if (!node)
-//		return ;
-//	child = node->first_child;
-//	while (child)
-//	{
-//		next = child->next_sibling;
-//		free_node_tree(child);
-//		child = next;
-//	}
-//	if (node->type == VAL_STR)
-//		if (node->val.str)
-//			free(node->val.str);
-//	free(node);
-//}
-
 void	clear_ast(t_btree *ast)
 {
 	if (ast == NULL)
 		return ;
-	free(ast->value);
 	clear_ast(ast->left);
+	free(ast->value);
 	clear_ast(ast->right);
 	free(ast);
 }
