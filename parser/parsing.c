@@ -33,8 +33,8 @@ t_tlist	*right_lst(t_tlist *tokens)
 		newnode->type = curr->type;
 		newnode->args = ft_strdup(curr->args);
 		newnode->next = right_lst(curr->next);
-		printf("right side: ");
-		print_tokens(newnode);
+//		printf("right side: ");
+//		print_tokens(newnode);
 		return (newnode);
 	}
 	return (NULL);
@@ -58,10 +58,10 @@ t_tlist	*left_lst(t_tlist *tokens, int i)
 			newnode->cmd = ft_strdup(curr->cmd);
 			newnode->type = curr->type;
 			newnode->args = ft_strdup(curr->args);
-			printf(" i = %d, newnode->cmd = |%s|\n", i, newnode->cmd);
+//			printf(" i = %d, newnode->cmd = |%s|\n", i, newnode->cmd);
 			newnode->next = left_lst(curr->next, i);
-			printf("left side: ");
-			print_tokens(newnode);
+//			printf("left side: ");
+//			print_tokens(newnode);
 			return (newnode);
 		}
 	}
@@ -99,7 +99,7 @@ t_btree	*build_ast(t_tlist *tokens)
 	tnode = btreenew(0);
 	if ((i = find_index(tokens, PIPE)) != -1)
 	{
-		printf("inside of Build_ast(PIPE)\n");
+//		printf("inside of Build_ast(PIPE)\n");
 		i++;
 		left_tmp = left_lst(tokens, i);
 //			print_tokens(left_tmp);
@@ -111,15 +111,15 @@ t_btree	*build_ast(t_tlist *tokens)
 //			printf("inside of Build_ast(PIPE)\n");
 		tnode->left = build_ast(left_tmp);
 		tnode->right = build_ast(right_tmp);
-		printf("tree in pipe\n");
-		print_tree(tnode);
+//		printf("tree in pipe\n");
+//		print_tree(tnode);
 	}
 	else if (((i = find_index(tokens, REDIR)) != -1)
 		|| ((i = find_index(tokens, REDIR_INPUT)) != -1)
 		|| ((i = find_index(tokens, REDIR_APPEND)) != -1))
 	{
 		i++;
-		printf("inside of Build_ast(REDIR)\n");
+//		printf("inside of Build_ast(REDIR)\n");
 //		printf("i = %d\n", i);
 		left_tmp = left_lst(tokens, i);
 		while (--i > 0)
@@ -130,8 +130,8 @@ t_btree	*build_ast(t_tlist *tokens)
 //		printf("check redir\n");
 		tnode->left = build_ast(left_tmp);
 		tnode->right = build_ast(right_tmp);
-		printf("tree in redir\n");
-		print_tree(tnode);
+//		printf("tree in redir\n");
+//		print_tree(tnode);
 	}
 	else if (lnode->type == CMD)
 	{
@@ -149,8 +149,8 @@ t_btree	*build_ast(t_tlist *tokens)
 int	parse_line(t_tlist *tokens, t_btree *ast)
 {
 	ast = build_ast(tokens);
-	printf("ast:\n");
-	print_tree(ast);
+//	printf("ast:\n");
+//	print_tree(ast);
 //	if (!(ast = build_ast(tokens)))
 //		return (0);
 	return (1);

@@ -88,14 +88,13 @@ char **ft_parse_path()
 	return (path_list);
 }
 
-int main(int argc, char **argv, char **envp)
+int ft_execution(char *cmd, char **args, char **envp)
 {
-	(void)argc;
-	(void)argv;
 	char **path_list;
 	char *executor_path;
 	char *tmp_path;
-	char *args[] = {"mkdir", "my_dir", NULL};
+	//char *args[] = {"mkdir", "my_dir", NULL};
+	(void)cmd;
 
 	path_list = ft_parse_path();
 	if (!path_list)
