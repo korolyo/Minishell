@@ -1,17 +1,34 @@
 #include "minishell.h"
-//здесь пока только наброски функций
 
-int ft_echo(char **args) //без обработки флага -n
+int ft_echo(char **args)
 {
-	int i;
+	int flag;
+	int index;
+	int len;
 
-	i = 1;
-	while(args[i] != NULL)
+	flag = 1;
+	index = 1;
+	len = 0;
+	while (args[index++] != NULL)
+		len++;
+	index = 1;
+	if (args[index] != NULL)
+		flag = ft_strncmp(args[index], "-n", 2);
+	if (flag == 0)
 	{
-		printf("%s", args[i]); // просто выводим строку
-		i++;
+		index++;
+		len--;
 	}
-	return (0);
+	while (args[index++] != NULL)
+	{
+		printf("%s", args[index]);
+		if (len > 1)
+			printf(" ");
+		len--;
+	}
+	if (flag != 0)
+		printf("\n");
+	return (1); //успешное завершение
 }
 
 char	*ft_prev_dir(char *pwd_path) //возможно, не потребуется надо тестить
