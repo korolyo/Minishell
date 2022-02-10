@@ -37,11 +37,14 @@ int ft_cd(char **args)
 	if (args[1] == NULL)
 	{
 		if (chdir(getenv("HOME")) != 0)
-			return (0);
+		{
+			perror("minishell");
+			return (1);
+		}
 		return (1);
 	}
-	if (!(ft_strncmp(args[1], ".", 2))) //точки, скорее всего, не нужны
-		return (1); //успешное завершение
+	if (!(ft_strncmp(args[1], ".", 2)))
+		return (1);
 	if (!(ft_strncmp(args[1], "..", 3)))
 	{
 		prev_dir = ft_prev_dir(getenv("PWD"));
@@ -57,8 +60,11 @@ int ft_cd(char **args)
 	}
 	else
 	{
-		if (chdir(args[2]) != 0)
-			return (0); //ошибка
+		if (chdir(args[1]) != 0)
+		{
+			printf("minishell: cd: %s: %s\n", args[1], strerror(ENOENT));
+			return (1);
+		}
 	}
 	return (1); //успешное завершение
 }
