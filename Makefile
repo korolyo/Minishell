@@ -14,6 +14,7 @@ SOURCES_LIST	= 	main.c \
 					executor/execution.c \
 					executor/start_executing.c \
 					executor/exec_utils.c \
+					executor/var_handling.c
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -g
