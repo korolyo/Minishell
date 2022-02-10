@@ -91,6 +91,19 @@ typedef struct	s_cmd
 	int		(*f_cmd)(char **args);
 }				t_cmd;
 
+typedef struct s_vlist
+{
+	struct s_var	*content;
+	struct s_vlist	*next;
+}					t_vlist;
+
+typedef struct	s_var //для хранения переменных окружения и переменных среды
+{
+	char		*name;
+	char		*value;
+	int 		is_exported; //0 - переменная среды, 1 - переменная окружения
+}					t_var;
+
 // Preparsing
 char	*preparse(char *prompt);
 char	*preparse_delim(char *prompt, int i);
@@ -140,6 +153,10 @@ int		ft_exit(char **args);
 t_btree		*start(t_btree *ast);
 int			start_execution(char **args);
 int			ft_execution(char **args);
+t_list		*ft_find_var(t_list ***var_list, char *var_name);
+int			ft_save_var(t_list ***var_list, char *var, int var_id);
+void		*ft_make_var(char *var, t_var **variable);
+int			ft_clear_vars(t_list **var_list);
 
 //Exec Utils - это пока не надо (и вообще не надо, похоже)
 //void	*ft_abort(char ***arr, size_t size);

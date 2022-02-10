@@ -19,7 +19,7 @@ int start_execution(char **args)
 	index = -1;
 	while (++index < 7)
 	{
-		if (args[0] == builtins[index].cmd)
+		if (!(strncmp(args[0], builtins[index].cmd, 7)))
 			return (builtins[index].f_cmd(args));
 	}
 	if (index == 7)

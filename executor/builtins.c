@@ -1,17 +1,35 @@
 #include "minishell.h"
-//здесь пока только наброски функций
 
-int ft_echo(char **args) //без обработки флага -n
+int ft_echo(char **args) //вроде, отрабатывает норм, но что-то не то приходит
+// в args + больше 25 строк
 {
-	int i;
+	int flag;
+	int index;
+	int len;
 
-	i = 1;
-	while(args[i] != NULL)
+	flag = 1;
+	index = 1;
+	len = 0;
+	while (args[index++] != NULL)
+		len++;
+	index = 1;
+	if (args[index] != NULL)
+		flag = ft_strncmp(args[index], "-n", 2);
+	if (flag == 0)
 	{
-		printf("%s", args[i]); // просто выводим строку
-		i++;
+		index++;
+		len--;
 	}
-	return (0);
+	while (args[index++] != NULL)
+	{
+		printf("%s", args[index]);
+		if (len > 1)
+			printf(" ");
+		len--;
+	}
+	if (flag != 0)
+		printf("\n");
+	return (1); //успешное завершение
 }
 
 char	*ft_prev_dir(char *pwd_path) //возможно, не потребуется надо тестить
@@ -30,6 +48,7 @@ char	*ft_prev_dir(char *pwd_path) //возможно, не потребуетс�
 }
 
 //попроверять хорошо эту функцию
+//менять соотвествующие переменные в env
 int ft_cd(char **args)
 {
 	char	*prev_dir;
@@ -37,11 +56,14 @@ int ft_cd(char **args)
 	if (args[1] == NULL)
 	{
 		if (chdir(getenv("HOME")) != 0)
-			return (0);
+		{
+			perror("minishell");
+			return (1);
+		}
 		return (1);
 	}
-	if (!(ft_strncmp(args[1], ".", 2))) //точки, скорее всего, не нужны
-		return (1); //успешное завершение
+	if (!(ft_strncmp(args[1], ".", 2)))
+		return (1);
 	if (!(ft_strncmp(args[1], "..", 3)))
 	{
 		prev_dir = ft_prev_dir(getenv("PWD"));
@@ -57,8 +79,11 @@ int ft_cd(char **args)
 	}
 	else
 	{
-		if (chdir(args[2]) != 0)
-			return (0); //ошибка
+		if (chdir(args[1]) != 0)
+		{
+			printf("minishell: cd: %s: %s\n", args[1], strerror(ENOENT));
+			return (1);
+		}
 	}
 	return (1); //успешное завершение
 }
@@ -68,7 +93,8 @@ int		ft_pwd(char **args) //эта, вроде, готова
 	char	dir[MAX_DIRNAME];
 
 	(void)args;
-	if (!getcwd(dir, MAX_DIRNAME))
+	if (!getcwd(dir, MAX_DIRNAME)) //работает нормально само. Но pwd в env не
+		// меняется
 		return (0); //ошибка
 	printf("%s\n", dir);
 	return (1); //успешное завершение
