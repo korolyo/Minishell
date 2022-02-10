@@ -32,16 +32,16 @@ int start_execution(char **args)
 
 t_btree *start(t_btree *ast)
 {
-	int i = -1;
+//	int i = -1;
 	if (ast)
 	{
-		printf("check\n");
+//		printf("check\n");
 		start(ast->left);
 		if (ast->type == CMD)
 		{
 //			printf("CMD = [%s]\n", ast->value[0]);
-			while (ast->value[++i])
-				printf("cmd = [%s]\n", ast->value[i]);
+//			while (ast->value[++i])
+//				printf("cmd = [%s]\n", ast->value[i]);
 			start_execution(ast->value);
 		}
 		start(ast->right);

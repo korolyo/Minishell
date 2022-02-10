@@ -60,13 +60,8 @@ void	lexer_redir(t_tlist **tokens, char *prompt, int *i)
 		(*i)++;
 	if (tmp->type == REDIR || tmp->type == REDIR_APPEND ||
 		tmp->type == REDIR_INPUT)
-	{
-//		printf("*i and j are %d and %d\n", *i, j);
 		tmp->cmd[1] = ft_substr(prompt, j, *i - j);
-	}
-//	printf("you're in redir fun\n");
 	tlistadd_back(tokens, tmp);
-//	printf("tlist->redir = |%s|\n", tmp->cmd);
 }
 
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
@@ -81,14 +76,14 @@ void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
 	while (!ft_strchr("$<>|", prompt[(*i)]))
 		(*i)++;
 	tmp = tlistnew(CMD);
-	printf("prompt = %s\n", prompt);
-	printf("i = %d j = %d\n", *i, j);
+//	printf("prompt = %s\n", prompt);
+//	printf("i = %d j = %d\n", *i, j);
 	tmp_str = ft_substr(prompt, j, *i - j);
-	printf("tmp_str = %s\n", tmp_str);
+//	printf("tmp_str = %s\n", tmp_str);
 	tmp->cmd = ft_split(tmp_str, ' ');
-	while (tmp->cmd[++count])
-		printf("count = %d tlist->cmd = |%s|\n", count, tmp->cmd[count]);
-	printf("cmd check\n");
+//	while (tmp->cmd[++count])
+//		printf("count = %d tlist->cmd = |%s|\n", count, tmp->cmd[count]);
+//	printf("cmd check\n");
 
 	tlistadd_back(tokens, tmp);
 
@@ -123,5 +118,4 @@ void	lexer_pipe(t_tlist **tokens, int *i)
 	(*i)++;
 	tmp = tlistnew(PIPE);
 	tlistadd_back(tokens, tmp);
-//	printf("tlist->pipe = |%s|\n", tmp->cmd);
 }

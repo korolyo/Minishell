@@ -28,7 +28,6 @@ char *str_delete_part(char *prompt, int start, int end, int flag_mid)
 			free(tmp2);
 	}
 	tmp3 = ft_substr(prompt, end + 1, ft_strlen(prompt) - end - 1);
-//	printf("tmp3 = |%s|\n", tmp3);
 	tmp = ft_strjoin(tmp, tmp3);
 	if (tmp3)
 		free(tmp3);
@@ -51,13 +50,11 @@ char	*preparse_delim(char *prompt, int i)
 			j = i;
 			while (ft_strchr(" \t", tmp[i]) && tmp[i])
 			{
-//				printf("%d - j %d - i\n", j, i);
 				i++;
 				if (tmp[i] == '\0' || j == 0)
 					j--;
 			}
 			tmp2 = str_delete_part(tmp, j + 1, i - 1, DELETE_MID);
-//			printf("tmp2 == |%s|\n", tmp2);
 			tmp = tmp2;
 			i = -1;
 		}
