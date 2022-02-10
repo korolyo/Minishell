@@ -13,25 +13,60 @@
 #include "minishell.h"
 
 // DO THE LOGIC
-void	lexer_quotes(t_tlist **tokens, char *prompt, int *i)
+void	lexer_quotes(char *prompt, int *i)
 {
-	t_tlist	*tmp;
-	int 	j;
+//	char	*tmp_str;
+//	int 	j;
 
-	j = *i;
+//	j = *i;
 	if (prompt[*i] == '\'')
 	{
 		while (prompt[(*i)] != '\'')
-			i++;
-		tmp = tlistnew(QUOTES);
+			(*i)++;
 	}
 	if (prompt[*i] == '\"')
 	{
-		while (prompt[(*i)] != '\"')
-			i++;
-		tmp = tlistnew(QUOTES);
+		while (prompt[(*i)] != '\"' || prompt[(*i)] != '$')
+			(*i)++;
+//		if (prompt[(*i)] == '$')
+//			tmp_str = dollar(prompt, i);
 	}
-	tlistadd_back(tokens, tmp);
+}
+//TO DO: global var(?) that contain error value
+//TO DO: add our env list
+char	*dollar(char *prompt, int *i)
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*value;
+	char	*tmp3;
+	int		j;
+
+	tmp = ft_substr(prompt, 0, *i);
+	(*i)++;
+//	if (prompt[*i] == '?')
+//	{
+//		tmp = последняяошибка;
+//	}
+	if (is_key(prompt[*i]))
+	{
+		j = *i;
+		while (is_key(prompt[*i]))
+			(*i)++;
+		tmp2 = ft_substr(prompt, j, *i - j);
+		tmp4 = ft_find_var(&var_list, tmp2);    //TODO: объявить как t_list
+//		tmp_ptr = tmp->content;
+//		printf("%s=%s\n", tmp_ptr->name, tmp_ptr->value);
+		//Find tmp2 in env -> return result string
+		free(tmp2);
+		tmp = ft_strjoin(tmp, value);
+		tmp3 = ft_substr(prompt, *i + 1, ft_strlen(prompt) - *i - 1);
+		tmp = ft_strjoin(tmp, tmp3);
+		free(tmp3);
+	}
+	if (ft_isdigit(prompt[*i]))
+		(*i)++;
+	return (tmp);
 }
 
 void	lexer_redir(t_tlist **tokens, char *prompt, int *i)
@@ -67,24 +102,23 @@ void	lexer_redir(t_tlist **tokens, char *prompt, int *i)
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
 {
 	t_tlist	*tmp;
-	char	*tmp_str;
-	int 	j;
+//	char	*tmp_str;
+//	int 	j;
 	int		count;
 
-	j = *i;
+//	j = *i;
 	count = -1;
 	while (!ft_strchr("$<>|", prompt[(*i)]))
 		(*i)++;
 	tmp = tlistnew(CMD);
 //	printf("prompt = %s\n", prompt);
 //	printf("i = %d j = %d\n", *i, j);
-	tmp_str = ft_substr(prompt, j, *i - j);
+//	tmp_str = ft_substr(prompt, j, *i - j);
 //	printf("tmp_str = %s\n", tmp_str);
-	tmp->cmd = ft_split(tmp_str, ' ');
-//	while (tmp->cmd[++count])
-//		printf("count = %d tlist->cmd = |%s|\n", count, tmp->cmd[count]);
+	tmp->cmd = ft_quotes_split(prompt, ' ');
+	while (tmp->cmd[++count])
+		printf("count = %d tlist->cmd = |%s|\n", count, tmp->cmd[count]);
 //	printf("cmd check\n");
-
 	tlistadd_back(tokens, tmp);
 
 }

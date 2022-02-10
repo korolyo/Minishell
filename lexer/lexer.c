@@ -24,9 +24,9 @@ void	lexer(char *prompt, t_tlist **tokens)
 	{
 		if (ft_strchr("DELIM", prompt[i]))
 			i++;
-		if (ft_strchr("\'\"", prompt[i]))
+		if (prompt[i] == '\'' || prompt[i] == '\"')
 			//экранирует все до пробела пайпа или редиректа
-			lexer_quotes(tokens, prompt, &i);
+			lexer_quotes(prompt, &i);
 		if (ft_strchr("><", prompt[i]))
 			lexer_redir(tokens, prompt, &i);
 		if (prompt[i] >= 'a' && prompt[i] <= 'z')

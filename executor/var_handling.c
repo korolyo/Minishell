@@ -104,6 +104,11 @@ int ft_save_var(t_list ***var_list, char *var, int var_id)
 //		ft_save_var(&var_list, *environ, 1);
 //		environ++;
 //	}
+
+
+//Если надо будет воспользоваться листами::
+
+
 //	t_list	*tmp;
 ////	t_list	*next;
 //	t_var	*tmp_ptr;
@@ -120,6 +125,5 @@ int ft_save_var(t_list ***var_list, char *var, int var_id)
 //	tmp_ptr = tmp->content;
 //	printf("%s=%s\n", tmp_ptr->name, tmp_ptr->value);
 //	ft_clear_vars(var_list); //это делаем перед закрытием все программы
-//	sleep(1000);
 //	return(1); //успешное завершение
 //}

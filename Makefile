@@ -10,6 +10,7 @@ SOURCES_LIST	= 	main.c \
 					lexer/init_lexer.c \
 					lexer/lexer.c \
 					lexer/lexer1.c \
+					lexer/lexer_utils.c \
 					executor/builtins.c \
 					executor/execution.c \
 					executor/start_executing.c \

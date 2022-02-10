@@ -43,6 +43,8 @@ char	*preparse_delim(char *prompt, int i)
 	tmp = prompt;
 	while (tmp[i])
 	{
+		if (tmp[i] == '\'' || tmp[i] == '\"')
+			preparse_quotes(tmp, &i);
 		if ((ft_strchr(" \t", tmp[i]) && i == 0)
 			|| (i != 0 && ft_strchr(" \t",tmp[i])
 			&& (ft_strchr(" \t", tmp[i + 1]) || tmp[i + 1] == '\0')))
@@ -63,7 +65,23 @@ char	*preparse_delim(char *prompt, int i)
 	return (tmp);
 }
 
-int	preparse_quotes(char *prompt, int i)
+void	preparse_quotes(char *prompt, int *i)
+{
+	if (prompt[*i] == '\'')
+	{
+		(*i)++;
+		while (prompt[*i] != '\'')
+			(*i)++;
+	}
+	if (prompt[*i] == '\"')
+	{
+		(*i)++;
+		while (prompt[*i] != '\"')
+			(*i)++;
+	}
+}
+
+int	unmatched_quotes(char *prompt, int i)
 {
 	while (prompt[i])
 	{
@@ -71,11 +89,13 @@ int	preparse_quotes(char *prompt, int i)
 		{
 			if (!(ft_strchr(prompt + i + 1, '\'')))
 				return (0);
+			break ;
 		}
 		if (prompt[i] == '\"')
 		{
 			if (!(ft_strchr(prompt + i + 1, '\"')))
 				return (0);
+			break ;
 		}
 		i++;
 	}
@@ -101,9 +121,6 @@ int preparse_redir(char *prompt, int i)
 // Checking readline string validity:
 char	*preparse(char *prompt)
 {
-	/*
-	 * Cases:	два пайпа
-	*/
 	int		i;
 	char	*tmp;
 
@@ -111,8 +128,16 @@ char	*preparse(char *prompt)
 	if (!prompt)
 		return (NULL);
 	tmp = prompt;
+	if (unmatched_quotes(tmp, i) == 0)
+	{
+		tmp = ft_strdup("Error: unmatched quotes");
+		printf("unmatched quotes\n");
+		return (NULL);
+	}
 	while (tmp[++i])
 	{
+		if (tmp[i] == '\'' || tmp[i] == '\"')
+			preparse_quotes(tmp, &i);
 		if (tmp[i] == ' ' || tmp[i] == '\t')
 			tmp = preparse_delim(tmp, i);
 		if (!(preparse_redir(tmp, i)))
@@ -120,16 +145,12 @@ char	*preparse(char *prompt)
 			tmp = ft_strdup("Minishell: syntax error with redir symbol");
 			break ;
 		}
-		if (!(preparse_quotes(tmp, i)))
+		if (!(preparse_pipe(tmp, i)))
 		{
-			tmp = ft_strdup("Error: No unmatched quotes");
+			printf("Error: Unclosed Pipe\n");
+			tmp = ft_strdup("Error: Unclosed Pipe");
 			break ;
 		}
-//		if (!(preparse_pipe(tmp, i)))
-//		{
-//			tmp = ft_strdup("Error: Unclosed Pipe");
-//			break ;
-//		}
 	}
 	free(prompt);
 //	printf("tmp prep = %s\n", tmp);
