@@ -32,62 +32,6 @@ int ft_echo(char **args) //вроде, отрабатывает норм, но �
 	return (1); //успешное завершение
 }
 
-char	*ft_prev_dir(char *pwd_path) //возможно, не потребуется надо тестить
-{
-	int		index;
-	int		last_slash;
-
-	index = 0;
-	while (pwd_path[index] != '\0')
-	{
-		if (pwd_path[index] == '/')
-			last_slash = index;
-		index++;
-	}
-	return (ft_substr(pwd_path, 0, ft_strlen(pwd_path) - last_slash - 3));
-}
-
-//попроверять хорошо эту функцию
-//менять соотвествующие переменные в env
-int ft_cd(char **args)
-{
-	char	*prev_dir;
-
-	if (args[1] == NULL)
-	{
-		if (chdir(getenv("HOME")) != 0)
-		{
-			perror("minishell");
-			return (1);
-		}
-		return (1);
-	}
-	if (!(ft_strncmp(args[1], ".", 2)))
-		return (1);
-	if (!(ft_strncmp(args[1], "..", 3)))
-	{
-		prev_dir = ft_prev_dir(getenv("PWD"));
-		if (!prev_dir)
-			return (0);
-		if (chdir(prev_dir) != 0)
-		{
-			free(prev_dir);
-			return (0);
-		}
-		free(prev_dir);
-		return (1); //успешное завершение
-	}
-	else
-	{
-		if (chdir(args[1]) != 0)
-		{
-			printf("minishell: cd: %s: %s\n", args[1], strerror(ENOENT));
-			return (1);
-		}
-	}
-	return (1); //успешное завершение
-}
-
 int		ft_pwd(char **args) //эта, вроде, готова
 {
 	char	dir[MAX_DIRNAME];
