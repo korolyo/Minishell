@@ -88,7 +88,7 @@ struct 			s_btree
 typedef struct	s_cmd
 {
 	char	*cmd;
-	int		(*f_cmd)(char **args);
+	int		(*f_cmd)(char **args, t_list ***var_list);
 }				t_cmd;
 
 typedef struct s_vlist
@@ -146,23 +146,24 @@ char	*ft_dollar(char *prompt, int *i, char **envp);
 int		is_key(char c);
 
 //builtings
-int		ft_echo(char **args);
-int		ft_cd(char **args);
-int		ft_pwd(char **args);
-int		ft_export(char **args);
-int		ft_unset(char **args);
-int		ft_env(char **args);
-int		ft_exit(char **args);
+int		ft_echo(char **args, t_list ***var_list);
+int		ft_cd(char **args,  t_list ***var_list);
+int		ft_pwd(char **args,  t_list ***var_list);
+int		ft_export(char **args,  t_list ***var_list);
+int		ft_unset(char **args,  t_list ***var_list);
+int		ft_env(char **args,  t_list ***var_list);
+int		ft_exit(char **args,  t_list ***var_list);
 
 //Execution
-t_btree	*start(t_btree *ast);
-int		start_execution(char **args);
+t_btree	*ft_start(t_btree *ast);
+int		ft_start_execution(char **args);
 int		ft_execution(char **args);
 t_list	*ft_find_var(t_list ***var_list, char *var_name);
 int		ft_save_var(t_list ***var_list, char *var, int var_id);
 void	*ft_make_var(char *var, t_var **variable);
 int		ft_clear_vars(t_list **var_list);
 int 	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id);
+int		ft_change_lvl(t_list ***var_list, int id);
 
 //Exec Utils - это пока не надо (и вообще не надо, похоже)
 //void	*ft_abort(char ***arr, size_t size);
