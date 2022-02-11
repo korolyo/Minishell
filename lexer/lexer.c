@@ -14,26 +14,29 @@
 
 // Divide preparsed string from readline to lexical tokens (each token is
 // linked list node):
-void	lexer(char *prompt, t_tlist **tokens)
+void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 {
 	int		i;
+	char	*tmp;
 
 	//	""  ''  $  '_'  |  >  >>  < <<
 	i = -1;
-	while (prompt[++i])
+	tmp = prompt;
+	printf("in lexer....\n");
+	while (tmp[++i])
 	{
-		if (ft_strchr("DELIM", prompt[i]))
+//		printf("i = %d, lexer = |%s|\n", i, tmp);
+		if (ft_strchr(DELIM, tmp[i]))
 			i++;
-		if (prompt[i] == '\'' || prompt[i] == '\"')
+		if (tmp[i] == '\'' || tmp[i] == '\"')
 			//экранирует все до пробела пайпа или редиректа
-			lexer_quotes(prompt, &i);
-		if (ft_strchr("><", prompt[i]))
-			lexer_redir(tokens, prompt, &i);
-		if (prompt[i] >= 'a' && prompt[i] <= 'z')
-			lexer_cmd(tokens, prompt, &i);
-		if (prompt[i] == '$')
-			lexer_env(tokens, prompt, &i);
+			tmp = lexer_quotes(tmp, &i, var_list);
+		if (ft_strchr("><", tmp[i]))
+			tmp = lexer_redir(tokens, tmp, i);
+//		lexer_cmd(tokens, tmp, &i);
+		if (tmp[i] == '$')
+			tmp = lexer_dollar(tmp, &i, var_list);
 		if (prompt[i] == '|')
-			lexer_pipe(tokens, &i);
+			tmp = lexer_pipe(tokens, &i);
 	}
 }

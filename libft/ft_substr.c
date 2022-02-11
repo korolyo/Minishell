@@ -11,16 +11,16 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*new_s;
 
-	if (s == NULL)
-		return (NULL);
+	new_s = NULL;
 	if (start > ft_strlen(s))
 		len = 0;
+	if (s == NULL || len == 0)
+		return (NULL);
 	if (start < ft_strlen(s) && len > ft_strlen(s))
 		len = ft_strlen(s) - start;
 	new_s = malloc(sizeof(char) * (len + 1));

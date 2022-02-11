@@ -13,90 +13,98 @@
 #include "minishell.h"
 
 // DO THE LOGIC
-void	lexer_quotes(char *prompt, int *i)
+char	*lexer_quotes(char *prompt, int *i, t_list **var_list)
 {
-//	char	*tmp_str;
-//	int 	j;
+	char	*tmp;
+	int 	j;
 
-//	j = *i;
-	if (prompt[*i] == '\'')
+	j = *i;
+	tmp = prompt;
+	if (tmp[*i] == '\'')
 	{
-		while (prompt[(*i)] != '\'')
+		while (tmp[(*i)] != '\'')
 			(*i)++;
 	}
-	if (prompt[*i] == '\"')
+	if (tmp[*i] == '\"')
 	{
-		while (prompt[(*i)] != '\"' || prompt[(*i)] != '$')
+		while (tmp[(*i)] != '\"' || tmp[(*i)] != '$')
 			(*i)++;
-//		if (prompt[(*i)] == '$')
-//			tmp_str = dollar(prompt, i);
+		if (prompt[(*i)] == '$')
+			tmp = lexer_dollar(prompt, i, var_list);
 	}
+	free(prompt);
+	return (tmp);
 }
 //TO DO: global var(?) that contain error value
-//TO DO: add our env list
-char	*dollar(char *prompt, int *i)
+char	*lexer_dollar(const char *prompt, int *i, t_list **var_list)
 {
 	char	*tmp;
 	char	*tmp2;
-	char	*value;
 	char	*tmp3;
+	t_list	*tmp4;
+	t_var	*tmp5;
 	int		j;
 
-	tmp = ft_substr(prompt, 0, *i);
+	tmp = ft_substr(prompt, 0, (*i));
 	(*i)++;
-//	if (prompt[*i] == '?')
-//	{
-//		tmp = последняяошибка;
-//	}
-	if (is_key(prompt[*i]))
+	if (is_key(prompt[*i]) || prompt[*i] == '?')
 	{
 		j = *i;
 		while (is_key(prompt[*i]))
 			(*i)++;
-		tmp2 = ft_substr(prompt, j, *i - j);
-		tmp4 = ft_find_var(&var_list, tmp2);    //TODO: объявить как t_list
-//		tmp_ptr = tmp->content;
-//		printf("%s=%s\n", tmp_ptr->name, tmp_ptr->value);
-		//Find tmp2 in env -> return result string
+		tmp2 = ft_substr(prompt, j, (*i) - j + 1);
+		tmp3 = ft_substr(prompt, (*i) + 1, ft_strlen(prompt) - (*i) - 1);
+		tmp4 = ft_find_var(var_list, tmp2);
 		free(tmp2);
-		tmp = ft_strjoin(tmp, value);
-		tmp3 = ft_substr(prompt, *i + 1, ft_strlen(prompt) - *i - 1);
+		tmp5 = (t_var *)tmp4->content;
+		printf("check1\n");
+		tmp2 = ft_strdup(tmp5->value);
+		*i = j + ft_strlen(tmp2);
+		printf("%d\n", *i);
+		tmp = ft_strjoin(tmp, tmp2);
+		if (tmp2)
+			free(tmp2);
 		tmp = ft_strjoin(tmp, tmp3);
-		free(tmp3);
+		if (tmp3)
+			free(tmp3);
+		free((char *)prompt);
 	}
 	if (ft_isdigit(prompt[*i]))
 		(*i)++;
 	return (tmp);
 }
 
-void	lexer_redir(t_tlist **tokens, char *prompt, int *i)
+char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 {
 	t_tlist	*tmp;
+	char	*str;
 	int 	j;
 
-	j = *i + 1;
-	if (prompt[*i] == '<' && prompt[(*i) + 1] == '<')
+	j = i;
+	if (prompt[i] == '<' && prompt[i + 1] == '<')
 	{
 		tmp = tlistnew(HERE_DOC);
-		(*i)++;
+		i++;
 	}
-	else if (prompt[*i] == '>' && prompt[(*i) + 1] == '>')
+	else if (prompt[i] == '>' && prompt[i + 1] == '>')
 	{
 		tmp = tlistnew(REDIR_APPEND);
-		(*i)++;
+		i++;
 	}
-	else if (prompt[*i] == '>')
+	else if (prompt[i] == '>')
 		tmp = tlistnew(REDIR);
-	else if (prompt[*i] == '<')
+	else if (prompt[i] == '<')
 		tmp = tlistnew(REDIR_INPUT);
-	(*i)++;
-	while (prompt[*i] == ' ' || ft_isalpha(prompt[*i])
-		|| ft_isdigit(prompt[*i]))
-		(*i)++;
+	i++;
+	while (prompt[i] == ' ' || ft_isalpha(prompt[i])
+		|| ft_isdigit(prompt[i]))
+		i++;
 	if (tmp->type == REDIR || tmp->type == REDIR_APPEND ||
 		tmp->type == REDIR_INPUT)
-		tmp->cmd[1] = ft_substr(prompt, j, *i - j);
+		tmp->cmd[1] = ft_substr(prompt, j + 1, i - j);
+	str = str_delete_part(prompt, j, i, DELETE_MID);
 	tlistadd_back(tokens, tmp);
+	return (str);
 }
 
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
@@ -108,9 +116,12 @@ void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
 
 //	j = *i;
 	count = -1;
-	while (!ft_strchr("$<>|", prompt[(*i)]))
-		(*i)++;
 	tmp = tlistnew(CMD);
+	while (!ft_strchr("<>|", prompt[(*i)]))
+		(*i)++;
+//	tmp_str = ft_substr(prompt, )
+	if (prompt[*i] == '<' || prompt[*i] == '>')
+		lexer_redir(tokens, prompt, *i);
 //	printf("prompt = %s\n", prompt);
 //	printf("i = %d j = %d\n", *i, j);
 //	tmp_str = ft_substr(prompt, j, *i - j);
@@ -123,33 +134,36 @@ void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
 
 }
 
-void	lexer_env(t_tlist **tokens, char *prompt, int *i)
-{
-	t_tlist *tmp;
-	char	*str;
-	int		j;
+//void	lexer_env(t_tlist **tokens, char *prompt, int *i)
+//{
+//	t_tlist *tmp;
+//	char	*str;
+//	int		j;
+//
+//	(*i)++;
+//	j = *i;
+//	tmp = tlistnew(ENV);
+//	if (!(ft_isalpha(prompt[*i])) || prompt[*i] != '?')
+//		tmp->cmd = NULL;
+//	else if (prompt[*i] == '?')
+//		(*i)++;
+//	else if (ft_isalpha(prompt[*i]))
+//	{
+//		while (ft_isprint(prompt[*i]) || ft_isdigit(prompt[*i]))
+//			(*i)++;
+//	}
+//	str = ft_substr(prompt, j, *i - j);
+//	tlistadd_back(tokens, tmp);
+//}
 
-	(*i)++;
-	j = *i;
-	tmp = tlistnew(ENV);
-	if (!(ft_isalpha(prompt[*i])) || prompt[*i] != '?')
-		tmp->cmd = NULL;
-	else if (prompt[*i] == '?')
-		(*i)++;
-	else if (ft_isalpha(prompt[*i]))
-	{
-		while (ft_isprint(prompt[*i]) || ft_isdigit(prompt[*i]))
-			(*i)++;
-	}
-	str = ft_substr(prompt, j, *i - j);
-	tlistadd_back(tokens, tmp);
-}
-
-void	lexer_pipe(t_tlist **tokens, int *i)
+char	*lexer_pipe(t_tlist **tokens, int *i)
 {
 	t_tlist	*tmp;
+	char	*str;
 
 	(*i)++;
+	str = NULL;
 	tmp = tlistnew(PIPE);
 	tlistadd_back(tokens, tmp);
+	return (str);
 }

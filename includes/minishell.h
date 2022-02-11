@@ -122,12 +122,13 @@ void	*ft_quotes_abort(char ***arr, int size);
 int 	get_quotes_len(char *str, char c, int *i);
 int 	get_quotes_arrlen(char const *s, char c);
 char	**get_quotes_str(char ***res, char **str, char c, int size);
-void	lexer(char *prompt, t_tlist **tokens);
-void	lexer_quotes(char *prompt, int *i);
-void	lexer_redir(t_tlist **tokens, char *prompt, int *i);
+void	lexer(char *prompt, t_tlist **tokens, t_list **var_list);
+char	*lexer_quotes(char *prompt, int *i, t_list **var_list);
+char	*lexer_dollar(const char *prompt, int *i, t_list **var_list);
+char	*lexer_redir(t_tlist **tokens, char *prompt, int i);
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i);
-void	lexer_env(t_tlist **tokens, char *prompt, int *i);
-void	lexer_pipe(t_tlist **tokens, int *i);
+//void	lexer_env(t_tlist **tokens, char *prompt, int *i);
+char	*lexer_pipe(t_tlist **tokens, int *i);
 
 // Parsing
 t_btree	*parse_line(t_tlist *tokens);

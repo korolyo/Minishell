@@ -45,19 +45,21 @@ void	print_tokens(t_tlist *tokens)
 
 int	main(void)
 {
-	char	*prompt;
-	t_tlist	*tokens;
-	t_btree	*ast;
-	int		*fd;
-	t_list **var_list;
-	extern char **environ;
+	char		*prompt;
+	t_tlist		*tokens;
+	t_btree		*ast;
+	int			*fd;
+	t_list		*var_list;
+	extern char	**environ;
 
 	tokens = NULL;
 	ast = NULL;
 	fd = NULL;
+	var_list = NULL;
 	while (*environ != NULL)
 	{
 		ft_save_var(&var_list, *environ, 1);
+//		printf("check\n");
 		environ++;
 	}
 	while (1)
@@ -69,16 +71,15 @@ int	main(void)
 		if (!(prompt = preparse(prompt)))
 			printf("Error in preparse\n");
 		printf("preparse: |%s|\n", prompt);
-		lexer(prompt, &tokens);
-		printf("tokens :");
-//		printf("check\n");
-		print_tokens(tokens);
+		lexer(prompt, &tokens, &var_list);
+//		printf("tokens :");
+//		print_tokens(tokens);
 //		if (!(ast = parse_line(tokens)))
 //			printf("problem with AST");
 //		printf("check1\n");
 //		if (!(start(ast)))
 //			printf("problem with executor");      //EXECUTION
-//		printf("main check \n");
+		printf("main check \n");
 		clear_all(&tokens);
 	}
 	exit(EXIT_SUCCESS);
