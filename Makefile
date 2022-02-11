@@ -10,11 +10,14 @@ SOURCES_LIST	= 	main.c \
 					lexer/init_lexer.c \
 					lexer/lexer.c \
 					lexer/lexer1.c \
+					lexer/lexer_utils.c \
 					executor/builtins.c \
 					executor/execution.c \
 					executor/start_executing.c \
 					executor/exec_utils.c \
-					executor/var_handling.c
+					executor/var_handling.c \
+					executor/ft_cd.c \
+					executor/ft_echo.c \
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -g

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_list *ft_find_var(t_list ***var_list, char *var_name)
+t_list	*ft_find_var(t_list ***var_list, char *var_name)
 {
 	t_list	*tmp;
 	t_list	*next;
@@ -15,18 +15,32 @@ t_list *ft_find_var(t_list ***var_list, char *var_name)
 			return (tmp);
 		tmp = next;
 	}
-	return (NULL); //нет такой переменной
+	return (NULL);
 }
 
-//int ft_change_var_value(t_list **var_list, char **new_value)
-//{
-//
-//}
+int	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id)
+{
+	t_list	*tmp_list;
+	t_var	*tmp_val;
+
+	tmp_list = ft_find_var(&var_list, var_name);
+	if (tmp_list == NULL)
+		return (ft_save_var(&var_list,ft_strjoin(ft_strjoin(var_name,
+						"=" ),new_value), var_id));
+	tmp_val = (t_var *) tmp_list->content;
+	free(tmp_val->value);
+	tmp_val->value = malloc(sizeof(char) * (ft_strlen(new_value) + 1));
+	if (!tmp_val->value)
+		return (0);
+	strlcpy(tmp_val->value, new_value, ft_strlen(new_value) + 1);
+	return (1);
+}
+
 int	ft_clear_vars(t_list **var_list)
 {
 	t_list	*tmp;
 	t_list	*next;
-	t_var 	*tmp_var;
+	t_var	*tmp_var;
 
 	tmp = *var_list;
 	while (tmp)
@@ -43,23 +57,23 @@ int	ft_clear_vars(t_list **var_list)
 		tmp = next;
 	}
 	*var_list = NULL;
-	return (0); //ошибка
+	return (0);
 }
 
-void *ft_make_var(char *var, t_var **variable)
+void	*ft_make_var(char *var, t_var **variable)
 {
-	size_t 	len1;
-	size_t 	len2;
+	size_t	len1;
+	size_t	len2;
 
 	len1 = 0;
 	len2 = 0;
-	while(var[len1] != '=')
+	while (var[len1] != '=')
 		len1++;
 	(*variable)->name = malloc(sizeof (char) * len1);
 	if (!(*variable)->name)
 		return (NULL);
 	ft_strlcpy((*variable)->name, var, len1 + 1);
-	while(var[len1++] != '\0')
+	while (var[len1++] != '\0')
 		len2++;
 	if (len2 > 0)
 	{
@@ -70,28 +84,30 @@ void *ft_make_var(char *var, t_var **variable)
 	}
 	else
 		(*variable)->value = NULL;
-	return(variable);
+	return (variable);
 }
 
-//значения var_id: 0 - isn't exported to env; 1 - is exported to env
-int ft_save_var(t_list ***var_list, char *var, int var_id)
+//var_id: 0 - isn't exported to env; 1 - is exported to env
+int	ft_save_var(t_list ***var_list, char *var, int var_id)
 {
 	t_var	*variable;
 	t_list	*new_val;
 	void	*tmp_ptr;
 
+	if (!var || !var_list)
+		return (0);
 	variable = malloc(sizeof(t_var));
 	if (!variable)
-		return (ft_clear_vars(*var_list)); //ошибка
+		return (ft_clear_vars(*var_list));
 	if (!ft_make_var(var, &variable))
-		return (ft_clear_vars(*var_list)); //ошибка
+		return (ft_clear_vars(*var_list));
 	variable->is_exported = var_id;
 	tmp_ptr = variable;
 	new_val = ft_lstnew(tmp_ptr);
 	if (!new_val)
 		return (ft_clear_vars(*var_list));
 	ft_lstadd_back(*var_list, new_val);
-	return (1); //успешное завершение
+	return (1);
 }
 
 //int main()
@@ -104,6 +120,11 @@ int ft_save_var(t_list ***var_list, char *var, int var_id)
 //		ft_save_var(&var_list, *environ, 1);
 //		environ++;
 //	}
+
+
+//Если надо будет воспользоваться листами::
+
+
 //	t_list	*tmp;
 ////	t_list	*next;
 //	t_var	*tmp_ptr;
@@ -120,6 +141,5 @@ int ft_save_var(t_list ***var_list, char *var, int var_id)
 //	tmp_ptr = tmp->content;
 //	printf("%s=%s\n", tmp_ptr->name, tmp_ptr->value);
 //	ft_clear_vars(var_list); //это делаем перед закрытием все программы
-//	sleep(1000);
 //	return(1); //успешное завершение
 //}

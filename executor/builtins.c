@@ -1,12 +1,14 @@
 #include "minishell.h"
 
-int ft_echo(char **args) //вроде, отрабатывает норм, но что-то не то приходит
+int ft_echo(char **args, t_list ***var_list) //вроде, отрабатывает норм, но
+// что-то не то приходит
 // в args + больше 25 строк
 {
 	int flag;
 	int index;
 	int len;
 
+	(void)var_list;
 	flag = 1;
 	index = 1;
 	len = 0;
@@ -32,103 +34,67 @@ int ft_echo(char **args) //вроде, отрабатывает норм, но �
 	return (1); //успешное завершение
 }
 
-char	*ft_prev_dir(char *pwd_path) //возможно, не потребуется надо тестить
-{
-	int		index;
-	int		last_slash;
-
-	index = 0;
-	while (pwd_path[index] != '\0')
-	{
-		if (pwd_path[index] == '/')
-			last_slash = index;
-		index++;
-	}
-	return (ft_substr(pwd_path, 0, ft_strlen(pwd_path) - last_slash - 3));
-}
-
-//попроверять хорошо эту функцию
-//менять соотвествующие переменные в env
-int ft_cd(char **args)
-{
-	char	*prev_dir;
-
-	if (args[1] == NULL)
-	{
-		if (chdir(getenv("HOME")) != 0)
-		{
-			perror("minishell");
-			return (1);
-		}
-		return (1);
-	}
-	if (!(ft_strncmp(args[1], ".", 2)))
-		return (1);
-	if (!(ft_strncmp(args[1], "..", 3)))
-	{
-		prev_dir = ft_prev_dir(getenv("PWD"));
-		if (!prev_dir)
-			return (0);
-		if (chdir(prev_dir) != 0)
-		{
-			free(prev_dir);
-			return (0);
-		}
-		free(prev_dir);
-		return (1); //успешное завершение
-	}
-	else
-	{
-		if (chdir(args[1]) != 0)
-		{
-			printf("minishell: cd: %s: %s\n", args[1], strerror(ENOENT));
-			return (1);
-		}
-	}
-	return (1); //успешное завершение
-}
-
-int		ft_pwd(char **args) //эта, вроде, готова
+//TODO: посмотреть, как работает в боевой версии. Если что, брать из var_list
+int		ft_pwd(char **args, t_list ***var_list)
 {
 	char	dir[MAX_DIRNAME];
 
+	(void)var_list;
 	(void)args;
-	if (!getcwd(dir, MAX_DIRNAME)) //работает нормально само. Но pwd в env не
-		// меняется
-		return (0); //ошибка
+	if (!getcwd(dir, MAX_DIRNAME))
+		return (0);
 	printf("%s\n", dir);
-	return (1); //успешное завершение
+	return (1);
 }
-int		ft_export( char **args)
+
+int		ft_export( char **args,  t_list ***var_list)
 {
 	(void)args;
 	printf("ft_export\n");
 	return(0);
 }
-int		ft_unset(char **args)
+int		ft_unset(char **args,  t_list ***var_list)
 {
 	(void)args;
 	printf("ft_unset\n");
 	return(0);
 }
-int		ft_env(char **args)
-{
-	int	index;
-	extern char **environ;
 
-	index = 0;
+//тоже игнорируем любые аргументы
+int		ft_env(char **args,  t_list ***var_list)
+{
+	t_list	*tmp;
+	t_list	*next;
+	t_var	*tmp_ptr;
+
 	(void)args;
-	while (environ[index] != NULL)
+	tmp = **var_list;
+	while (tmp)
 	{
-		printf("%s\n", environ[index]);
-		index++;
+		next = tmp->next;
+		tmp_ptr = (t_var *)tmp->content;
+		if (tmp_ptr->is_exported == 1)
+			printf("%s=%s\n", tmp_ptr->name, tmp_ptr->value);
+		tmp = next;
 	}
-	return (1); //успешное завершение
+	return (1);
 }
 
-int ft_exit(char **args)
+//bash: exit: sdss: numeric argument required
+//думаю, что при наличии каких-то еще аргументов, надо просто их игнорировать
+int ft_exit(char **args,  t_list ***var_list)
 {
+	int lvl;
 	(void)args;
 	printf("exit\n");
-	return (0);
+
+	lvl = ft_change_lvl(var_list, 0);
+	if (lvl == 0)
+		return (0);
+	if (lvl == 2)
+	{
+		ft_clear_vars(*var_list); //TODO: здесь очистить все
+		exit(EXIT_SUCCESS);
+	}
+	exit(EXIT_SUCCESS);
 }

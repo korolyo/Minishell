@@ -14,11 +14,14 @@
 
 int	preparse_pipe(char *prompt, int i)
 {
-	if ((ft_strchr("\n \t\0", prompt[++i])))
-		return (0);
+	if (prompt[i] == '|')
+	{
+		if (prompt[++i] == '\0')
+			return (0);
 //	while (prompt[++i])
 //	{
 //		if (prompt[i] == '|')
 //	}
+	}
 	return (1);
 }

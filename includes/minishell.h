@@ -88,7 +88,7 @@ struct 			s_btree
 typedef struct	s_cmd
 {
 	char	*cmd;
-	int		(*f_cmd)(char **args);
+	int		(*f_cmd)(char **args, t_list ***var_list);
 }				t_cmd;
 
 typedef struct s_vlist
@@ -106,19 +106,24 @@ typedef struct	s_var //для хранения переменных окруже
 
 // Preparsing
 char	*preparse(char *prompt);
+int		unmatched_quotes(char *prompt, int i);
+void	preparse_quotes(char *prompt, int *i);
 char	*preparse_delim(char *prompt, int i);
-int		preparse_quotes(char *prompt, int i);
 int		preparse_redir(char *prompt, int i);
+int		preparse_pipe(char *prompt, int i);
 
 // Preparsing utils
 char	*str_delete_part(char *prompt, int start, int end, int flag_mid);
 
 // LEXER:
 void	init_lexer(t_tlist *token);
+char	**ft_quotes_split(char const *str, char c);
+void	*ft_quotes_abort(char ***arr, int size);
+int 	get_quotes_len(char *str, char c, int *i);
+int 	get_quotes_arrlen(char const *s, char c);
+char	**get_quotes_str(char ***res, char **str, char c, int size);
 void	lexer(char *prompt, t_tlist **tokens);
-void	lexer_backslash(t_tlist **tokens, char *prompt, int *i);
-void	lexer_semicolon(t_tlist **tokens);
-void	lexer_quotes(t_tlist **tokens, char *prompt, int *i);
+void	lexer_quotes(char *prompt, int *i);
 void	lexer_redir(t_tlist **tokens, char *prompt, int *i);
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i);
 void	lexer_env(t_tlist **tokens, char *prompt, int *i);
@@ -141,22 +146,24 @@ char	*ft_dollar(char *prompt, int *i, char **envp);
 int		is_key(char c);
 
 //builtings
-int		ft_echo(char **args);
-int		ft_cd(char **args);
-int		ft_pwd(char **args);
-int		ft_export(char **args);
-int		ft_unset(char **args);
-int		ft_env(char **args);
-int		ft_exit(char **args);
+int		ft_echo(char **args, t_list ***var_list);
+int		ft_cd(char **args,  t_list ***var_list);
+int		ft_pwd(char **args,  t_list ***var_list);
+int		ft_export(char **args,  t_list ***var_list);
+int		ft_unset(char **args,  t_list ***var_list);
+int		ft_env(char **args,  t_list ***var_list);
+int		ft_exit(char **args,  t_list ***var_list);
 
 //Execution
-t_btree		*start(t_btree *ast);
-int			start_execution(char **args);
-int			ft_execution(char **args);
-t_list		*ft_find_var(t_list ***var_list, char *var_name);
-int			ft_save_var(t_list ***var_list, char *var, int var_id);
-void		*ft_make_var(char *var, t_var **variable);
-int			ft_clear_vars(t_list **var_list);
+t_btree	*ft_start(t_btree *ast);
+int		ft_start_execution(char **args);
+int		ft_execution(char **args);
+t_list	*ft_find_var(t_list ***var_list, char *var_name);
+int		ft_save_var(t_list ***var_list, char *var, int var_id);
+void	*ft_make_var(char *var, t_var **variable);
+int		ft_clear_vars(t_list **var_list);
+int 	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id);
+int		ft_change_lvl(t_list ***var_list, int id);
 
 //Exec Utils - это пока не надо (и вообще не надо, похоже)
 //void	*ft_abort(char ***arr, size_t size);
