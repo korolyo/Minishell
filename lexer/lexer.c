@@ -18,6 +18,7 @@ void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 {
 	int		i;
 	char	*tmp;
+	char	*tmp1;
 
 	//	""  ''  $  '_'  |  >  >>  < <<
 	i = -1;
@@ -25,18 +26,13 @@ void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 	printf("in lexer....\n");
 	while (tmp[++i])
 	{
-//		printf("i = %d, lexer = |%s|\n", i, tmp);
-		if (ft_strchr(DELIM, tmp[i]))
-			i++;
-		if (tmp[i] == '\'' || tmp[i] == '\"')
-			//экранирует все до пробела пайпа или редиректа
-			tmp = lexer_quotes(tmp, &i, var_list);
-		if (ft_strchr("><", tmp[i]))
-			tmp = lexer_redir(tokens, tmp, i);
-//		lexer_cmd(tokens, tmp, &i);
-		if (tmp[i] == '$')
-			tmp = lexer_dollar(tmp, &i, var_list);
-		if (prompt[i] == '|')
+		if (tmp[i] == '|' || tmp[i + 1] == '\0')
+		{
+			j = i;
+			tmp1 = ft_substr(tmp, j, i);
+			lexer_cmd(tokens, tmp1, &i, var_list);
 			tmp = lexer_pipe(tokens, &i);
+		}
 	}
+	printf("i = %d, lexer = |%s|\n", i, tmp);
 }
