@@ -50,12 +50,14 @@ int		ft_pwd(char **args, t_list ***var_list)
 int		ft_export( char **args,  t_list ***var_list)
 {
 	(void)args;
+	(void)var_list;
 	printf("ft_export\n");
 	return(0);
 }
 int		ft_unset(char **args,  t_list ***var_list)
 {
 	(void)args;
+	(void)var_list;
 	printf("ft_unset\n");
 	return(0);
 }

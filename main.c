@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-void	clear_all(t_tlist **tokens)
-{
-//	printf("check\n");
-	if (tokens)
-		tlist_clear(tokens);
-//	if (ast)
-//		clear_ast(ast);
-//	ast = NULL;
-}
+//void	clear_all(t_tlist **tokens)
+//{
+////	printf("check\n");
+////	if (tokens)
+////		tlist_clear(tokens);
+////	if (ast)
+////		clear_ast(ast);
+////	ast = NULL;
+//}
 
 void	print_tokens(t_tlist *tokens)
 {
@@ -80,7 +80,7 @@ int	main(void)
 //		if (!(start(ast)))
 //			printf("problem with executor");      //EXECUTION
 		printf("main check \n");
-		clear_all(&tokens);
+//		clear_all(&tokens);
 	}
 	exit(EXIT_SUCCESS);
 }

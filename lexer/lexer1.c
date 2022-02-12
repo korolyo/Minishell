@@ -19,16 +19,24 @@ char	*lexer_quotes(char *prompt, int *i, t_list **var_list)
 	int 	j;
 
 	j = *i;
-	tmp = prompt;
-	if (tmp[*i] == '\'')
+//	tmp = prompt;
+	if (prompt[*i] == '\'')
 	{
-		while (tmp[(*i)] != '\'')
+		(*i)++;
+		while (prompt[(*i)] != '\'')
 			(*i)++;
+		tmp = str_delete_part(prompt, j, *i, MID);
 	}
-	if (tmp[*i] == '\"')
+	if (prompt[*i] == '\"')
 	{
-		while (tmp[(*i)] != '\"' || tmp[(*i)] != '$')
+		(*i)++;
+		while (prompt[*i] != '\"' && prompt[*i] != '$')
+		{
+			printf("prompt[i] = %c\n", prompt[*i]);
 			(*i)++;
+			sleep(1);
+		}
+		printf("check quotes\n");
 		if (prompt[(*i)] == '$')
 			tmp = lexer_dollar(prompt, i, var_list);
 	}
@@ -36,7 +44,7 @@ char	*lexer_quotes(char *prompt, int *i, t_list **var_list)
 	return (tmp);
 }
 //TO DO: global var(?) that contain error value
-char	*lexer_dollar(const char *prompt, int *i, t_list **var_list)
+char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -52,22 +60,19 @@ char	*lexer_dollar(const char *prompt, int *i, t_list **var_list)
 		j = *i;
 		while (is_key(prompt[*i]))
 			(*i)++;
-		tmp2 = ft_substr(prompt, j, (*i) - j + 1);
-		tmp3 = ft_substr(prompt, (*i) + 1, ft_strlen(prompt) - (*i) - 1);
+		tmp2 = ft_substr(prompt, j, (*i) - j);
+		tmp3 = ft_substr(prompt, (*i), ft_strlen(prompt) - (*i));
 		tmp4 = ft_find_var(var_list, tmp2);
 		free(tmp2);
 		tmp5 = (t_var *)tmp4->content;
-		printf("check1\n");
 		tmp2 = ft_strdup(tmp5->value);
-		*i = j + ft_strlen(tmp2);
-		printf("%d\n", *i);
+		*i = j + ft_strlen(tmp2) - 1;
 		tmp = ft_strjoin(tmp, tmp2);
 		if (tmp2)
 			free(tmp2);
 		tmp = ft_strjoin(tmp, tmp3);
 		if (tmp3)
 			free(tmp3);
-		free((char *)prompt);
 	}
 	if (ft_isdigit(prompt[*i]))
 		(*i)++;
@@ -107,21 +112,30 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	return (str);
 }
 
-void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
+void	lexer_cmd(t_tlist **tokens, char *prompt, int *i, t_list **var_list)
 {
 	t_tlist	*tmp;
-//	char	*tmp_str;
-//	int 	j;
+	char 	*tmp_str;
+	char 	*tmp_str1;
+	int 	j;
 	int		count;
 
-//	j = *i;
 	count = -1;
+	j = -1;
 	tmp = tlistnew(CMD);
 	while (!ft_strchr("<>|", prompt[(*i)]))
 		(*i)++;
-//	tmp_str = ft_substr(prompt, )
-	if (prompt[*i] == '<' || prompt[*i] == '>')
-		lexer_redir(tokens, prompt, *i);
+	while (tmp_str[++j])
+	{
+		if (ft_strchr(DELIM, tmp_str[j]))
+			i++;
+		if (tmp_str[j] == '\'' || tmp_str[j] == '\"')
+			tmp_str1 = lexer_quotes(tmp_str, &j, var_list);
+		if (ft_strchr("><", tmp[j]))
+			tmp_str1 = lexer_redir(tokens, tmp, j);
+		if (tmp_str[j] == '$')
+			tmp_str1 = lexer_dollar(tmp_str, &j, var_list);
+	}
 //	printf("prompt = %s\n", prompt);
 //	printf("i = %d j = %d\n", *i, j);
 //	tmp_str = ft_substr(prompt, j, *i - j);
@@ -133,28 +147,6 @@ void	lexer_cmd(t_tlist **tokens, char *prompt, int *i)
 	tlistadd_back(tokens, tmp);
 
 }
-
-//void	lexer_env(t_tlist **tokens, char *prompt, int *i)
-//{
-//	t_tlist *tmp;
-//	char	*str;
-//	int		j;
-//
-//	(*i)++;
-//	j = *i;
-//	tmp = tlistnew(ENV);
-//	if (!(ft_isalpha(prompt[*i])) || prompt[*i] != '?')
-//		tmp->cmd = NULL;
-//	else if (prompt[*i] == '?')
-//		(*i)++;
-//	else if (ft_isalpha(prompt[*i]))
-//	{
-//		while (ft_isprint(prompt[*i]) || ft_isdigit(prompt[*i]))
-//			(*i)++;
-//	}
-//	str = ft_substr(prompt, j, *i - j);
-//	tlistadd_back(tokens, tmp);
-//}
 
 char	*lexer_pipe(t_tlist **tokens, int *i)
 {

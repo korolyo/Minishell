@@ -1,12 +1,12 @@
 #include "minishell.h"
 
-t_list	*ft_find_var(t_list ***var_list, char *var_name)
+t_list	*ft_find_var(t_list **var_list, char *var_name)
 {
 	t_list	*tmp;
 	t_list	*next;
 	t_var	*tmp_ptr;
 
-	tmp = **var_list;
+	tmp = *var_list;
 	while (tmp)
 	{
 		next = tmp->next;
@@ -23,9 +23,9 @@ int	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id)
 	t_list	*tmp_list;
 	t_var	*tmp_val;
 
-	tmp_list = ft_find_var(&var_list, var_name);
+	tmp_list = ft_find_var(var_list, var_name);
 	if (tmp_list == NULL)
-		return (ft_save_var(&var_list,ft_strjoin(ft_strjoin(var_name,
+		return (ft_save_var(var_list,ft_strjoin(ft_strjoin(var_name,
 						"=" ),new_value), var_id));
 	tmp_val = (t_var *) tmp_list->content;
 	free(tmp_val->value);
@@ -88,7 +88,7 @@ void	*ft_make_var(char *var, t_var **variable)
 }
 
 //var_id: 0 - isn't exported to env; 1 - is exported to env
-int	ft_save_var(t_list ***var_list, char *var, int var_id)
+int	ft_save_var(t_list **var_list, char *var, int var_id)
 {
 	t_var	*variable;
 	t_list	*new_val;
@@ -98,15 +98,15 @@ int	ft_save_var(t_list ***var_list, char *var, int var_id)
 		return (0);
 	variable = malloc(sizeof(t_var));
 	if (!variable)
-		return (ft_clear_vars(*var_list));
+		return (ft_clear_vars(var_list));
 	if (!ft_make_var(var, &variable))
-		return (ft_clear_vars(*var_list));
+		return (ft_clear_vars(var_list));
 	variable->is_exported = var_id;
 	tmp_ptr = variable;
 	new_val = ft_lstnew(tmp_ptr);
 	if (!new_val)
-		return (ft_clear_vars(*var_list));
-	ft_lstadd_back(*var_list, new_val);
+		return (ft_clear_vars(var_list));
+	ft_lstadd_back(var_list, new_val);
 	return (1);
 }
 

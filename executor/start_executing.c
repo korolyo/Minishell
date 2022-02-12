@@ -19,7 +19,7 @@ int ft_start_execution(char **args)
 	while (++index < 7)
 	{
 		if (!(strncmp(args[0], builtins[index].cmd, 7)))
-			return (builtins[index].f_cmd(args));
+			return (builtins[index].f_cmd(args, var_list));
 	}
 	if (index == 7)
 	{

@@ -50,7 +50,8 @@
 // Delimeters:
 # define DELIM	" \t"
 
-# define DELETE_MID 7
+# define DELETE_MID	7
+# define MID			8
 
 // Executor:
 # define MALLOC_ERR	1
@@ -124,10 +125,9 @@ int 	get_quotes_arrlen(char const *s, char c);
 char	**get_quotes_str(char ***res, char **str, char c, int size);
 void	lexer(char *prompt, t_tlist **tokens, t_list **var_list);
 char	*lexer_quotes(char *prompt, int *i, t_list **var_list);
-char	*lexer_dollar(const char *prompt, int *i, t_list **var_list);
+char	*lexer_dollar(char *prompt, int *i, t_list **var_list);
 char	*lexer_redir(t_tlist **tokens, char *prompt, int i);
 void	lexer_cmd(t_tlist **tokens, char *prompt, int *i);
-//void	lexer_env(t_tlist **tokens, char *prompt, int *i);
 char	*lexer_pipe(t_tlist **tokens, int *i);
 
 // Parsing
@@ -159,12 +159,12 @@ int		ft_exit(char **args,  t_list ***var_list);
 t_btree	*ft_start(t_btree *ast);
 int		ft_start_execution(char **args);
 int		ft_execution(char **args);
-t_list	*ft_find_var(t_list ***var_list, char *var_name);
-int		ft_save_var(t_list ***var_list, char *var, int var_id);
+t_list	*ft_find_var(t_list **var_list, char *var_name);
+int		ft_save_var(t_list **var_list, char *var, int var_id);
 void	*ft_make_var(char *var, t_var **variable);
 int		ft_clear_vars(t_list **var_list);
 int 	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id);
-int		ft_change_lvl(t_list ***var_list, int id);
+int		ft_change_lvl(t_list **var_list, int id);
 
 //Exec Utils - это пока не надо (и вообще не надо, похоже)
 //void	*ft_abort(char ***arr, size_t size);
