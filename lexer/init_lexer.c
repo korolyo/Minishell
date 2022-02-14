@@ -52,21 +52,16 @@ void	tlist_del(t_tlist *head)
 	free(tmp);
 }
 
-void	tlist_clear(t_tlist **head)
+void	tlist_clear(t_tlist *head)
 {
-	t_tlist	*tmp;
-	t_tlist	*nextnode;
-
-	tmp = *head;
-	while (tmp != NULL)
-	{
-		nextnode = tmp->next;
-		if (tmp->cmd)
-			free(tmp->cmd);
-		free(tmp);
-		tmp = nextnode;
-	}
-	*head = NULL;
+	printf("check tlist\n");
+	if (head == NULL)
+		return ;
+	tlist_clear(head->next);
+	if (head->cmd)
+		free(head->cmd);
+	head->next = NULL;
+	free(head);
 }
 
 void	init_lexer(t_tlist *token)

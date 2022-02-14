@@ -17,22 +17,41 @@
 void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 {
 	int		i;
+	int 	j;
 	char	*tmp;
-	char	*tmp1;
+//	char	*tmp1;
 
-	//	""  ''  $  '_'  |  >  >>  < <<
+	j = 0;
 	i = -1;
-	tmp = prompt;
+	tmp = ft_strdup(prompt);
+	free(prompt);
 	printf("in lexer....\n");
 	while (tmp[++i])
 	{
-		if (tmp[i] == '|' || tmp[i + 1] == '\0')
+		j = i;
+		while (tmp[i + 1] != '|' && tmp[i])
 		{
-			j = i;
-			tmp1 = ft_substr(tmp, j, i);
-			lexer_cmd(tokens, tmp1, &i, var_list);
-			tmp = lexer_pipe(tokens, &i);
+			if (tmp[i] == '\'' || tmp[i] == '\"')
+			{
+				tmp = lexer_quotes(tmp, &i, var_list);
+				break;
+			}
+			i++;
+			printf("i = %d, lexer in while = |%s|\n", i, tmp);
 		}
+		if (tmp[i] == '|')
+			tmp = ft_substr(tmp, j, i - j);
+		printf("i = %d, lexer before cmd = |%s|\n", i, tmp);
+//		printf("tokens in lexer :");
+//		print_tokens(*tokens);
+		lexer_cmd(tokens, tmp);
+		if (tmp[i] == '\0')
+			break;
+		printf("tmp[i] = |%c|\n", tmp[i]);
+		printf("i = %d, lexer = |%s|\n", i, tmp);
+		if (tmp[i] == '|')
+			tmp = lexer_pipe(tokens, &i, tmp);
+		printf("i = %d, lexer = |%s|\n", i, tmp);
 	}
-	printf("i = %d, lexer = |%s|\n", i, tmp);
+	free(tmp);
 }

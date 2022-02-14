@@ -19,8 +19,7 @@ char	*preparse_delim(char *prompt, int i)
 	int 	j;
 
 	tmp = ft_strdup(prompt);
-	i++;
-	while (tmp[i] != '\0')
+	while (tmp[++i] != '\0')
 	{
 		if (tmp[i] == '\'' || tmp[i] == '\"')
 			preparse_quotes(tmp, &i);
@@ -53,7 +52,6 @@ char	*preparse_delim(char *prompt, int i)
 			free(tmp2);
 			i = -1;
 		}
-		i++;
 	}
 	free(prompt);
 	return (tmp);
@@ -71,8 +69,10 @@ void	preparse_quotes(char *prompt, int *i)
 	}
 	if (prompt[(*i) - 1] == '\"')
 	{
+		printf("check\n");
 		while (prompt[*i] != '\"')
 			(*i)++;
+		printf("prompt[%d] in prep quo = |%c|\n", *i, prompt[*i]);
 		if (prompt[*i] != '\0')
 			(*i)++;
 	}
