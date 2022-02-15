@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 //if id == 0: SHLVL--; if id == 1: SHLVL++
-int ft_change_lvl(t_list ***var_list, int id)
+int ft_change_lvl(t_list **var_list, int id)
 {
 	int 	lvl;
 	char	*new_value;
@@ -15,7 +15,7 @@ int ft_change_lvl(t_list ***var_list, int id)
 		new_value = ft_itoa(lvl - 1);
 	if (id == 1)
 		new_value = ft_itoa(lvl + 1);
-	if (ft_chng_var(*var_list, "SHLVL", new_value, 1) == 0)
+	if (ft_chng_var(var_list, "SHLVL", new_value, 1) == 0)
 		return (0);
 	free(new_value);
 	return (lvl);

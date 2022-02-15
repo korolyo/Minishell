@@ -20,7 +20,7 @@ int	ft_change_pwd(t_list ***var_list, char *new_path)
 	t_list	*tmp_list;
 	t_var	*tmp_var;
 
-	tmp_list = ft_find_var(var_list, "PWD");
+	tmp_list = ft_find_var(*var_list, "PWD");
 	tmp_var = (t_var *)tmp_list->content;
 	if (ft_chng_var(*var_list, "OLDPWD", tmp_var->value, 1) == 0)
 		return (0);
@@ -36,7 +36,7 @@ int	ft_cd_prev_dir(t_list ***var_list)
 	t_list	*tmp_list;
 	t_var	*tmp_var;
 
-	tmp_list = ft_find_var(var_list, "PWD");
+	tmp_list = ft_find_var(*var_list, "PWD");
 	tmp_var = (t_var *)tmp_list->content;
 	prev_dir = ft_prev_dir(tmp_var->value);
 	if (!prev_dir)
@@ -51,25 +51,25 @@ int	ft_cd_prev_dir(t_list ***var_list)
 	return (i);
 }
 
-//int	ft_cd(char **args, t_list ***var_list)
-//{
-//	if (args[1] == NULL)
-//	{
-//		if (chdir(getenv("HOME")) != 0)
-//			return (0);
-//		return (ft_change_pwd(var_list, getenv("HOME")));
-//	}
-//	if (!(ft_strncmp(args[1], ".", 2)))
-//		return (1);
-//	if (!(ft_strncmp(args[1], "..", 3)))
-//		return (ft_cd_prev_dir(var_list));
-//	else
-//	{
-//		if (chdir(args[1]) != 0)
-//		{
-//			printf("minishell: cd: %s: %s\n", args[1], strerror(ENOENT));
-//			return (1);
-//		}
-//		return (ft_change_pwd(var_list));
-//	}
-//}
+int	ft_cd(char **args, t_list ***var_list)
+{
+	if (args[1] == NULL)
+	{
+		if (chdir(getenv("HOME")) != 0)
+			return (0);
+		return (ft_change_pwd(var_list, getenv("HOME")));
+	}
+	if (!(ft_strncmp(args[1], ".", 2)))
+		return (1);
+	if (!(ft_strncmp(args[1], "..", 3)))
+		return (ft_cd_prev_dir(var_list));
+	else
+	{
+		if (chdir(args[1]) != 0)
+		{
+			printf("minishell: cd: %s: %s\n", args[1], strerror(ENOENT));
+			return (1);
+		}
+		return (ft_change_pwd(var_list, args[1]));
+	}
+}
