@@ -127,8 +127,8 @@ void	lexer(char *prompt, t_tlist **tokens, t_list **var_list);
 char	*lexer_quotes(char *prompt, int *i, t_list **var_list);
 char	*lexer_dollar(char *prompt, int *i, t_list **var_list);
 char	*lexer_redir(t_tlist **tokens, char *prompt, int i);
-void	lexer_cmd(t_tlist **tokens, char *prompt, int *i);
-char	*lexer_pipe(t_tlist **tokens, int *i);
+void	lexer_cmd(t_tlist **tokens, char *prompt);
+char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp);
 
 // Parsing
 t_btree	*parse_line(t_tlist *tokens);
@@ -175,7 +175,7 @@ int		ft_change_lvl(t_list **var_list, int id);
 // UTILS:
 t_tlist	*tlistnew(int type);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
-void	tlist_clear(t_tlist **head);
+void	tlist_clear(t_tlist *head);
 void	tlist_del(t_tlist *head);
 void    rl_replace_line(const char *buffer, int val);
 void	clear_all(t_tlist **tokens);

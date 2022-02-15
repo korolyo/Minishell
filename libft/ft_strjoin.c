@@ -22,8 +22,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	plen = ft_strlen(s1);
 	slen = ft_strlen(s2);
 	new = (unsigned char *)ft_calloc((plen + slen + 1), sizeof(char));
-	if ((void *)0 == new)
-		return ((void *)0);
+	if (NULL == new)
+		return (NULL);
 	ret = new;
 	while (plen-- > 0)
 		*new++ = *s1++;
