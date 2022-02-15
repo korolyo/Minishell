@@ -178,7 +178,7 @@ void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist *head);
 void	tlist_del(t_tlist *head);
 void    rl_replace_line(const char *buffer, int val);
-void	clear_all(t_tlist **tokens);
+void	clear_all(t_tlist **tokens, t_btree *ast);
 
 // DEBUG:
 void	print_tokens(t_tlist *tokens);

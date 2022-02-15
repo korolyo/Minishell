@@ -31,7 +31,6 @@ void	clear_ast(t_btree *ast)
 	if (ast == NULL)
 		return ;
 	clear_ast(ast->left);
-	free(ast->value);
 	clear_ast(ast->right);
 	free(ast);
 }

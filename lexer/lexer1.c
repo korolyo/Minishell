@@ -32,11 +32,11 @@ char	*lexer_quotes(char *prompt, int *i, t_list **var_list)
 				tmp = lexer_dollar(tmp, i, var_list);
 				(*i)--;
 			}
-			printf("tmp_quotes[%d] = %c\n", *i, tmp[*i]);
+//			printf("tmp_quotes[%d] = %c\n", *i, tmp[*i]);
 //			sleep(1);
 			(*i)++;
 		}
-		printf("check quotes\n");
+//		printf("check quotes\n");
 	}
 	free(prompt);
 	return (tmp);
@@ -65,7 +65,7 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 		tmp5 = (t_var *)tmp4->content;
 		tmp2 = ft_strdup(tmp5->value);
 		*i = j + ft_strlen(tmp2) - 2;
-		printf("*i in dollar = %d\n", *i);
+//		printf("*i in dollar = %d\n", *i);
 		tmp = ft_strjoin(tmp, tmp2);
 		if (tmp2)
 			free(tmp2);
@@ -110,9 +110,9 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	if (tmp->type == REDIR || tmp->type == REDIR_APPEND ||
 		tmp->type == REDIR_INPUT)
 		tmp_str = ft_substr(prompt, j, i - j);
-	printf("tmp-str in redir = |%s|\n", tmp_str);
+//	printf("tmp-str in redir = |%s|\n", tmp_str);
 	tmp->cmd = ft_quotes_split(tmp_str, ' ');
-	printf("check redir\n");
+//	printf("check redir\n");
 	str = str_delete_part(prompt, j, i - 1, DELETE_MID);
 	tlistadd_back(tokens, tmp);
 	return (str);
@@ -128,7 +128,7 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 
 	count = -1;
 	j = -1;
-	printf("check cmd\n");
+//	printf("check cmd\n");
 	tmp = tlistnew(CMD);
 	tlistadd_back(tokens, tmp);
 	tmp_str = prompt;
@@ -147,17 +147,17 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 			tmp_str = lexer_redir(tokens, tmp_str, j);
 			j = 0;
 		}
-		printf("tmp-str in cmd while = |%s|\n", tmp_str);
+//		printf("tmp-str in cmd while = |%s|\n", tmp_str);
 	}
-	printf("tmp-str in cmd = |%s|\n", tmp_str);
+//	printf("tmp-str in cmd = |%s|\n", tmp_str);
 //	printf("prompt = %s\n", prompt);
 //	printf("i = %d j = %d\n", *i, j);
 //	tmp_str = ft_substr(prompt, j, *i - j);
 //	printf("tmp_str = %s\n", tmp_str);
-	printf("check cmd\n");
+//	printf("check cmd\n");
 	tmp->cmd = ft_quotes_split(tmp_str, ' ');
-	while (tmp->cmd[++count])
-		printf("count = %d tlist->cmd = |%s|\n", count, tmp->cmd[count]);
+//	while (tmp->cmd[++count])
+//		printf("count = %d tlist->cmd = |%s|\n", count, tmp->cmd[count]);
 //	printf("cmd check\n");
 
 
