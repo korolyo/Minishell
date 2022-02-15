@@ -12,9 +12,9 @@ SOURCES_LIST	= 	main.c \
 					lexer/lexer1.c \
 					lexer/lexer_utils.c \
 					executor/var_handling.c \
+					executor/start_executing.c \
 #					executor/builtins.c \
 #					executor/execution.c \
-#					executor/start_executing.c \
 #					executor/exec_utils.c \
 #					executor/ft_cd.c \
 #					executor/ft_echo.c \

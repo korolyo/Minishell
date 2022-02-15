@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	clear_all(t_tlist **tokens)
+void	clear_all(t_tlist **tokens,  t_btree *ast)
 {
 ////	printf("check\n");
 	if (*tokens)
@@ -20,8 +20,8 @@ void	clear_all(t_tlist **tokens)
 		tlist_clear(*tokens);
 		*tokens = NULL;
 	}
-////	if (ast)
-////		clear_ast(ast);
+	if (ast)
+		clear_ast(ast);
 ////	ast = NULL;
 }
 
@@ -78,7 +78,7 @@ int	main(void)
 //		if (!var_list)
 //			var_list = NULL;
 		prompt = readline("minishell > ");
-		printf("prompt: |%s|\n", prompt);
+//		printf("prompt: |%s|\n", prompt);
 		if (prompt)
 			add_history(prompt);
 		if (!(prompt = preparse(prompt)))
@@ -87,13 +87,13 @@ int	main(void)
 		lexer(prompt, &tokens, &var_list);
 		printf("tokens :");
 		print_tokens(tokens);
-//		if (!(ast = parse_line(tokens)))
-//			printf("problem with AST");
+		if (!(ast = parse_line(tokens)))
+			printf("problem with AST");
 //		printf("check1\n");
-//		if (!(start(ast)))
-//			printf("problem with executor");      //EXECUTION
+		if (!(ft_start(ast)))
+			printf("problem with executor");      //EXECUTION
 		printf("main check \n");
-		clear_all(&tokens);
+		clear_all(&tokens, ast);
 	}
 	exit(EXIT_SUCCESS);
 }

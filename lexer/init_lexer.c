@@ -54,7 +54,7 @@ void	tlist_del(t_tlist *head)
 
 void	tlist_clear(t_tlist *head)
 {
-	printf("check tlist\n");
+//	printf("check tlist\n");
 	if (head == NULL)
 		return ;
 	tlist_clear(head->next);
