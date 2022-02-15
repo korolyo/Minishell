@@ -136,7 +136,7 @@ char	*preparse(char *prompt)
 		free(tmp);
 		return (NULL);
 	}
-	printf("in preparse\n");
+//	printf("in preparse\n");
 	tmp = preparse_delim(tmp, i);
 	while (tmp[++i])
 	{
