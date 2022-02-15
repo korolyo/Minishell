@@ -2,6 +2,7 @@
 NAME	=	minishell
 
 SOURCES_LIST	= 	main.c \
+					signals.c \
 					preparse/preparse.c \
 					preparse/preparse1.c \
 					parser/parsing.c \
@@ -20,7 +21,7 @@ SOURCES_LIST	= 	main.c \
 					executor/ft_echo.c \
 
 CC		= gcc
-CFLAGS	=	-Werror -Wall -Wextra -g
+CFLAGS	=	-Werror -Wall -Wextra -g -I $(READLINE_INC)
 LIBRARIES =	-lft -lreadline\
 	-L$(LIBFT_DIRECTORY) \
 
@@ -36,6 +37,9 @@ LIBFT	=	$(LIBFT_DIRECTORY)libft.a
 LIBFT_DIRECTORY = ./libft/
 LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 
+READLINE_INC = ~/.brew/opt/readline/include
+READLINE_LIB = ~/.brew/opt/readline/lib
+
 OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
 .PHONY:	all clean fclean re
@@ -43,7 +47,7 @@ OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 all	: 	$(NAME)
 
 $(NAME): $(LIBFT) $(OBJECTS)
-		@$(CC) $(CFLAGS) $(LIBRARIES) $(INCLUDES) $(OBJECTS) -o $(NAME)
+		@$(CC) $(CFLAGS) $(LIBRARIES) $(INCLUDES) -I $(READLINE_INC) -L $(READLINE_LIB) $(OBJECTS) -o $(NAME)
 
 %.o : %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $(INCLUDES) $< -o $@

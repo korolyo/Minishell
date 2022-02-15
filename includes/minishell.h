@@ -173,6 +173,8 @@ int		ft_change_lvl(t_list **var_list, int id);
 //size_t	get_arrlen(char const *s, char c);
 
 // UTILS:
+void	sig_handler(int signum);
+void	sig_init(void);
 t_tlist	*tlistnew(int type);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist *head);
