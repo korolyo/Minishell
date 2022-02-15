@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,25 +12,19 @@
 
 #include "minishell.h"
 
-t_btree	*btreenew(int type)
+void	sig_handler(int signum)
 {
-	t_btree	*node;
-
-	node = (t_btree *)malloc(sizeof(t_btree));
-	if (!node)
-		return (NULL);
-	node->value = (char **)malloc(sizeof(char *) * 2);
-	node->type = type;
-	node->left = NULL;
-	node->right = NULL;
-	return (node);
+	if (signum == SIGINT)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
-void	clear_ast(t_btree *ast)
+void	sig_init(void)
 {
-	if (ast == NULL)
-		return ;
-	clear_ast(ast->left);
-	clear_ast(ast->right);
-	free(ast);
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

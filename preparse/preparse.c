@@ -124,7 +124,10 @@ char	*preparse(char *prompt)
 
 	i = -1;
 	if (!prompt)
+	{
+		printf("exit\n");
 		return (NULL);
+	}
 	tmp = ft_strdup(prompt);
 	if (unmatched_quotes(tmp, i) == 0)
 	{
