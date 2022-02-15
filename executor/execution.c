@@ -80,12 +80,13 @@ char **ft_parse_path()
 	return (path_list);
 }
 
-int ft_execution(char **args)
+int ft_execution(char **args, t_list **var_list)
 {
 	char **path_list;
 	char *executor_path;
 	char *tmp_path;
 
+	(void)var_list;
 	path_list = ft_parse_path();
 	if (!path_list)
 		return (0); //ошибка

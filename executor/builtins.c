@@ -90,7 +90,7 @@ int ft_exit(char **args,  t_list ***var_list)
 	(void)args;
 	printf("exit\n");
 
-	lvl = ft_change_lvl(var_list, 0);
+	lvl = ft_change_lvl(*var_list, 0);
 	if (lvl == 0)
 		return (0);
 	if (lvl == 2)

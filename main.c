@@ -70,6 +70,7 @@ int	main(void)
 //		printf("check\n");
 		environ++;
 	}
+	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
 //		tokens = NULL;
@@ -90,7 +91,7 @@ int	main(void)
 		if (!(ast = parse_line(tokens)))
 			printf("problem with AST");
 //		printf("check1\n");
-		if (!(ft_start(ast)))
+		if (!(ft_start(ast, &var_list)))
 			printf("problem with executor");      //EXECUTION
 		printf("main check \n");
 		clear_all(&tokens, ast);

@@ -156,9 +156,9 @@ int		ft_env(char **args,  t_list ***var_list);
 int		ft_exit(char **args,  t_list ***var_list);
 
 //Execution
-t_btree	*ft_start(t_btree *ast);
-int		ft_start_execution(char **args);
-int		ft_execution(char **args);
+t_btree	*ft_start(t_btree *ast, t_list **var_list);
+int		ft_start_execution(char **args, t_list **var_list);
+int		ft_execution(char **args, t_list **var_list);
 t_list	*ft_find_var(t_list **var_list, char *var_name);
 int		ft_save_var(t_list **var_list, char *var, int var_id);
 void	*ft_make_var(char *var, t_var **variable);
