@@ -70,7 +70,7 @@ int	main(void)
 //		printf("check\n");
 		environ++;
 	}
-	rl_catch_signals = 0;
+	//rl_catch_signals = 0;
 	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
@@ -79,7 +79,7 @@ int	main(void)
 //		fd = NULL;
 //		if (!var_list)
 //			var_list = NULL;
-		sig_init();
+		//sig_init();
 		prompt = readline("minishell > ");
 //		printf("prompt: |%s|\n", prompt);
 		if (prompt)

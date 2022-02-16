@@ -53,11 +53,16 @@ int	ft_cd_prev_dir(t_list ***var_list)
 
 int	ft_cd(char **args, t_list ***var_list)
 {
+	t_list	*tmp_list;
+	t_var	*tmp_var;
+
 	if (args[1] == NULL)
 	{
-		if (chdir(getenv("HOME")) != 0)
+		tmp_list = ft_find_var(*var_list, "HOME");
+		tmp_var = (t_var *)tmp_list->content;
+		if (chdir(tmp_var->value) != 0)
 			return (0);
-		return (ft_change_pwd(var_list, getenv("HOME")));
+		return (ft_change_pwd(var_list, tmp_var->value));
 	}
 	if (!(ft_strncmp(args[1], ".", 2)))
 		return (1);

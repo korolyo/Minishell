@@ -6,6 +6,7 @@ int ft_echo(char **args, t_list ***var_list) // TODO больше 25 строк
 	int index;
 	int len;
 
+	printf("%s\n", args[1]);
 	(void)var_list;
 	flag = 1;
 	index = 1;
