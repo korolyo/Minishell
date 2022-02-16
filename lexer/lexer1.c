@@ -57,23 +57,26 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 	{
 		j = *i;
 		if (prompt[*i] == '?')
-
-		while (is_key(prompt[*i]))
-			(*i)++;
-		tmp2 = ft_substr(prompt, j, (*i) - j);
-		tmp3 = ft_substr(prompt, (*i), ft_strlen(prompt) - (*i));
-		tmp4 = ft_find_var(var_list, tmp2);
-		free(tmp2);
-		tmp5 = (t_var *)tmp4->content;
-		tmp2 = ft_strdup(tmp5->value);
-		*i = j + ft_strlen(tmp2) - 2;
-//		printf("*i in dollar = %d\n", *i);
-		tmp = ft_strjoin(tmp, tmp2);
-		if (tmp2)
+			tmp = ft_strdup("HZ");
+		else
+		{
+			while (is_key(prompt[*i]))
+				(*i)++;
+			tmp2 = ft_substr(prompt, j, (*i) - j);
+			tmp3 = ft_substr(prompt, (*i), ft_strlen(prompt) - (*i));
+			tmp4 = ft_find_var(var_list, tmp2);
 			free(tmp2);
-		tmp = ft_strjoin(tmp, tmp3);
-		if (tmp3)
-			free(tmp3);
+			tmp5 = (t_var *) tmp4->content;
+			tmp2 = ft_strdup(tmp5->value);
+			*i = j + ft_strlen(tmp2) - 2;
+//		printf("*i in dollar = %d\n", *i);
+			tmp = ft_strjoin(tmp, tmp2);
+			if (tmp2)
+				free(tmp2);
+			tmp = ft_strjoin(tmp, tmp3);
+			if (tmp3)
+				free(tmp3);
+		}
 	}
 	if (ft_isdigit(prompt[*i]))
 		(*i)++;
