@@ -108,7 +108,7 @@ typedef struct	s_var //для хранения переменных окруже
 // Preparsing
 char	*preparse(char *prompt);
 int		unmatched_quotes(char *prompt, int i);
-void	preparse_quotes(char *prompt, int *i);
+void	preparse_quotes(char const *prompt, int *i);
 char	*preparse_delim(char *prompt, int i);
 int		preparse_redir(char *prompt, int i);
 int		preparse_pipe(char *prompt, int i);
