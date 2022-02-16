@@ -67,9 +67,9 @@ int	main(void)
 	while (*environ != NULL)
 	{
 		ft_save_var(&var_list, *environ, 1);
-//		printf("check\n");
 		environ++;
 	}
+	ft_save_var(&var_list, "?=0", 0); //  здесь делаем переменную для хранения статуса
 	//rl_catch_signals = 0;
 	ft_change_lvl(&var_list, 1);
 	while (1)

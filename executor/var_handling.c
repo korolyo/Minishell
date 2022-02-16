@@ -109,37 +109,3 @@ int	ft_save_var(t_list **var_list, char *var, int var_id)
 	ft_lstadd_back(var_list, new_val);
 	return (1);
 }
-
-//int main()
-//{
-//	t_list **var_list;
-//	extern char **environ;
-//
-//	while (*environ != NULL)
-//	{
-//		ft_save_var(&var_list, *environ, 1);
-//		environ++;
-//	}
-
-
-//Если надо будет воспользоваться листами::
-
-
-//	t_list	*tmp;
-////	t_list	*next;
-//	t_var	*tmp_ptr;
-////
-////	tmp = *var_list;
-////	while (tmp)
-////	{
-////		next = tmp->next;
-////		tmp_ptr = (t_var *)tmp->content;
-////		printf("%s=%s\n", tmp_ptr->name, tmp_ptr->value);
-////		tmp = next;
-////	}
-//	tmp = ft_find_var(&var_list, "HOME");
-//	tmp_ptr = tmp->content;
-//	printf("%s=%s\n", tmp_ptr->name, tmp_ptr->value);
-//	ft_clear_vars(var_list); //это делаем перед закрытием все программы
-//	return(1); //успешное завершение
-//}

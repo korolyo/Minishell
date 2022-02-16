@@ -165,12 +165,9 @@ void	*ft_make_var(char *var, t_var **variable);
 int		ft_clear_vars(t_list **var_list);
 int 	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id);
 int		ft_change_lvl(t_list **var_list, int id);
-
-//Exec Utils - это пока не надо (и вообще не надо, похоже)
-//void	*ft_abort(char ***arr, size_t size);
-//size_t	get_len(char *str, char c, size_t *i);
-//char	**get_str(char ***res, char **str, char c, size_t size);
-//size_t	get_arrlen(char const *s, char c);
+int		ft_clear_path_list(char ***path_list);
+int		ft_add_status(t_list **var_list, int status);
+int		ft_cmd_error(char *cmd);
 
 // UTILS:
 void	sig_handler(int signum);
