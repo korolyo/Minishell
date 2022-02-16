@@ -38,10 +38,10 @@ int	get_quotes_len(char *str, char c, int *i)
 		j = *i;
 		if (str[j] == '\'' || str[j] == '\"')
 		{
-//			printf("len in get_quoted_len = |%d|, j = %d\n", len, j);
+			printf("len in get_quoted_len = |%d|, j = %d\n", len, j);
 			preparse_quotes(str, &j);
-			len = len + j - (*i) - 1;
-//			printf("len in get_quoted_len = |%d|, j = %d\n", len, j);
+//			len = len + j - (*i) - 3;
+			printf("len in get_quoted_len = |%d|, j = %d\n", len, j);
 		}
 //		printf("str[%d] = |%s|\n", *i, str);
 		len++;
@@ -95,16 +95,26 @@ int	get_quotes_arrlen(char const *s, char c)
 		return (0);
 	while (s[i] != '\0')
 	{
+//		if (s[i] == '\'' || s[i] == '\"')
+//			preparse_quotes(s, &i);
 		if (s[i] != c && s[i] != '\0')
 		{
 			len++;
 			while (s[i] != c && s[i] != '\0')
+			{
+				if (s[i] == '\'' || s[i] == '\"')
+				{
+					preparse_quotes(s, &i);
+					i--;
+				}
 				i++;
+			}
 		}
 		if (s[i] == '\0')
 			break ;
 		i++;
 	}
+	printf("len in arrlen = %d\n", len);
 	return (len);
 }
 

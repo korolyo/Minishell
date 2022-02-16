@@ -57,7 +57,7 @@ char	*preparse_delim(char *prompt, int i)
 	return (tmp);
 }
 
-void	preparse_quotes(char *prompt, int *i)
+void	preparse_quotes(char const *prompt, int *i)
 {
 	(*i)++;
 	if (prompt[(*i) - 1] == '\'')
