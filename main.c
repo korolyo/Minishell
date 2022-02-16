@@ -14,7 +14,6 @@
 
 void	clear_all(t_tlist **tokens, t_btree *ast)
 {
-////	printf("check\n");
 	if (*tokens)
 	{
 		tlist_clear(*tokens);
@@ -22,7 +21,6 @@ void	clear_all(t_tlist **tokens, t_btree *ast)
 	}
 	if (ast)
 		clear_ast(ast);
-////	ast = NULL;
 }
 
 void	print_tokens(t_tlist *tokens)
@@ -74,14 +72,17 @@ int	main(void)
 	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
+<<<<<<< HEAD
 //		tokens = NULL;
 //		ast = NULL;
 //		fd = NULL;
 //		if (!var_list)
 //			var_list = NULL;
 		//sig_init();
+=======
+		sig_init();
+>>>>>>> ada70b0bc01bf17b291bbe8acefe544082bc4957
 		prompt = readline("minishell > ");
-//		printf("prompt: |%s|\n", prompt);
 		if (prompt)
 			add_history(prompt);
 		if (!(prompt = preparse(prompt)))
@@ -92,7 +93,6 @@ int	main(void)
 //		print_tokens(tokens);
 		if (!(ast = parse_line(tokens)))
 			printf("problem with AST");
-//		printf("check1\n");
 		if (!(ft_start(ast, &var_list)))
 			printf("problem with executor");      //EXECUTION
 //		printf("main check \n");
