@@ -66,8 +66,13 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 			tmp3 = ft_substr(prompt, (*i), ft_strlen(prompt) - (*i));
 			tmp4 = ft_find_var(var_list, tmp2);
 			free(tmp2);
-			tmp5 = (t_var *) tmp4->content;
-			tmp2 = ft_strdup(tmp5->value);
+			if (!tmp4)
+				tmp2 = NULL;
+			else
+			{
+				tmp5 = (t_var *) tmp4->content;
+				tmp2 = ft_strdup(tmp5->value);
+			}
 			*i = j + ft_strlen(tmp2) - 2;
 //		printf("*i in dollar = %d\n", *i);
 			tmp = ft_strjoin(tmp, tmp2);
@@ -168,14 +173,16 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
 {
 	t_tlist	*tmp_node;
-	char	*str;
+	char	*str_before;
+	char 	*str_after;
 
-	(*i)++;
-	str = NULL;
+	//TODO: перекинуть фд?
+	str_before = ft_substr(tmp, 0, *i);
+	lexer_cmd(tokens, str_before);
 	tmp_node = tlistnew(PIPE);
 	tlistadd_back(tokens, tmp_node);
-	str = ft_substr(tmp, *i + 1, ft_strlen(tmp) - *i);
-	free(tmp);
+	str_after = ft_substr(tmp, *i + 1, ft_strlen(tmp) - *i);
 	*i = -1;
-	return (str);
+	free(tmp);
+	return (str_after);
 }

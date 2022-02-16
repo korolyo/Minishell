@@ -118,6 +118,7 @@ char	*str_delete_part(char *prompt, int start, int end, int flag_mid);
 
 // LEXER:
 void	init_lexer(t_tlist *token);
+char	*dollar_string(char *tmp, t_list **var_list);
 char	**ft_quotes_split(char const *str, char c);
 void	*ft_quotes_abort(char ***arr, int size);
 int 	get_quotes_len(char *str, char c, int *i);
