@@ -41,7 +41,7 @@ char	*lexer_quotes(char *prompt, int *i, t_list **var_list)
 	free(prompt);
 	return (tmp);
 }
-//TO DO: global var(?) that contain error value
+//TO DO: var that contain error value
 char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 {
 	char	*tmp;
@@ -56,6 +56,8 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 	if (is_key(prompt[*i]) || prompt[*i] == '?')
 	{
 		j = *i;
+		if (prompt[*i] == '?')
+
 		while (is_key(prompt[*i]))
 			(*i)++;
 		tmp2 = ft_substr(prompt, j, (*i) - j);
@@ -75,7 +77,6 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 	}
 	if (ft_isdigit(prompt[*i]))
 		(*i)++;
-//	free(prompt);
 	return (tmp);
 }
 
@@ -159,8 +160,6 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 //	while (tmp->cmd[++count])
 //		printf("count = %d tlist->cmd = |%s|\n", count, tmp->cmd[count]);
 //	printf("cmd check\n");
-
-
 }
 
 char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)

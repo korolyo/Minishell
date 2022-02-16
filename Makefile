@@ -12,6 +12,7 @@ SOURCES_LIST	= 	main.c \
 					lexer/lexer.c \
 					lexer/lexer1.c \
 					lexer/lexer_utils.c \
+					redir/redirect.c \
 					executor/var_handling.c \
 					executor/start_executing.c \
 					executor/builtins.c \

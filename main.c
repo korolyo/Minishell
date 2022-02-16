@@ -88,14 +88,14 @@ int	main(void)
 			exit(EXIT_SUCCESS);
 //		printf("preparse: |%s|\n", prompt);
 		lexer(prompt, &tokens, &var_list);
-		printf("tokens :");
-		print_tokens(tokens);
+//		printf("tokens :");
+//		print_tokens(tokens);
 		if (!(ast = parse_line(tokens)))
 			printf("problem with AST");
 //		printf("check1\n");
 		if (!(ft_start(ast, &var_list)))
 			printf("problem with executor");      //EXECUTION
-		printf("main check \n");
+//		printf("main check \n");
 		clear_all(&tokens, ast);
 	}
 	exit(EXIT_SUCCESS);
