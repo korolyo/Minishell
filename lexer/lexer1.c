@@ -143,7 +143,7 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 	tmp_str = prompt;
 	while (tmp_str[++j])
 	{
-//		printf("check\n");
+		printf("check cmd\n");
 //		printf("tmp-str in cmd = |%s|\n", tmp_str);
 //		printf("tmp-str in cmd = |%c|\n", tmp_str[j]);
 		if (tmp_str[j] == '\'' || tmp_str[j] == '\"')
@@ -158,7 +158,7 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 		}
 //		printf("tmp-str in cmd while = |%s|\n", tmp_str);
 	}
-	printf("tmp-str in cmd = |%s|\n", tmp_str);
+//	printf("tmp-str in cmd = |%s|\n", tmp_str);
 //	printf("prompt = %s\n", prompt);
 //	printf("i = %d j = %d\n", *i, j);
 //	tmp_str = ft_substr(prompt, j, *i - j);

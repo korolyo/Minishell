@@ -77,7 +77,7 @@ char	**get_quotes_str(char ***res, char **str, char c, int size)
 			start++;
 //		printf("after if dup[%d] = |%c|\n", start, dup[start]);
 		ft_strlcpy(res[0][j], &dup[start], len + 1);
-		printf("res[0][%d] = |%s|\n", j, res[0][j]);
+//		printf("res[0][%d] = |%s|\n", j, res[0][j]);
 		j++;
 	}
 	res[0][j] = NULL;
@@ -114,7 +114,7 @@ int	get_quotes_arrlen(char const *s, char c)
 			break ;
 		i++;
 	}
-	printf("len in arrlen = %d\n", len);
+//	printf("len in arrlen = %d\n", len);
 	return (len);
 }
 

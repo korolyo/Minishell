@@ -68,20 +68,11 @@ int	main(void)
 		environ++;
 	}
 	ft_save_var(&var_list, "?=0", 0); //  здесь делаем переменную для хранения статуса
-	//rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
-//<<<<<<< HEAD
-//		tokens = NULL;
-//		ast = NULL;
-//		fd = NULL;
-//		if (!var_list)
-//			var_list = NULL;
-		//sig_init();
-//=======
-//		sig_init();
-//>>>>>>> ada70b0bc01bf17b291bbe8acefe544082bc4957
+		sig_init();
 		prompt = readline("minishell > ");
 		if (prompt)
 			add_history(prompt);
@@ -89,8 +80,8 @@ int	main(void)
 			exit(EXIT_SUCCESS);
 //		printf("preparse: |%s|\n", prompt);
 		lexer(prompt, &tokens, &var_list);
-		printf("tokens :");
-		print_tokens(tokens);
+//		printf("tokens :");
+//		print_tokens(tokens);
 		if (!(ast = parse_line(tokens)))
 			printf("problem with AST");
 		if (!(ft_start(ast, &var_list)))
