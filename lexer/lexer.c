@@ -30,7 +30,7 @@ char	*dollar_string(char *tmp, t_list **var_list)
 		}
 	}
 	free(tmp);
-	printf("ret in dollar string = |%s|\n", ret);
+//	printf("ret in dollar string = |%s|\n", ret);
 	return (ret);
 }
 
