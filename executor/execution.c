@@ -8,7 +8,9 @@ int	ft_wait_pid(pid_t pid)
 	wpid = 0;
 	while (1)
 	{
-		wpid = waitpid(pid, &status, WUNTRACED);
+		wpid = waitpid(pid, &status, 0);
+		printf("pid = %d\n", pid);
+		printf("wpid = %d\n", wpid);
 		if (wpid == -1)
 		{
 			perror("WAIT_PID");
@@ -41,6 +43,7 @@ int ft_execute_cmd(char *path, char **args)
 		perror("minishell"); // ошибка при форкинге
 	else
 		status = ft_wait_pid(pid);
+	printf("status = %d\n", status);
 	return (status);
 }
 
@@ -66,9 +69,6 @@ char *ft_find_path(char **path_list, char *executor_name)
 				}
 			}
 		}
-//		printf("closedir = %d\n", closedir(dir)); сегается на закрытии директории, может, вообще это убрать
-//		if (closedir(dir) != 0)
-//			return (NULL);
 		index++;
 	}
 	return (NULL);
@@ -90,6 +90,24 @@ char **ft_parse_path(t_list **var_list)
 	return (path_list);
 }
 
+int ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_path)
+{
+	tmp_path = ft_strjoin("/", &args[0]);
+	if (!tmp_path)
+	{
+		ft_clear_path_list(&path_list);;
+		return (0); //ошибка
+	}
+	*executor_path = ft_strjoin(ft_find_path(path_list, args), tmp_path);
+	if (!executor_path)
+	{
+		free(path_list);
+		free(tmp_path);
+		return (0); //ошибка
+	}
+	return (1);
+}
+
 int ft_execution(char **args, t_list **var_list)
 {
 	char **path_list;
@@ -97,24 +115,16 @@ int ft_execution(char **args, t_list **var_list)
 	char *tmp_path;
 	char *tmp_path2;
 
-	(void)var_list;
+	tmp_path = NULL;
+	executor_path = NULL;
 	path_list = ft_parse_path(var_list);
 	if (!path_list)
 		return (0); //ошибка
-	tmp_path = ft_strjoin("/", args[0]);
-	if (!tmp_path)
-	{
-		free(path_list);
-		return (0); //ошибка
-	}
 	tmp_path2 = ft_find_path(path_list, args[0]);
-	executor_path = ft_strjoin(tmp_path2, tmp_path);
-	if (!executor_path)
-	{
-		free(path_list);
-		free(tmp_path);
-		return (0); //ошибка
-	}
+	if (tmp_path2 == NULL)
+		executor_path = args[0];
+	else
+		ft_join_path(args[0], tmp_path, path_list, &executor_path);
 	if (ft_add_status(var_list, ft_execute_cmd(executor_path, args)) == 0)
 		return (0); //ошибка
 	ft_clear_path_list(&path_list);
