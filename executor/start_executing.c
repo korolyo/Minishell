@@ -1,10 +1,32 @@
 #include "minishell.h"
-//ft_make_env_list
-//ft_make_var_list
+
+int ft_check_if_var(char **args, t_list **var_list, int *i)
+{
+	int index;
+
+	index = 0;
+	while (args[index] != NULL)
+	{
+		if (ft_strchr(args[index], '=') != NULL)
+		{
+			if (!ft_save_var(var_list, args[index], 0))
+				return (0);
+		}
+		else
+		{
+			*i = index;
+			return (-1);
+		}
+		index++;
+	}
+	return (1);
+}
 
 int ft_start_execution(char **args, t_list **var_list)
 {
 	int				index;
+	int 			i;
+	int 			check_id;
 	static t_cmd	builtins[] = {
 			{"echo", ft_echo},
 			{"cd", ft_cd},
@@ -14,34 +36,38 @@ int ft_start_execution(char **args, t_list **var_list)
 			{"env", ft_env},
 			{"exit", ft_exit}
 	};
-
 	index = -1;
+	i = 0;
+	check_id = 0;
+	if (ft_strchr(args[0], '=') != NULL)
+	{
+		check_id = ft_check_if_var(args, var_list, &i);
+		if (check_id == -1)
+			return (ft_cmd_error(args[i]));
+		if (check_id != 0)
+			return (1);
+	}
 	while (++index < 7)
 	{
 		if (!(strncmp(args[0], builtins[index].cmd, 7)))
 			return (builtins[index].f_cmd(args, &var_list));
 	}
 	if (index == 7)
-	{
-		return (ft_execution(args, var_list));
-	}
+		if (ft_execution(args, var_list) == 0)
+		{
+			ft_add_status(var_list, 127);
+			return (ft_cmd_error(args[0]));
+		}
 	return (1);
 }
 
 t_btree *ft_start(t_btree *ast, t_list **var_list)
 {
-//	int i = -1;
 	if (ast)
 	{
-//		printf("check\n");
 		ft_start(ast->left, var_list);
 		if (ast->type == CMD)
-		{
-//			printf("CMD = [%s]\n", ast->value[0]);
-//			while (ast->value[++i])
-//				printf("cmd = [%s]\n", ast->value[i]);
 			ft_start_execution(ast->value, var_list);
-		}
 		ft_start(ast->right, var_list);
 		return (ast);
 	}
