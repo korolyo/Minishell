@@ -40,7 +40,7 @@ int	get_quotes_len(char *str, char c, int *i)
 		{
 //			printf("len in get_quoted_len = |%d|, j = %d\n", len, j);
 			preparse_quotes(str, &j);
-//			len = len + j - (*i) - 3;
+			len = len + j - (*i) - 3;
 //			printf("len in get_quoted_len = |%d|, j = %d\n", len, j);
 		}
 //		printf("str[%d] = |%s|\n", *i, str);
