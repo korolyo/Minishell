@@ -1,8 +1,32 @@
 #include "minishell.h"
 
+int ft_check_if_var(char **args, t_list **var_list, int *i)
+{
+	int index;
+
+	index = 0;
+	while (args[index] != NULL)
+	{
+		if (ft_strchr(args[index], '=') != NULL)
+		{
+			if (!ft_save_var(var_list, args[index], 0))
+				return (0);
+		}
+		else
+		{
+			*i = index;
+			return (-1);
+		}
+		index++;
+	}
+	return (1);
+}
+
 int ft_start_execution(char **args, t_list **var_list)
 {
 	int				index;
+	int 			i;
+	int 			check_id;
 	static t_cmd	builtins[] = {
 			{"echo", ft_echo},
 			{"cd", ft_cd},
@@ -13,6 +37,16 @@ int ft_start_execution(char **args, t_list **var_list)
 			{"exit", ft_exit}
 	};
 	index = -1;
+	i = 0;
+	check_id = 0;
+	if (ft_strchr(args[0], '=') != NULL)
+	{
+		check_id = ft_check_if_var(args, var_list, &i);
+		if (check_id == -1)
+			return (ft_cmd_error(args[i]));
+		if (check_id != 0)
+			return (1);
+	}
 	while (++index < 7)
 	{
 		if (!(strncmp(args[0], builtins[index].cmd, 7)))

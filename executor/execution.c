@@ -6,47 +6,41 @@ int	ft_wait_pid(pid_t pid)
 	pid_t wpid;
 
 	wpid = 0;
-	while (wpid != -1)
+	while (1)
 	{
 		wpid = waitpid(pid, &status, WUNTRACED);
 		if (wpid == -1)
 		{
-			//perror("WAIT_PID");
+			perror("WAIT_PID");
 			return (0);
 		}
 		if (WIFSIGNALED(status))
 			status = 130;
 		else
 			status = WEXITSTATUS(status);
+		if (WIFEXITED(status) || WIFSIGNALED(status))
+			return (status);
 	}
 	return (status);
 }
-
+//TODO в текущей версии в случае ошибки при исполнении минишел закрывается
 int ft_execute_cmd(char *path, char **args)
 {
 	pid_t	pid;
 	int		status;
 
-	printf("args[0] = %s\n", args[0]);
-	printf("args[1] = %s\n", args[1]);
 	status = 0;
 	pid = fork();
 	if (pid == 0)
 	{
 		if (execve(path, args, NULL))
-			ft_cmd_error(args[0]); //bash: kwdf: command not found
+			ft_cmd_error(args[0]);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 		perror("minishell"); // ошибка при форкинге
 	else
-	{
 		status = ft_wait_pid(pid);
-//		do
-//		{
-//			wpid = waitpid(pid, &status, WUNTRACED);
-//		} while (!WIFEXITED(status) && !WIFSIGNALED(status));
-	}
 	return (status);
 }
 
