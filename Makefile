@@ -41,6 +41,9 @@ LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 READLINE_INC = /opt/homebrew/Cellar/readline/8.1.2/include
 READLINE_LIB = /opt/homebrew/Cellar/readline/8.1.2/lib
 
+#READLINE_INC = /opt/homebrew/Cellar/readline/8.1.2/include
+#READLINE_LIB = /opt/homebrew/Cellar/readline/8.1.2/lib
+
 OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
 .PHONY:	all clean fclean re
