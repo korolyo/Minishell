@@ -11,7 +11,7 @@ t_list	*ft_find_var(t_list **var_list, char *var_name)
 	{
 		next = tmp->next;
 		tmp_ptr = (t_var *)tmp->content;
-		if (!(ft_strncmp(var_name, tmp_ptr->name, 255)))
+		if (!(ft_strncmp(var_name, tmp_ptr->name, MAX_FILENAME)))
 			return (tmp);
 		tmp = next;
 	}
@@ -51,12 +51,12 @@ int	ft_clear_vars(t_list **var_list)
 		{
 			free(tmp_var->value);
 			free(tmp_var->name);
-			free(tmp_var);
+			tmp_var = NULL;
 		}
 		free(tmp);
 		tmp = next;
 	}
-	*var_list = NULL;
+	var_list = NULL;
 	return (0);
 }
 

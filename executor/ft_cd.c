@@ -51,23 +51,23 @@ int	ft_cd_prev_dir(t_list ***var_list)
 	return (i);
 }
 
-int	ft_cd(char **args, t_list ***var_list)
+int	ft_cd(char **args, t_list **var_list)
 {
 	t_list	*tmp_list;
 	t_var	*tmp_var;
 
 	if (args[1] == NULL)
 	{
-		tmp_list = ft_find_var(*var_list, "HOME");
+		tmp_list = ft_find_var(var_list, "HOME");
 		tmp_var = (t_var *)tmp_list->content;
 		if (chdir(tmp_var->value) != 0)
 			return (0);
-		return (ft_change_pwd(var_list, tmp_var->value));
+		return (ft_change_pwd(&var_list, tmp_var->value));
 	}
 	if (!(ft_strncmp(args[1], ".", 2)))
 		return (1);
 	if (!(ft_strncmp(args[1], "..", 3)))
-		return (ft_cd_prev_dir(var_list));
+		return (ft_cd_prev_dir(&var_list));
 	else
 	{
 		if (chdir(args[1]) != 0)
@@ -75,6 +75,6 @@ int	ft_cd(char **args, t_list ***var_list)
 			printf("minishell: cd: %s: %s\n", args[1], strerror(ENOENT));
 			return (1);
 		}
-		return (ft_change_pwd(var_list, args[1]));
+		return (ft_change_pwd(&var_list, args[1]));
 	}
 }

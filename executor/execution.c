@@ -25,19 +25,22 @@ int	ft_wait_pid(pid_t pid)
 	}
 	return (status);
 }
-//TODO в текущей версии в случае ошибки при исполнении минишел закрывается
+
+
 int ft_execute_cmd(char *path, char **args)
 {
 	pid_t	pid;
 	int		status;
+	extern char	**environ;
+
 
 	status = 0;
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(path, args, NULL))
+		if (execve(path, args, environ))
 			ft_cmd_error(args[0]);
-		exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	}
 	else if (pid < 0)
 		perror("minishell"); // ошибка при форкинге
@@ -99,7 +102,7 @@ int ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_p
 		return (0); //ошибка
 	}
 	*executor_path = ft_strjoin(ft_find_path(path_list, args), tmp_path);
-	if (!executor_path)
+	if (!*executor_path)
 	{
 		free(path_list);
 		free(tmp_path);

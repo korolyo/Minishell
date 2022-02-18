@@ -36,13 +36,14 @@ int ft_start_execution(char **args, t_list **var_list)
 			{"env", ft_env},
 			{"exit", ft_exit}
 	};
+
 	index = -1;
 	if (ft_strchr(args[0], '=') != NULL)
 		return (ft_check_if_var(args, var_list));
 	while (++index < 7)
 	{
 		if (!(strncmp(args[0], builtins[index].cmd, 7)))
-			return (builtins[index].f_cmd(args, &var_list));
+			return (builtins[index].f_cmd(args, var_list));
 	}
 	if (index == 7)
 		if (ft_execution(args, var_list) == 0)
