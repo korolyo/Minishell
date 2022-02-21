@@ -24,8 +24,8 @@
 //	j = *i;
 //	while (prompt[++(*i)])
 //	{
-//		if (prompt[*i] != ' ' || prompt[*i] != '\\'|| prompt[*i] != '|'
-//			|| prompt[*i] != ';' || prompt[*i] != '\t' || prompt[*i] != '\n')
+//		if (prompt[*i] != ' ' || prompt[*i] != '|'
+//			|| prompt[*i] != '\t' || prompt[*i] != '\n')
 //			break ;
 //	}
 //	filename = ft_strdup(prompt + (*i));
@@ -40,7 +40,6 @@
 //
 //char	*ft_pipes(char *prompt, int *i)
 //{
-//	//тоже самое, что semicolon, только
 //	// int *fd1 = malloc(sizeof(int) * NUM_OF_PIPES;
 //	// int *fd2 = malloc(sizeof(int) * NUM_OF_PIPES; - это массивы fd,
 //	// которые создаются при каждом пайпе
@@ -52,27 +51,3 @@
 //	return (tmp);
 //}
 //
-//char	*ft_doublequotes(char *prompt, int *i)
-//{
-//	int	j;
-//	char	*tmp;
-//	char	*tmp2;
-//	char	*tmp3;
-//
-//	j = *i;
-//	while (prompt[++(*i)])
-//	{
-//		if (prompt[*i] == '\\' || (prompt[*i + 1] == '\"'
-//			|| prompt[*i + 1] == '$') || prompt[*i + 1] == '\\')
-//			prompt = ft_backslash(prompt, i);
-//		if (prompt[*i] == '\"')
-//			break ;
-//	}
-//	tmp = ft_substr(prompt, 0, j);
-//	tmp2 = ft_substr(prompt, j + 1, *i - j - 1);
-//	tmp3 = ft_strdup(prompt + *i + 1);
-//	tmp = ft_strjoin(tmp, tmp2);
-//	tmp = ft_strjoin(tmp, tmp3);
-//	free(prompt);
-//	return (tmp);
-//}

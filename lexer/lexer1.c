@@ -53,7 +53,13 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 
 	tmp = ft_substr(prompt, 0, (*i));
 	(*i)++;
-	if (is_key(prompt[*i]) || prompt[*i] == '?')
+	j = 0;
+	tmp2 = NULL;
+	if (prompt[*i] == ' ' || prompt[*i] == '\0')
+		tmp2 = ft_strdup("$");
+	if (ft_isdigit(prompt[*i]))
+		(*i)++;
+	else if (is_key(prompt[*i]) || prompt[*i] == '?')
 	{
 		j = *i;
 		if (prompt[*i] == '?')
@@ -63,28 +69,27 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 			while (is_key(prompt[*i]))
 				(*i)++;
 			tmp2 = ft_substr(prompt, j, (*i) - j);
-			tmp3 = ft_substr(prompt, (*i), ft_strlen(prompt) - (*i));
-			tmp4 = ft_find_var(var_list, tmp2);
-			free(tmp2);
-			if (!tmp4)
-				tmp2 = NULL;
-			else
-			{
-				tmp5 = (t_var *) tmp4->content;
-				tmp2 = ft_strdup(tmp5->value);
-			}
-			*i = j + ft_strlen(tmp2) - 2;
-//		printf("*i in dollar = %d\n", *i);
-			tmp = ft_strjoin(tmp, tmp2);
-			if (tmp2)
-				free(tmp2);
-			tmp = ft_strjoin(tmp, tmp3);
-			if (tmp3)
-				free(tmp3);
 		}
 	}
-	if (ft_isdigit(prompt[*i]))
-		(*i)++;
+	tmp3 = ft_substr(prompt, (*i), ft_strlen(prompt) - (*i));
+	if (tmp2)
+	{
+		tmp4 = ft_find_var(var_list, tmp2);
+		if (!tmp4 && tmp2[0] != '$')
+			tmp2 = NULL;
+		else if (tmp4)
+		{
+			tmp5 = (t_var *) tmp4->content;
+			tmp2 = ft_strdup(tmp5->value);
+		}
+	}
+	*i = j + ft_strlen(tmp2) - 2;
+	tmp = ft_strjoin(tmp, tmp2);
+	if (tmp2)
+		free(tmp2);
+	tmp = ft_strjoin(tmp, tmp3);
+	if (tmp3)
+		free(tmp3);
 	return (tmp);
 }
 
@@ -94,9 +99,12 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	char	*str;
 	char 	*tmp_str;
 	int 	j;
+	t_tlist	*tmp_head;
 
 	j = i;
 	tmp_str = NULL;
+	tmp_head = *tokens;
+	while (prompt[i])
 	if (prompt[i] == '<' && prompt[i + 1] == '<')
 	{
 		tmp = tlistnew(HERE_DOC);
@@ -119,6 +127,14 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	if (tmp->type == REDIR || tmp->type == REDIR_APPEND ||
 		tmp->type == REDIR_INPUT)
 		tmp_str = ft_substr(prompt, j, i - j);
+	while (tmp_head->next)
+		tmp_head = tmp_head->next;
+	if (tmp->type == REDIR)
+		tmp_head->outfile = ft_substr(prompt, j + 1, i - j - 1);
+	if (tmp->type == REDIR_APPEND)
+		tmp_head->outfile = ft_substr(prompt, j + 2, i - j - 2);
+	if (tmp->type == REDIR_INPUT)
+		tmp_head->infile = ft_substr(prompt, j + 1, i - j - 2);
 //	printf("tmp-str in redir = |%s|\n", tmp_str);
 	tmp->cmd = ft_quotes_split(tmp_str, ' ');
 //	printf("check redir\n");
@@ -143,7 +159,7 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 	tmp_str = prompt;
 	while (tmp_str[++j])
 	{
-		printf("check cmd\n");
+//		printf("check cmd\n");
 //		printf("tmp-str in cmd = |%s|\n", tmp_str);
 //		printf("tmp-str in cmd = |%c|\n", tmp_str[j]);
 		if (tmp_str[j] == '\'' || tmp_str[j] == '\"')

@@ -38,14 +38,12 @@
 
 // TOKEN types
 # define CMD				11
-# define ARG				12
 # define	REDIR			22
 # define REDIR_APPEND	23
 # define REDIR_INPUT		24
 # define HERE_DOC		25
 # define PIPE			44
 # define ENV				55
-# define QUOTES			88
 
 // Delimeters:
 # define DELIM	" \t"
@@ -65,13 +63,11 @@ typedef struct s_btree	t_btree;
 // Lexer linked list of tokens:
 struct			s_tlist
 {
-//	char		*token;
 	int 		type;
-//	char 		*infile;
-//	char 		*outfile;
+	char 		*infile;
+	char 		*outfile;
 	char		**cmd;
 	char 		*args;
-//	char 		*envkey;
 	t_tlist		*next;
 };
 

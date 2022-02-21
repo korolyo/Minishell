@@ -43,6 +43,7 @@ void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 	j = 0;
 	i = -1;
 	tmp = dollar_string(prompt, var_list);
+	printf("tmp in lexer = |%s|\n", tmp);
 	while (tmp[++i])
 	{
 		if (tmp[i] == '\'' || tmp[i] == '\"')
