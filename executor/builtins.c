@@ -99,10 +99,16 @@ int ft_exit(char **args,  t_list **var_list)
 		return (0);
 	if (lvl == 2)
 	{
+<<<<<<< HEAD
 		printf("Start\n");
 		ft_clear_vars(var_list); //TODO: здесь очистить все
 		sleep(1000);
+=======
+		ft_clear_vars(*var_list); //TODO: здесь очистить все
+//		clear_all(&tokens, ast);;
+>>>>>>> 5d729a8e2ea3d2f6a6464533cb2ba339003460cb
 		exit(EXIT_SUCCESS);
 	}
+//	clear_all(&tokens, ast); // MB DOUBLE FREE HERE
 	exit(EXIT_SUCCESS);
 }

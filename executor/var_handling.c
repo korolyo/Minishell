@@ -7,6 +7,8 @@ t_list	*ft_find_var(t_list **var_list, char *var_name)
 	t_var	*tmp_ptr;
 
 	tmp = *var_list;
+	if (!var_name)
+		return (NULL);
 	while (tmp)
 	{
 		next = tmp->next;

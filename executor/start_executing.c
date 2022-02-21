@@ -58,12 +58,16 @@ t_btree *ft_start(t_btree *ast, t_list **var_list)
 {
 	if (ast)
 	{
+//		if (ast->type == REDIR);
+//			ft_start_something(bla bla);
+//		if (ast->type == PIPE)
+//			ft_start_dupfd();
 		ft_start(ast->left, var_list);
 		if (ast->type == CMD)
 			ft_start_execution(ast->value, var_list);
 		ft_start(ast->right, var_list);
 		return (ast);
 	}
-	return (NULL); //успешное завершение
+	return (NULL);
 }
 

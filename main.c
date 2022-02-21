@@ -54,13 +54,11 @@ int	main(void)
 	char		*prompt;
 	t_tlist		*tokens;
 	t_btree		*ast;
-	int			*fd;
 	t_list		*var_list;
 	extern char	**environ;
 
 	tokens = NULL;
 	ast = NULL;
-	fd = NULL;
 	var_list = NULL;
 	while (*environ != NULL)
 	{
@@ -87,7 +85,7 @@ int	main(void)
 			printf("problem with AST");
 		if (!(ft_start(ast, &var_list)))
 			printf("problem with executor");      //EXECUTION
-//		printf("main check \n");
+		printf("main check \n");
 		clear_all(&tokens, ast);
 	}
 	exit(EXIT_SUCCESS);
