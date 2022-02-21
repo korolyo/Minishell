@@ -12,7 +12,7 @@ char	*ft_prev_dir(char *pwd_path)
 			last_slash = index;
 		index++;
 	}
-	return (ft_substr(pwd_path, 0, ft_strlen(pwd_path) - last_slash - 3));
+	return (ft_substr(pwd_path, 0, last_slash));
 }
 
 int	ft_change_pwd(t_list ***var_list, char *new_path)
@@ -40,7 +40,7 @@ int	ft_cd_prev_dir(t_list ***var_list)
 	tmp_var = (t_var *)tmp_list->content;
 	prev_dir = ft_prev_dir(tmp_var->value);
 	if (!prev_dir)
-		return (0);
+		return (ft_change_pwd(var_list, "/"));
 	if (chdir(prev_dir) != 0)
 	{
 		free(prev_dir);

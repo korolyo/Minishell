@@ -3,13 +3,13 @@
 //TODO: посмотреть, как работает в боевой версии. Если что, брать из var_list
 int		ft_pwd(char **args, t_list **var_list)
 {
-	char	dir[MAX_DIRNAME];
+	t_list	*tmp_list;
+	t_var	*tmp_var;
 
-	(void)var_list;
 	(void)args;
-	if (!getcwd(dir, MAX_DIRNAME))
-		return (0);
-	printf("%s\n", dir);
+	tmp_list = ft_find_var(var_list, "PWD");
+	tmp_var = (t_var *)tmp_list->content;
+	printf("%s\n", tmp_var->value);
 	return (1);
 }
 
