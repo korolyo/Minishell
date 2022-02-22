@@ -49,9 +49,10 @@ int ft_check_if_var(char **args, t_list **var_list)
 	return (1);
 }
 
-int ft_start_execution(char **args, t_list **var_list)
+int ft_start_execution(t_btree *ast, t_list **var_list)
 {
 	int				index;
+	char 			**args;
 	static t_cmd	builtins[] = {
 			{"echo", ft_echo},
 			{"cd", ft_cd},
@@ -62,9 +63,11 @@ int ft_start_execution(char **args, t_list **var_list)
 			{"exit", ft_exit}
 	};
 
+	args = ast->value;
 	index = -1;
 	if (ft_strchr(args[0], '=') != NULL)
 		return (ft_check_if_var(args, var_list));
+	//ft_redirection(ast->fdin, ast->fdout);
 	while (++index < 7)
 	{
 		if (!(strncmp(args[0], builtins[index].cmd, 7)))
@@ -89,7 +92,10 @@ t_btree *ft_start(t_btree *ast, t_list **var_list)
 //			ft_start_dupfd();
 		ft_start(ast->left, var_list);
 		if (ast->type == CMD)
-			ft_start_execution(ast->value, var_list);
+		{
+			printf("fdin = %d\nfdout = %d\n", ast->fdin, ast->fdout);
+			ft_start_execution(ast, var_list);
+		}
 		ft_start(ast->right, var_list);
 		return (ast);
 	}
