@@ -95,11 +95,12 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 
 char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 {
-	t_tlist	*tmp;
+//	t_tlist	*tmp;
 	char	*str;
 	char 	*tmp_str;
 	int 	j;
 	t_tlist	*tmp_head;
+	int 	type;
 
 	j = i;
 	tmp_str = NULL;
@@ -107,55 +108,59 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	tmp_head = *tokens;
 	if (prompt[i] == '<' && prompt[i + 1] == '<')
 	{
-		tmp = tlistnew(HERE_DOC);
+//		tmp = tlistnew(HERE_DOC);
+		type = HERE_DOC;
 		i++;
 	}
 	else if (prompt[i] == '>' && prompt[i + 1] == '>')
 	{
-		tmp = tlistnew(REDIR_APPEND);
+//		tmp = tlistnew(REDIR_APPEND);
+		type = REDIR_APPEND;
 		i++;
 	}
 	else if (prompt[i] == '>')
-		tmp = tlistnew(REDIR);
+		type = REDIR;
+//		tmp = tlistnew(REDIR);
 	else if (prompt[i] == '<')
-		tmp = tlistnew(REDIR_INPUT);
+		type = REDIR_INPUT;
+//		tmp = tlistnew(REDIR_INPUT);
 	i++;
 	if (prompt[i] == ' ')
 		i++;
 	while (ft_isalpha(prompt[i]) || ft_isdigit(prompt[i]))
 		i++;
-	if (tmp->type == REDIR || tmp->type == REDIR_APPEND ||
-		tmp->type == REDIR_INPUT)
-		tmp_str = ft_substr(prompt, j, i - j);
+//	if (type == REDIR || type == REDIR_APPEND ||
+//		type == REDIR_INPUT)
+//		tmp_str = ft_substr(prompt, j, i - j);
 //	printf("check\n");
 	// DIFFERENT FUNCTION:
 	while (tmp_head->next)
 		tmp_head = tmp_head->next;
-	printf("tmp_head->fdout( > >>) in redir lexer = %d\n", tmp_head->fdout);
-	printf("tmp_head->fdin in redir lexer = %d\n", tmp_head->fdin);
-	if (tmp->type == REDIR)
+//	printf("tmp_head->fdout( > >>) in redir lexer = %d\n", tmp_head->fdout);
+//	printf("tmp_head->fdin in redir lexer = %d\n", tmp_head->fdin);
+	if (type == REDIR)
 	{
 		str = ft_substr(prompt, j + 1, i - j - 1);
 		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_TRUNC,
 							   0644);
 	}
-	if (tmp->type == REDIR_APPEND)
+	if (type == REDIR_APPEND)
 	{
 		str = ft_substr(prompt, j + 2, i - j - 2);
 		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	}
-	if (tmp->type == REDIR_INPUT)
+	if (type == REDIR_INPUT)
 	{
 		str = ft_substr(prompt, j + 1, i - j - 2);
 		tmp_head->fdin = open(str, O_RDONLY, 0644);
 	}
-	printf("tmp_head->fdout( > >>) in redir lexer = %d\n", tmp_head->fdout);
-	printf("tmp_head->fdin in redir lexer = %d\n", tmp_head->fdin);
+//	printf("tmp_head->fdout( > >>) in redir lexer = %d\n", tmp_head->fdout);
+//	printf("tmp_head->fdin in redir lexer = %d\n", tmp_head->fdin);
 //	printf("tmp-str in redir = |%s|\n", tmp_str);
-	tmp->cmd = ft_quotes_split(tmp_str, ' ');
+//	tmp->cmd = ft_quotes_split(tmp_str, ' ');
 //	printf("check redir\n");
 	str = str_delete_part(prompt, j, i - 1, DELETE_MID);
-	tlistadd_back(tokens, tmp);
+//	tlistadd_back(tokens, tmp);
 	return (str);
 }
 
@@ -210,10 +215,11 @@ char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
 	char 	*str_after;
 
 	//TODO: перекинуть фд?
-	tmp_cmds = *tokens;
 	str_before = ft_substr(tmp, 0, *i);
 	lexer_cmd(tokens, str_before);
+	tmp_cmds = *tokens;
 	tmp_cmds->pipes++;
+	printf("check pipes = %d\n", (*tokens)->pipes);
 	tmp_node = tlistnew(PIPE);
 	tlistadd_back(tokens, tmp_node);
 	str_after = ft_substr(tmp, *i + 1, ft_strlen(tmp) - *i);
