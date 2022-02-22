@@ -168,7 +168,8 @@ char	**ft_parse_path(t_list **var_list);
 char	*ft_find_path(char **path_list, char *executor_name);
 int		ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_path);
 int		ft_execute_cmd(char *path, char **args);
-void	ft_redirection(int fd_in, int fd_out);
+int		ft_redirection(t_btree *ast, int *tmp_in, int *tmp_out);
+void	ft_restore_fd(int tmp_in, int tmp_out);
 
 
 // UTILS:
