@@ -12,19 +12,17 @@
 
 #include "minishell.h"
 
-//void	redirect(t_tlist *tokens)
-//{
-//	int		tmpin;
-//	int		tmpout;
-//	int		fdin;
-//	int		fdout;
-//	int		ret;
-//	t_tlist	*tmp;
+void	redirect(t_tlist *tokens)
+{
+	int		tmpin;
+	int		tmpout;
+	int		ret;
+	t_tlist	*tmp;
 //
-//	tmpin = dup(0);
-//	tmpout = dup(1);
+	tmpin = dup(0);
+	tmpout = dup(1);
 //	tmp = *tokens;
-//	if (tmp->infile)
+	if (tmp->infile)
 //		fdin = open(tmp->infile, O_RDONLY, 0644);
 //	else
 //		fdout = dup(tmpin);
@@ -32,15 +30,6 @@
 //	{
 //		dup2(fdin, 0);
 //		close(fdin);
-//		if (i == numcmd - 1)
-//		{
-//			if (tmp->outfile && tmp->next->type == REDIR)
-//				fdout = open(tmp->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-//			else if (tmp->outfile && tmp->next->type == REDIR_APPEND)
-//				fdout = open(tmp->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
-//			else
-//				fdout = dup(tmpout);
-//		}
 //		else
 //		{
 //			int fdpipe[2];

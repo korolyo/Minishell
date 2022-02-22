@@ -103,8 +103,8 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 
 	j = i;
 	tmp_str = NULL;
+	printf("check\n");
 	tmp_head = *tokens;
-	while (prompt[i])
 	if (prompt[i] == '<' && prompt[i + 1] == '<')
 	{
 		tmp = tlistnew(HERE_DOC);
@@ -127,14 +127,26 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	if (tmp->type == REDIR || tmp->type == REDIR_APPEND ||
 		tmp->type == REDIR_INPUT)
 		tmp_str = ft_substr(prompt, j, i - j);
+	printf("check\n");
+	// DIFFERENT FUNCTION:
 	while (tmp_head->next)
 		tmp_head = tmp_head->next;
 	if (tmp->type == REDIR)
-		tmp_head->outfile = ft_substr(prompt, j + 1, i - j - 1);
+	{
+		str = ft_substr(prompt, j + 1, i - j - 1);
+		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_TRUNC,
+							   0644);
+	}
 	if (tmp->type == REDIR_APPEND)
-		tmp_head->outfile = ft_substr(prompt, j + 2, i - j - 2);
+	{
+		str = ft_substr(prompt, j + 2, i - j - 2);
+		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	}
 	if (tmp->type == REDIR_INPUT)
-		tmp_head->infile = ft_substr(prompt, j + 1, i - j - 2);
+	{
+		str = ft_substr(prompt, j + 1, i - j - 2);
+		tmp_head->fdin = open(str, O_RDONLY, 0644);
+	}
 //	printf("tmp-str in redir = |%s|\n", tmp_str);
 	tmp->cmd = ft_quotes_split(tmp_str, ' ');
 //	printf("check redir\n");
@@ -159,7 +171,7 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 	tmp_str = prompt;
 	while (tmp_str[++j])
 	{
-//		printf("check cmd\n");
+		printf("check cmd\n");
 //		printf("tmp-str in cmd = |%s|\n", tmp_str);
 //		printf("tmp-str in cmd = |%c|\n", tmp_str[j]);
 		if (tmp_str[j] == '\'' || tmp_str[j] == '\"')
@@ -189,12 +201,19 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
 {
 	t_tlist	*tmp_node;
+	t_tlist	*tmp_cmds;
 	char	*str_before;
 	char 	*str_after;
 
 	//TODO: перекинуть фд?
+	tmp_cmds = *tokens;
 	str_before = ft_substr(tmp, 0, *i);
 	lexer_cmd(tokens, str_before);
+	while (tmp_cmds)
+	{
+		tmp_cmds->pipes = 1;
+		tmp_cmds = tmp_cmds->next;
+	}
 	tmp_node = tlistnew(PIPE);
 	tlistadd_back(tokens, tmp_node);
 	str_after = ft_substr(tmp, *i + 1, ft_strlen(tmp) - *i);
