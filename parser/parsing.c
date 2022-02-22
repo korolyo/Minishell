@@ -115,10 +115,13 @@ t_btree	*build_ast(t_tlist *tokens)
 		tnode->left = build_ast(left_tmp);
 		tnode->right = build_ast(right_tmp);
 	}
-	else if (lnode->type == CMD || lnode->type == ENV)
+	else if (lnode->type == CMD)
 	{
 		tnode->value = lnode->cmd;
 		tnode->type = CMD;
+		tnode->pipes = lnode->pipes;
+		tnode->fdin = lnode->fdin;
+		tnode->fdout = lnode->fdout;
 		tnode->left = build_ast(lnode->next);
 	}
 	return (tnode);
