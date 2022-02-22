@@ -26,7 +26,6 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
-
 int ft_execute_cmd(char *path, char **args)
 {
 	pid_t	pid;
@@ -110,30 +109,3 @@ int ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_p
 	}
 	return (1);
 }
-
-int ft_execution(char **args, t_list **var_list)
-{
-	char **path_list;
-	char *executor_path;
-	char *tmp_path;
-	char *tmp_path2;
-
-	tmp_path = NULL;
-	executor_path = NULL;
-	path_list = ft_parse_path(var_list);
-	if (!path_list)
-		return (0); //ошибка
-	tmp_path2 = ft_find_path(path_list, args[0]);
-	if (tmp_path2 == NULL)
-		executor_path = args[0];
-	else
-		ft_join_path(args[0], tmp_path, path_list, &executor_path);
-	if (ft_add_status(var_list, ft_execute_cmd(executor_path, args)) == 0)
-		return (0); //ошибка
-	ft_clear_path_list(&path_list);
-	free(tmp_path);
-	free(executor_path);
-	return (1); // успешное завершение
-}
-
-

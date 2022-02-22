@@ -72,7 +72,7 @@ int	ft_cd(char **args, t_list **var_list)
 	{
 		if (chdir(args[1]) != 0)
 		{
-			printf("minishell: cd: %s: %s\n", args[1], strerror(ENOENT));
+			printf("minishell: cd: %s: %s\n", args[1], strerror(errno));
 			return (1);
 		}
 		return (ft_change_pwd(&var_list, args[1]));
