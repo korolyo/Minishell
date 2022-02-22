@@ -80,6 +80,9 @@ struct 			s_btree
 	char 		**value;
 	int 		type;
 	char 		**args;
+	int			pipes;
+	int 		fdin;
+	int 		fdout;
 	t_btree		*left;
 	t_btree		*right;
 };
