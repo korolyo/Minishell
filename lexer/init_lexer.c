@@ -21,6 +21,9 @@ t_tlist	*tlistnew(int type)
 	tmp->type = type;
 	tmp->cmd = NULL;
 	tmp->next = NULL;
+	tmp->fdin = -1;
+	tmp->fdout = -1;
+	tmp->pipes = 0;
 	return (tmp);
 }
 
@@ -63,11 +66,18 @@ void	tlist_clear(t_tlist *head)
 	free(head);
 }
 
-void	init_lexer(t_tlist *token)
-{
-	token->type = 0;
-//	token->infile = NULL;
-//	token->outfile = NULL;
-	token->cmd = NULL;
-	token->next = NULL;
-}
+//t_tlist	*init_lexer(void)
+//{
+//	t_tlist	*tmp;
+//
+//	tmp = (t_tlist *)malloc(sizeof(t_tlist));
+//	tmp->type = 0;
+////	token->infile = NULL;
+////	token->outfile = NULL;
+//	tmp->cmd = NULL;
+//	tmp->next = NULL;
+//	tmp->fdin = -1;
+//	tmp->fdout = -1;
+//	tmp->pipes = 0;
+//	return (tmp);
+//}

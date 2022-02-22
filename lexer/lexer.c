@@ -42,6 +42,8 @@ void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 
 	j = 0;
 	i = -1;
+	printf("check\n");
+//	tokens = init_lexer();
 	tmp = dollar_string(prompt, var_list);
 	printf("tmp in lexer = |%s|\n", tmp);
 	while (tmp[++i])
