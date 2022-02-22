@@ -160,7 +160,7 @@ int		ft_exit(char **args,  t_list **var_list);
 
 //Execution
 t_btree	*ft_start(t_btree *ast, t_list **var_list);
-int		ft_start_execution(char **args, t_list **var_list);
+int		ft_start_execution(t_btree *ast, t_list **var_list);
 int		ft_execution(char **args, t_list **var_list);
 t_list	*ft_find_var(t_list **var_list, char *var_name);
 int		ft_save_var(t_list **var_list, char *var, int var_id);
@@ -175,6 +175,7 @@ char	**ft_parse_path(t_list **var_list);
 char	*ft_find_path(char **path_list, char *executor_name);
 int		ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_path);
 int		ft_execute_cmd(char *path, char **args);
+void	ft_redirection(int fd_in, int fd_out);
 
 
 // UTILS:
