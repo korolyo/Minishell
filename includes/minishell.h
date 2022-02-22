@@ -43,13 +43,13 @@
 # define REDIR_INPUT		24
 # define HERE_DOC		25
 # define PIPE			44
-# define ENV				55
+//# define ENV				55
 
 // Delimeters:
 # define DELIM	" \t"
 
 # define DELETE_MID	7
-# define MID			8
+//# define MID			8
 
 // Executor:
 # define MALLOC_ERR	1
@@ -67,7 +67,7 @@ struct			s_tlist
 //	char 		*infile;
 //	char 		*outfile;
 	char		**cmd;
-	char 		*args;
+//	char 		*args;
 	int			pipes;
 	int 		fdin;
 	int 		fdout;
@@ -140,14 +140,7 @@ t_tlist	*left_lst(t_tlist *tokens, int i);
 t_tlist	*right_lst(t_tlist *tokens);
 t_btree	*build_ast(t_tlist *tokens);
 
-//void	free_node_tree(t_btree *node);
 void	clear_ast(t_btree *ast);
-
-// MAYBE DELETE LATER... IDK
-char	*ft_quotes(char *prompt, int *i);
-char	*ft_doublequotes(char *prompt, int *i);
-char	*ft_dollar(char *prompt, int *i, char **envp);
-int		is_key(char c);
 
 //builtings
 int		ft_echo(char **args, t_list **var_list);
@@ -186,6 +179,7 @@ void	tlist_clear(t_tlist *head);
 void	tlist_del(t_tlist *head);
 void    rl_replace_line(const char *buffer, int val);
 void	clear_all(t_tlist **tokens, t_btree *ast);
+int		is_key(char c);
 
 // DEBUG:
 void	print_tokens(t_tlist *tokens);
