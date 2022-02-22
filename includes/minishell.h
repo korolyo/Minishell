@@ -64,10 +64,13 @@ typedef struct s_btree	t_btree;
 struct			s_tlist
 {
 	int 		type;
-	char 		*infile;
-	char 		*outfile;
+//	char 		*infile;
+//	char 		*outfile;
 	char		**cmd;
 	char 		*args;
+	int			pipes;
+	int 		fdin;
+	int 		fdout;
 	t_tlist		*next;
 };
 
@@ -77,6 +80,9 @@ struct 			s_btree
 	char 		**value;
 	int 		type;
 	char 		**args;
+	int			pipes;
+	int 		fdin;
+	int 		fdout;
 	t_btree		*left;
 	t_btree		*right;
 };

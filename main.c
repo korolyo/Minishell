@@ -77,7 +77,7 @@ int	main(void)
 			add_history(prompt);
 		if (!(prompt = preparse(prompt)))
 			exit(EXIT_SUCCESS);
-//		printf("preparse: |%s|\n", prompt);
+		printf("preparse: |%s|\n", prompt);
 		lexer(prompt, &tokens, &var_list);
 //		printf("tokens :");
 //		print_tokens(tokens);
