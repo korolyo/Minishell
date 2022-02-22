@@ -21,8 +21,8 @@ t_tlist	*tlistnew(int type)
 	tmp->type = type;
 	tmp->cmd = NULL;
 	tmp->next = NULL;
-	tmp->fdin = -1;
-	tmp->fdout = -1;
+	tmp->fdin = -2;
+	tmp->fdout = -2;
 	tmp->pipes = 0;
 	return (tmp);
 }

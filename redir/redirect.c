@@ -12,41 +12,40 @@
 
 #include "minishell.h"
 
-//void	redirect(t_tlist *tokens)
+//void	redirect(t_tlist *ast_node)
 //{
 //	int		tmpin;
 //	int		tmpout;
-//	int		ret;
+////	int		ret;
 //	t_tlist	*tmp;
-////
+//
 //	tmpin = dup(0);
 //	tmpout = dup(1);
 ////	tmp = *tokens;
-//	if (tmp->infile)
-//		fdin = open(tmp->infile, O_RDONLY, 0644);
-//	else
-//		fdout = dup(tmpin);
-//	while (i < numcmd)
+////	if (tmp->infile)
+////		fdin = open(tmp->infile, O_RDONLY, 0644);
+////	else
+////		fdout = dup(tmpin);
+////	while (i < numcmd)
+////	{
+//	dup2(ast_node->fdin, 0);
+//	close(ast_node->fdin);
+//	if (ast_node->pipes > 0)
 //	{
-//		dup2(fdin, 0);
-//		close(fdin);
-//		else
-//		{
-//			int fdpipe[2];
-//			pipe(fdpipe);
-//			fdout = fdpipe[1];
-//			fdin = fdpipe[0];
-//		}
-//
-//		dup2(fdout, 1);
-//		close(fdout);
-//		i++;
-//		ret = fork();
-//		if (ret == 0)
-//			exit(1);
+//		int fdpipe[2];
+//		pipe(fdpipe);
+//		ast_node->fdout = fdpipe[1];
+//		ast_node->fdin = fdpipe[0];
 //	}
-//		dup2(tmpin, 0);
-//		dup2(tmpout, 1);
-//		close(tmpin);
-//		close(tmpout);
+//	dup2(ast_node->fdout, 1);
+//	close(ast_node->fdout);
+////		i++;
+////		ret = fork();
+////		if (ret == 0)
+////			exit(1);
+////	}
+//	dup2(tmpin, 0);
+//	dup2(tmpout, 1);
+//	close(tmpin);
+//	close(tmpout);
 //}

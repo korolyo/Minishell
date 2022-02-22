@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-// DO THE LOGIC
 char	*lexer_quotes(char *prompt, int *i, t_list **var_list)
 {
 	char	*tmp;
@@ -41,7 +40,8 @@ char	*lexer_quotes(char *prompt, int *i, t_list **var_list)
 	free(prompt);
 	return (tmp);
 }
-//TO DO: var that contain error value
+
+//TODO: var that contain error value
 char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 {
 	char	*tmp;
@@ -153,6 +153,13 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	{
 		str = ft_substr(prompt, j + 1, i - j - 2);
 		tmp_head->fdin = open(str, O_RDONLY, 0644);
+		if (tmp_head->fdin == -1)
+			printf("%s: No such file or directory", str);
+	}
+	if (type == HERE_DOC)
+	{
+		tmp_head->fdin = 0;
+		tmp_head->fdout = 1;
 	}
 //	printf("tmp_head->fdout( > >>) in redir lexer = %d\n", tmp_head->fdout);
 //	printf("tmp_head->fdin in redir lexer = %d\n", tmp_head->fdin);
