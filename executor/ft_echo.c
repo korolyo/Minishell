@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int ft_echo(char **args, t_list ***var_list) // TODO больше 25 строк
+int ft_echo(char **args, t_list **var_list) // TODO больше 25 строк
 {
 	int flag;
 	int index;
