@@ -12,7 +12,9 @@
 
 #include "minishell.h"
 
-//char	*redirection(char *prompt, int *i)
+
+
+//char	* redirection(char *prompt, int *i)
 //{
 //	// Только получаем fd от каждого редиректа для дальнейшего dup2 (для
 //	// подмены fd)
@@ -33,7 +35,7 @@
 //		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 //	if (prompt[j] == '>' && prompt[j + 1] == '>')
 //		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-//	if (prompt[j] == '<' && prompt[j] != '<')
+//	if (prompt[j] == '<' && prompt[j + 1] != '<')
 //		fd2 = open(filename, O_RDONLY, 0644);
 //	return (filename);
 //}

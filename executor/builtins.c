@@ -1,42 +1,82 @@
 #include "minishell.h"
 
 //TODO: посмотреть, как работает в боевой версии. Если что, брать из var_list
-int		ft_pwd(char **args, t_list ***var_list)
+int		ft_pwd(char **args, t_list **var_list)
 {
-	char	dir[MAX_DIRNAME];
+	t_list	*tmp_list;
+	t_var	*tmp_var;
 
-	(void)var_list;
 	(void)args;
-	if (!getcwd(dir, MAX_DIRNAME))
-		return (0);
-	printf("%s\n", dir);
+	tmp_list = ft_find_var(var_list, "PWD");
+	tmp_var = (t_var *)tmp_list->content;
+	printf("%s\n", tmp_var->value);
 	return (1);
 }
 
-int		ft_export( char **args,  t_list ***var_list)
+int		ft_export( char **args,  t_list **var_list)
 {
 	(void)args;
 	(void)var_list;
 	printf("ft_export\n");
 	return(0);
 }
-int		ft_unset(char **args,  t_list ***var_list)
+
+int	ft_check_var(char *args, char *check_cmd)
 {
-	(void)args;
-	(void)var_list;
-	printf("ft_unset\n");
+	int index;
+
+	index = 0;
+	if ((args[index] >= 'a' && args[index] <= 'z') || (args[index] >= 'A' &&
+			args[index] <= 'Z') || (args[index] == '_' && args[index + 1] != '\0'))
+	{
+		while (args[index] != '\0' && ft_isdigit(args[index]) && ft_isalpha(args[index]))
+			index++;
+	}
+	if (args[index] != '\0')
+	{
+		printf("minishell: %s: '%s': not a valid identifier\n", check_cmd, args);
+		return (1);
+	}
+	return (1);
+}
+
+int		ft_unset(char **args,  t_list **var_list)
+{
+	t_list	*tmp_list;
+	t_var	*tmp_var;
+	int 	index;
+
+	index = 1;
+	while (args[index] != NULL)
+	{
+		tmp_list = ft_find_var(var_list, args[index]);
+		if (tmp_list == NULL)
+		{
+			ft_check_var(args[index], "unset"); //TODO: здесь надо обрабатывать всякие невалидные значения
+			return (1);
+		}
+		*var_list = (*var_list)->next;
+		tmp_var = (t_var *)(tmp_list->content);
+		if (tmp_var)
+		{
+			free(tmp_var->value);
+			free(tmp_var->name);
+			free(tmp_var);
+		}
+		tmp_list=NULL;
+		index++;
+	}
 	return(0);
 }
 
-//тоже игнорируем любые аргументы
-int		ft_env(char **args,  t_list ***var_list)
+int		ft_env(char **args,  t_list **var_list)
 {
 	t_list	*tmp;
 	t_list	*next;
 	t_var	*tmp_ptr;
 
 	(void)args;
-	tmp = **var_list;
+	tmp = *var_list;
 	while (tmp)
 	{
 		next = tmp->next;
@@ -48,21 +88,25 @@ int		ft_env(char **args,  t_list ***var_list)
 	return (1);
 }
 
-//bash: exit: sdss: numeric argument required
-//думаю, что при наличии каких-то еще аргументов, надо просто их игнорировать
-int ft_exit(char **args,  t_list ***var_list)
+int ft_exit(char **args,  t_list **var_list)
 {
 	int lvl;
 	(void)args;
 	printf("exit\n");
 
-	lvl = ft_change_lvl(*var_list, 0);
+	lvl = ft_change_lvl(var_list, 0);
 	if (lvl == 0)
 		return (0);
 	if (lvl == 2)
 	{
+<<<<<<< HEAD
+		printf("Start\n");
+		ft_clear_vars(var_list); //TODO: здесь очистить все
+		sleep(1000);
+=======
 		ft_clear_vars(*var_list); //TODO: здесь очистить все
 //		clear_all(&tokens, ast);;
+>>>>>>> 5d729a8e2ea3d2f6a6464533cb2ba339003460cb
 		exit(EXIT_SUCCESS);
 	}
 //	clear_all(&tokens, ast); // MB DOUBLE FREE HERE

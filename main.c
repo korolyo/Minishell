@@ -66,11 +66,12 @@ int	main(void)
 		environ++;
 	}
 	ft_save_var(&var_list, "?=0", 0); //  здесь делаем переменную для хранения статуса
-	rl_catch_signals = 0;
+	//ft_save_var(&var_list, NULL, 0);
+	//rl_catch_signals = 0;
 	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
-		sig_init();
+		//sig_init();
 		prompt = readline("minishell > ");
 		if (prompt)
 			add_history(prompt);
