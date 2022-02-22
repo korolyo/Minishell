@@ -9,8 +9,8 @@ int	ft_wait_pid(pid_t pid)
 	while (1)
 	{
 		wpid = waitpid(pid, &status, 0);
-		printf("pid = %d\n", pid);
-		printf("wpid = %d\n", wpid);
+//		printf("pid = %d\n", pid);
+//		printf("wpid = %d\n", wpid);
 		if (wpid == -1)
 		{
 			perror("WAIT_PID");
@@ -45,7 +45,7 @@ int ft_execute_cmd(char *path, char **args)
 		perror("minishell"); // ошибка при форкинге
 	else
 		status = ft_wait_pid(pid);
-	printf("status = %d\n", status);
+//	printf("status = %d\n", status);
 	return (status);
 }
 

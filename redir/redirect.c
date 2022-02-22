@@ -12,17 +12,17 @@
 
 #include "minishell.h"
 
-void	redirect(t_tlist *tokens)
-{
-	int		tmpin;
-	int		tmpout;
-	int		ret;
-	t_tlist	*tmp;
-//
-	tmpin = dup(0);
-	tmpout = dup(1);
-//	tmp = *tokens;
-	if (tmp->infile)
+//void	redirect(t_tlist *tokens)
+//{
+//	int		tmpin;
+//	int		tmpout;
+//	int		ret;
+//	t_tlist	*tmp;
+////
+//	tmpin = dup(0);
+//	tmpout = dup(1);
+////	tmp = *tokens;
+//	if (tmp->infile)
 //		fdin = open(tmp->infile, O_RDONLY, 0644);
 //	else
 //		fdout = dup(tmpin);
