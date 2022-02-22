@@ -164,6 +164,11 @@ int		ft_change_lvl(t_list **var_list, int id);
 int		ft_clear_path_list(char ***path_list);
 int		ft_add_status(t_list **var_list, int status);
 int		ft_cmd_error(char *cmd);
+char	**ft_parse_path(t_list **var_list);
+char	*ft_find_path(char **path_list, char *executor_name);
+int		ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_path);
+int		ft_execute_cmd(char *path, char **args);
+
 
 // UTILS:
 void	sig_handler(int signum);

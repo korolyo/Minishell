@@ -20,6 +20,7 @@ SOURCES_LIST	= 	main.c \
 					executor/exec_utils.c \
 					executor/ft_cd.c \
 					executor/ft_echo.c \
+					executor/ft_export.c \
 					executor/make_redirection.c \
 
 CC		= gcc
