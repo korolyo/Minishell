@@ -23,6 +23,9 @@ t_btree	*btreenew(int type)
 	node->type = type;
 	node->left = NULL;
 	node->right = NULL;
+	node->fdon = -1;
+	node->fdout = -1;
+	node->pipes = 0;
 	return (node);
 }
 
