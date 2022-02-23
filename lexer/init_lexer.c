@@ -24,6 +24,7 @@ t_tlist	*tlistnew(int type)
 	tmp->fdin = -2;
 	tmp->fdout = -2;
 	tmp->pipes = 0;
+	tmp->kind = MIDDLE;
 	return (tmp);
 }
 

@@ -36,6 +36,11 @@
 # include <errno.h>
 # include <limits.h>
 
+// KIND
+# define FIRST			0
+# define MIDDLE			1
+# define LAST			2
+
 // TOKEN types
 # define CMD				11
 # define	REDIR			22
@@ -71,6 +76,7 @@ struct			s_tlist
 	int			pipes;
 	int 		fdin;
 	int 		fdout;
+	int			kind;
 	t_tlist		*next;
 };
 
@@ -182,6 +188,13 @@ void	tlist_del(t_tlist *head);
 void    rl_replace_line(const char *buffer, int val);
 void	clear_all(t_tlist **tokens, t_btree *ast);
 int		is_key(char c);
+
+//PIPING
+
+void	pipes(t_tlist *tokens);
+void	cmd_kind(t_tlist *tokens);
+void	pipe_switch(t_tlist *tokens, int *i, int *fdpipe);
+int		ind_cmd_num(t_tlist *tokens);
 
 // DEBUG:
 void	print_tokens(t_tlist *tokens);

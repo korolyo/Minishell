@@ -227,8 +227,8 @@ char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
 	tmp_cmds = *tokens;
 	tmp_cmds->pipes++;
 	printf("check pipes = %d\n", (*tokens)->pipes);
-	tmp_node = tlistnew(PIPE);
-	tlistadd_back(tokens, tmp_node);
+//	tmp_node = tlistnew(PIPE);
+//	tlistadd_back(tokens, tmp_node);
 	str_after = ft_substr(tmp, *i + 1, ft_strlen(tmp) - *i);
 	*i = -1;
 	free(tmp);
