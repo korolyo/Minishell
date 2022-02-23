@@ -12,26 +12,66 @@
 
 #include "minishell.h"
 
+int find_cmd_num(t_tlist *tokens)
+{
+	int	count;
+
+	count = 0;
+	while (tokens)
+	{
+		count++;
+		tokens = tokens->next;
+	}
+	return (count);
+}
+
+
 void	pipes(t_tlist *tokens)
 {
-	int *fdpipe;
+	int	*fdpipe;
+	int	count_cmd;
+	int	i;
+	int	err;
 
+	i = 0;
+	count_cmd = find_cmd_num(tokens);
 	fdpipe = (int *) ft_calloc(sizeof(int), tokens->pipes);
-	if (tokens->pipes != 0)
-		pipe(fdpipe);
-
-	switch (kind)
+	while (count_cmd != 0)
 	{
-		case start:
-			dup2(current_pipe[WRITE], STDOUT_FILENO);
-			break;
-		case middle:
-			dup2(previous_pipe[READ], STDIN_FILENO);
-			dup2(current_pipe[WRITE], STDOUT_FILENO);
-			break;
-		case end:
-			dup2(previous_pipe[READ], STDIN_FILENO);
-		default:
-			break;
+		if ((err = pipe(fdpipe + 2 * i)) == -1)
+		{
+			free(pipe);
+			perror("Bad piping");
+			exit(err);
+		}
+		count_cmd--;
+	}
+}
+
+void	cmd_kind(t_tlist *tokens)
+{
+	tokens->kind = FIRST;
+	while (tokens->next)
+		tokens = tokens->next;
+	tokens->kind = LAST;
+}
+
+void	pipe_switch(t_tlist *tokens, int *i, int *fdpipe)
+{
+	if (tokens->kind == FIRST)
+	{
+		dup2(fdpipe[2 * (*i) + 1], STDOUT_FILENO);
+		break;
+	}
+	else if (tokens->kind == MIDDLE)
+	{
+		dup2(fdpipe[2 * (*i) - 1], STDIN_FILENO);
+		dup2(fdpipe[2 * (*i) + 1], STDOUT_FILENO);
+		break;
+	}
+	else if (tokens->kind == LAST)
+	{
+		dup2(fdpipe[2 * (*i) - 1], STDIN_FILENO);
+		break;
 	}
 }
