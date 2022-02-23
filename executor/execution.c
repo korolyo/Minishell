@@ -26,26 +26,31 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
-int ft_execute_cmd(char *path, char **args)
+int ft_execute_cmd(char *path, t_btree *ast)
 {
 	pid_t	pid;
 	int		status;
-	extern char	**environ;
-
+	int		redir_id;
+	int 	tmp_in;
+	int 	tmp_out;
 
 	status = 0;
+	redir_id = 0;
+	if ((ast->fdin != -2 || ast->fdout != -2) && !access(path, 00))
+		redir_id = ft_redirection(ast, &tmp_in, &tmp_out);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(path, args, environ))
-			ft_cmd_error(args[0]);
+		if (execve(path, ast->value, NULL))
+			ft_cmd_error(ast->value[0]);
 		exit(EXIT_SUCCESS);
 	}
 	else if (pid < 0)
 		perror("minishell"); // ошибка при форкинге
 	else
 		status = ft_wait_pid(pid);
-//	printf("status = %d\n", status);
+	if (redir_id == 1)
+		ft_restore_fd(tmp_in, tmp_out);
 	return (status);
 }
 
@@ -76,7 +81,7 @@ char *ft_find_path(char **path_list, char *executor_name)
 	return (NULL);
 }
 
-char **ft_parse_path(t_list **var_list)
+char **ft_parse_path(t_list **var_list, char *cmd)
 {
 	const char *path;
 	char **path_list;
@@ -84,6 +89,11 @@ char **ft_parse_path(t_list **var_list)
 	t_var	*tmp_var;
 
 	tmp_list = ft_find_var(var_list, "PATH");
+	if (!tmp_list)
+	{
+		printf("minishell: %s: No such file or directory\n", cmd);
+		return (NULL);
+	}
 	tmp_var = (t_var *)tmp_list->content;
 	path = tmp_var->value;
 	path_list = ft_split(path, ':');

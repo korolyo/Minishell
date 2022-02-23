@@ -154,7 +154,7 @@ int		ft_exit(char **args,  t_list **var_list);
 //Execution
 t_btree	*ft_start(t_btree *ast, t_list **var_list);
 int		ft_start_execution(t_btree *ast, t_list **var_list);
-int		ft_execution(char **args, t_list **var_list);
+int		ft_execution(t_btree *ast, t_list **var_list);
 t_list	*ft_find_var(t_list **var_list, char *var_name);
 int		ft_save_var(t_list **var_list, char *var, int var_id);
 void	*ft_make_var(char *var, t_var **variable);
@@ -164,10 +164,10 @@ int		ft_change_lvl(t_list **var_list, int id);
 int		ft_clear_path_list(char ***path_list);
 int		ft_add_status(t_list **var_list, int status);
 int		ft_cmd_error(char *cmd);
-char	**ft_parse_path(t_list **var_list);
+char	**ft_parse_path(t_list **var_list, char *cmd);
 char	*ft_find_path(char **path_list, char *executor_name);
 int		ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_path);
-int		ft_execute_cmd(char *path, char **args);
+int		ft_execute_cmd(char *path, t_btree *ast);
 int		ft_redirection(t_btree *ast, int *tmp_in, int *tmp_out);
 void	ft_restore_fd(int tmp_in, int tmp_out);
 
