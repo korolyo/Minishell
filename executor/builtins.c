@@ -70,6 +70,11 @@ int	ft_env(char **args, t_list **var_list)
 
 	tmp = *var_list;
 	(void)args;
+	if (!ft_find_var(var_list, "PATH"))
+	{
+		printf("minishell: env: No such file or directory\n");
+		return (1);
+	}
 	while (tmp)
 	{
 		next = tmp->next;
