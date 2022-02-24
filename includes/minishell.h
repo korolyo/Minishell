@@ -48,7 +48,6 @@
 # define REDIR_INPUT		24
 # define HERE_DOC		25
 # define PIPE			44
-//# define ENV				55
 
 // Delimeters:
 # define DELIM	" \t"
@@ -63,34 +62,17 @@
 # define MAX_FILENAME 255
 
 typedef struct s_tlist	t_tlist;
-typedef struct s_btree	t_btree;
 
 // Lexer linked list of tokens:
 struct			s_tlist
 {
-	int 		type;
-//	char 		*infile;
-//	char 		*outfile;
+//	int 		type;
 	char		**cmd;
-//	char 		*args;
 	int			pipes;
 	int 		fdin;
 	int 		fdout;
 	int			kind;
 	t_tlist		*next;
-};
-
-// AST
-struct 			s_btree
-{
-	char 		**value;
-	int 		type;
-	char 		**args;
-	int			pipes;
-	int 		fdin;
-	int 		fdout;
-	t_btree		*left;
-	t_btree		*right;
 };
 
 //Executor:
@@ -106,7 +88,7 @@ typedef struct s_vlist
 	struct s_vlist	*next;
 }					t_vlist;
 
-typedef struct	s_var //для хранения переменных окружения и переменных среды
+typedef struct	s_var
 {
 	char		*name;
 	char		*value;
@@ -125,7 +107,6 @@ int		preparse_pipe(char *prompt, int i);
 char	*str_delete_part(char *prompt, int start, int end, int flag_mid);
 
 // LEXER:
-//t_tlist	*init_lexer(void);
 char	*dollar_string(char *tmp, t_list **var_list);
 char	**ft_quotes_split(char const *str, char c);
 void	*ft_quotes_abort(char ***arr, int size);
@@ -138,15 +119,6 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list);
 char	*lexer_redir(t_tlist **tokens, char *prompt, int i);
 void	lexer_cmd(t_tlist **tokens, char *prompt);
 char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp);
-
-// Parsing
-t_btree	*parse_line(t_tlist *tokens);
-t_btree	*btreenew(int type);
-t_tlist	*left_lst(t_tlist *tokens, int i);
-t_tlist	*right_lst(t_tlist *tokens);
-t_btree	*build_ast(t_tlist *tokens);
-
-void	clear_ast(t_btree *ast);
 
 //builtings
 int		ft_echo(char **args, t_list **var_list);
@@ -184,9 +156,8 @@ void	sig_init(void);
 t_tlist	*tlistnew(int type);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist *head);
-void	tlist_del(t_tlist *head);
 void    rl_replace_line(const char *buffer, int val);
-void	clear_all(t_tlist **tokens, t_btree *ast);
+void	clear_all(t_tlist **tokens);
 int		is_key(char c);
 
 //PIPING
@@ -198,6 +169,5 @@ int		ind_cmd_num(t_tlist *tokens);
 
 // DEBUG:
 void	print_tokens(t_tlist *tokens);
-void 	print_tree(t_btree *ast);
 
 #endif

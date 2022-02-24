@@ -71,6 +71,7 @@ int ft_start_execution(t_btree *ast, t_list **var_list)
 	redir_id = 0;
 	if (ft_strchr(ast->value[0], '=') != NULL)
 		return (ft_check_if_var(ast->value, var_list));
+	//TODO: PIPES
 	while (++index < 7)
 	{
 		if (!(strncmp(ast->value[0], builtins[index].cmd, 7)))
@@ -80,10 +81,11 @@ int ft_start_execution(t_btree *ast, t_list **var_list)
 			index = builtins[index].f_cmd(ast->value, var_list);
 			if (redir_id == 1)
 				ft_restore_fd(tmp_in, tmp_out);
+			//TODO: PIPE SWITCH
 			return (index);
 		}
 	}
-	if (index == 7)
+	if (index == 7) //Обработка встроенных файлов
 	{
 		if (ft_execution(ast, var_list) == 0)
 		{

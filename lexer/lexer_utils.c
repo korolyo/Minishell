@@ -38,12 +38,9 @@ int	get_quotes_len(char *str, char c, int *i)
 		j = *i;
 		if (str[j] == '\'' || str[j] == '\"')
 		{
-//			printf("len in get_quoted_len = |%d|, j = %d\n", len, j);
 			preparse_quotes(str, &j);
 			len = len + j - (*i) - 3;
-//			printf("len in get_quoted_len = |%d|, j = %d\n", len, j);
 		}
-//		printf("str[%d] = |%s|\n", *i, str);
 		len++;
 		(*i)++;
 	}
@@ -66,18 +63,13 @@ char	**get_quotes_str(char ***res, char **str, char c, int size)
 		while (dup[i] == c)
 			i++;
 		start = i;
-//		printf("before get_len dup[%d] = |%c|\n", start, dup[start]);
 		len = get_quotes_len(dup, c, &i);
-//		printf("len in get_quoted_str = |%d|\n", len);
 		res[0][j] = (char *)malloc(sizeof(char) * len + 1);
 		if (!res[0][j])
 			return (ft_quotes_abort(res, size));
-//		printf("before if dup[%d] = |%c|\n", start, dup[start]);
 		if (dup[start] == '\'' || dup[start] == '\"')
 			start++;
-//		printf("after if dup[%d] = |%c|\n", start, dup[start]);
 		ft_strlcpy(res[0][j], &dup[start], len + 1);
-//		printf("res[0][%d] = |%s|\n", j, res[0][j]);
 		j++;
 	}
 	res[0][j] = NULL;
@@ -95,8 +87,6 @@ int	get_quotes_arrlen(char const *s, char c)
 		return (0);
 	while (s[i] != '\0')
 	{
-//		if (s[i] == '\'' || s[i] == '\"')
-//			preparse_quotes(s, &i);
 		if (s[i] != c && s[i] != '\0')
 		{
 			len++;
@@ -114,7 +104,6 @@ int	get_quotes_arrlen(char const *s, char c)
 			break ;
 		i++;
 	}
-//	printf("len in arrlen = %d\n", len);
 	return (len);
 }
 
@@ -126,7 +115,6 @@ char	**ft_quotes_split(char const *str, char c)
 
 	size = 0;
 	s = (char *)str;
-//	printf("check quotes split\n");
 	if (!s)
 		return (NULL);
 	size = get_quotes_arrlen(s, c);

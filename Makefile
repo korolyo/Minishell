@@ -5,14 +5,12 @@ SOURCES_LIST	= 	main.c \
 					signals.c \
 					preparse/preparse.c \
 					preparse/preparse1.c \
-					parser/parsing.c \
-					parser/parsing2.c \
-					parser/parsing_utils.c \
 					lexer/init_lexer.c \
 					lexer/lexer.c \
 					lexer/lexer1.c \
 					lexer/lexer_utils.c \
-					redir/redirect.c \
+					redir/pipes.c \
+					redir/here_doc.c \
 					executor/var_handling.c \
 					executor/start_executing.c \
 					executor/builtins.c \

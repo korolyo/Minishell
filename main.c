@@ -19,8 +19,6 @@ void	clear_all(t_tlist **tokens, t_btree *ast)
 		tlist_clear(*tokens);
 		*tokens = NULL;
 	}
-//	if (ast)
-//		clear_ast(ast);
 }
 
 void	print_tokens(t_tlist *tokens)
@@ -53,12 +51,10 @@ int	main(void)
 {
 	char		*prompt;
 	t_tlist		*tokens;
-	t_btree		*ast;
 	t_list		*var_list;
 	extern char	**environ;
 
 	tokens = NULL;
-	ast = NULL;
 	var_list = NULL;
 	while (*environ != NULL)
 	{
@@ -66,7 +62,6 @@ int	main(void)
 		environ++;
 	}
 	ft_save_var(&var_list, "?=0", 0); //  здесь делаем переменную для хранения статуса
-	//ft_save_var(&var_list, NULL, 0);
 	rl_catch_signals = 0;
 	ft_change_lvl(&var_list, 1);
 	while (1)
@@ -77,15 +72,11 @@ int	main(void)
 			add_history(prompt);
 		if (!(prompt = preparse(prompt)))
 			exit(EXIT_SUCCESS);
-//		printf("preparse: |%s|\n", prompt);
 		lexer(prompt, &tokens, &var_list);
 //		printf("tokens :");
 //		print_tokens(tokens);
-//		if (!(ast = parse_line(tokens)))
-//			printf("problem with AST");
-		if (!(ft_start(ast, &var_list))) // USING TOKENS
-			printf("problem with executor");      //EXECUTION
-//		printf("main check \n");
+		if (!(ft_start(ast, &var_list)))
+			printf("problem with executor");
 		clear_all(&tokens);
 	}
 	exit(EXIT_SUCCESS);

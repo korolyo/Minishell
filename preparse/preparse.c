@@ -69,10 +69,8 @@ void	preparse_quotes(char const *prompt, int *i)
 	}
 	if (prompt[(*i) - 1] == '\"')
 	{
-		printf("check\n");
 		while (prompt[*i] != '\"')
 			(*i)++;
-		printf("prompt[%d] in prep quo = |%c|\n", *i, prompt[*i]);
 		if (prompt[*i] != '\0')
 			(*i)++;
 	}

@@ -38,13 +38,14 @@ void	pipes(t_tlist *tokens)
 	fdpipe = (int *) ft_calloc(sizeof(int), tokens->pipes);
 	while (count_cmd != 0)
 	{
-		if ((err = pipe(fdpipe + 2 * i)) == -1)
+		if ((err = pipe(fdpipe + 2)) == -1)
 		{
 			free(pipe);
 			perror("Bad piping");
 			exit(err);
 		}
 		count_cmd--;
+		i++;
 	}
 }
 
