@@ -33,24 +33,34 @@ int ft_execute_cmd(char *path, t_btree *ast)
 	int		redir_id;
 	int 	tmp_in;
 	int 	tmp_out;
+	int 	i;
 
+	i = 0;
 	status = 0;
 	redir_id = 0;
 	if ((ast->fdin != -2 || ast->fdout != -2) && !access(path, 00))
 		redir_id = ft_redirection(ast, &tmp_in, &tmp_out);
 	pid = fork();
-	if (pid == 0)
+//	pipes(tokens);
+	while (i < cmd_count)
 	{
-		if (execve(path, ast->value, NULL))
-			ft_cmd_error(ast->value[0]);
-		exit(EXIT_SUCCESS);
+		pipe_switch(tokens, &i, fdpipe);
+		if (pid == 0)
+		{
+			if (execve(path, ast->value, NULL))
+				ft_cmd_error(ast->value[0]);
+			exit(EXIT_SUCCESS);
+		}
+		i++;
 	}
+
 	else if (pid < 0)
 		perror("minishell"); // ошибка при форкинге
 	else
 		status = ft_wait_pid(pid);
 	if (redir_id == 1)
 		ft_restore_fd(tmp_in, tmp_out);
+	//TODO : PIPE SWITCH
 	return (status);
 }
 

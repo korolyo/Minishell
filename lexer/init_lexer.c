@@ -45,17 +45,6 @@ void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken)
 	final->next = newtoken;
 }
 
-void	tlist_del(t_tlist *head)
-{
-	t_tlist	*tmp;
-
-	tmp = head;
-	head = head->next;
-	if (tmp->cmd)
-		free(tmp->cmd);
-	free(tmp);
-}
-
 void	tlist_clear(t_tlist *head)
 {
 	if (head == NULL)
@@ -66,19 +55,3 @@ void	tlist_clear(t_tlist *head)
 	head->next = NULL;
 	free(head);
 }
-
-//t_tlist	*init_lexer(void)
-//{
-//	t_tlist	*tmp;
-//
-//	tmp = (t_tlist *)malloc(sizeof(t_tlist));
-//	tmp->type = 0;
-////	token->infile = NULL;
-////	token->outfile = NULL;
-//	tmp->cmd = NULL;
-//	tmp->next = NULL;
-//	tmp->fdin = -1;
-//	tmp->fdout = -1;
-//	tmp->pipes = 0;
-//	return (tmp);
-//}
