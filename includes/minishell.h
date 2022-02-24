@@ -66,7 +66,7 @@ typedef struct s_tlist	t_tlist;
 // Lexer linked list of tokens:
 struct			s_tlist
 {
-//	int 		type;
+	int 		type;
 	char		**cmd;
 	int			pipes;
 	int 		fdin;
@@ -130,9 +130,9 @@ int		ft_env(char **args,  t_list **var_list);
 int		ft_exit(char **args,  t_list **var_list);
 
 //Execution
-t_btree	*ft_start(t_btree *ast, t_list **var_list);
-int		ft_start_execution(t_btree *ast, t_list **var_list);
-int		ft_execution(t_btree *ast, t_list **var_list);
+int		ft_start(t_tlist *tokens, t_list **var_list);
+int		ft_start_execution(t_tlist *tokens, t_list **var_list);
+int		ft_execution(t_tlist *tokens, t_list **var_list);
 t_list	*ft_find_var(t_list **var_list, char *var_name);
 int		ft_save_var(t_list **var_list, char *var, int var_id);
 void	*ft_make_var(char *var, t_var **variable);
@@ -145,8 +145,8 @@ int		ft_cmd_error(char *cmd);
 char	**ft_parse_path(t_list **var_list, char *cmd);
 char	*ft_find_path(char **path_list, char *executor_name);
 int		ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_path);
-int		ft_execute_cmd(char *path, t_btree *ast);
-int		ft_redirection(t_btree *ast, int *tmp_in, int *tmp_out);
+int		ft_execute_cmd(char *path, t_tlist *tokens);
+int		ft_redirection(t_tlist *tokens, int *tmp_in, int *tmp_out);
 void	ft_restore_fd(int tmp_in, int tmp_out);
 
 

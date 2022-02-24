@@ -9,8 +9,6 @@ int	ft_wait_pid(pid_t pid)
 	while (1)
 	{
 		wpid = waitpid(pid, &status, 0);
-//		printf("pid = %d\n", pid);
-//		printf("wpid = %d\n", wpid);
 		if (wpid == -1)
 		{
 			perror("WAIT_PID");
@@ -26,7 +24,7 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
-int ft_execute_cmd(char *path, t_btree *ast)
+int ft_execute_cmd(char *path, t_tlist *tokens)
 {
 	pid_t	pid;
 	int		status;
@@ -38,22 +36,15 @@ int ft_execute_cmd(char *path, t_btree *ast)
 	i = 0;
 	status = 0;
 	redir_id = 0;
-	if ((ast->fdin != -2 || ast->fdout != -2) && !access(path, 00))
-		redir_id = ft_redirection(ast, &tmp_in, &tmp_out);
+	if ((tokens->fdin != -2 || tokens->fdout != -2) && !access(path, 00))
+		redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
 	pid = fork();
-//	pipes(tokens);
-	while (i < cmd_count)
+	if (pid == 0)
 	{
-		pipe_switch(tokens, &i, fdpipe);
-		if (pid == 0)
-		{
-			if (execve(path, ast->value, NULL))
-				ft_cmd_error(ast->value[0]);
-			exit(EXIT_SUCCESS);
-		}
-		i++;
+		if (execve(path, tokens->cmd, NULL))
+			ft_cmd_error(tokens->cmd[0]);
+		exit(EXIT_SUCCESS);
 	}
-
 	else if (pid < 0)
 		perror("minishell"); // ошибка при форкинге
 	else

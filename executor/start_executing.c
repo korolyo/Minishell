@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int ft_execution(t_btree *ast, t_list **var_list)
+int ft_execution(t_tlist *tokens, t_list **var_list)
 {
 	char **path_list;
 	char *executor_path;
@@ -9,15 +9,15 @@ int ft_execution(t_btree *ast, t_list **var_list)
 
 	tmp_path = NULL;
 	executor_path = NULL;
-	path_list = ft_parse_path(var_list, ast->value[0]);
+	path_list = ft_parse_path(var_list, tokens->cmd[0]);
 	if (!path_list)
 		return (1);
-	tmp_path2 = ft_find_path(path_list, ast->value[0]);
+	tmp_path2 = ft_find_path(path_list, tokens->cmd[0]);
 	if (tmp_path2 == NULL)
-		executor_path = ast->value[0];
+		executor_path = tokens->cmd[0];
 	else
-		ft_join_path(ast->value[0], tmp_path, path_list, &executor_path);
-	if (ft_add_status(var_list, ft_execute_cmd(executor_path, ast)) == 0)
+		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
+	if (ft_add_status(var_list, ft_execute_cmd(executor_path, tokens)) == 0)
 		return (0); //ошибка
 	ft_clear_path_list(&path_list);
 	free(tmp_path);
@@ -49,7 +49,7 @@ int ft_check_if_var(char **args, t_list **var_list)
 	return (1);
 }
 
-int ft_start_execution(t_btree *ast, t_list **var_list)
+int ft_start_execution(t_tlist *tokens, t_list **var_list)
 {
 	int				index;
 	int 			tmp_in;
@@ -69,16 +69,16 @@ int ft_start_execution(t_btree *ast, t_list **var_list)
 	tmp_out = 0;
 	index = -1;
 	redir_id = 0;
-	if (ft_strchr(ast->value[0], '=') != NULL)
-		return (ft_check_if_var(ast->value, var_list));
+	if (ft_strchr(tokens->cmd[0], '=') != NULL)
+		return (ft_check_if_var(tokens->cmd, var_list));
 	//TODO: PIPES
 	while (++index < 7)
 	{
-		if (!(strncmp(ast->value[0], builtins[index].cmd, 7)))
+		if (!(strncmp(tokens->cmd[0], builtins[index].cmd, 7)))
 		{
-			if (ast->fdin != -2 || ast->fdout != -2)
-				redir_id = ft_redirection(ast, &tmp_in, &tmp_out);
-			index = builtins[index].f_cmd(ast->value, var_list);
+			if (tokens->fdin != -2 || tokens->fdout != -2)
+				redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
+			index = builtins[index].f_cmd(tokens->cmd, var_list);
 			if (redir_id == 1)
 				ft_restore_fd(tmp_in, tmp_out);
 			//TODO: PIPE SWITCH
@@ -87,29 +87,22 @@ int ft_start_execution(t_btree *ast, t_list **var_list)
 	}
 	if (index == 7) //Обработка встроенных файлов
 	{
-		if (ft_execution(ast, var_list) == 0)
+		if (ft_execution(tokens, var_list) == 0)
 		{
-			printf("Start\n");
 			ft_add_status(var_list, 127);
-			return (ft_cmd_error(ast->value[0]));
+			return (ft_cmd_error(tokens->cmd[0]));
 		}
 	}
 	return (1);
 }
 
-t_btree *ft_start(t_btree *ast, t_list **var_list)
+int ft_start(t_tlist *tokens, t_list **var_list)
 {
-	if (ast)
+
+	while (tokens)
 	{
-		ft_start(ast->left, var_list);
-		if (ast->type == CMD)
-		{
-			printf ("fd_in %d\nfd_out %d\n", ast->fdin, ast->fdout);
-			printf("%s\n%s\n", ast->value[0], ast->value[1]);
-			ft_start_execution(ast, var_list);
-		}
-		ft_start(ast->right, var_list);
-		return (ast);
+		ft_start_execution(tokens, var_list);
+		tokens = tokens->next;
 	}
-	return (NULL);
+	return (0);
 }

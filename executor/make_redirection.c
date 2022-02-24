@@ -8,17 +8,17 @@ void ft_restore_fd(int tmp_in, int tmp_out)
 	close(tmp_out);
 }
 
-int ft_redirection(t_btree *ast, int *tmp_in, int *tmp_out)
+int ft_redirection(t_tlist *tokens, int *tmp_in, int *tmp_out)
 {
 	*tmp_in = dup(STDIN_FILENO);
 	*tmp_out = dup(STDOUT_FILENO);
-	if (ast->fdin == -2)
-		ast->fdin=dup(*tmp_in);
-	dup2(ast->fdin, STDIN_FILENO);
-	close(ast->fdin);
-	if (ast->fdout == -2)
-		ast->fdout=dup(*tmp_out);
-	dup2(ast->fdout, STDOUT_FILENO);
-	close(ast->fdout);
+	if (tokens->fdin == -2)
+		tokens->fdin=dup(*tmp_in);
+	dup2(tokens->fdin, STDIN_FILENO);
+	close(tokens->fdin);
+	if (tokens->fdout == -2)
+		tokens->fdout=dup(*tmp_out);
+	dup2(tokens->fdout, STDOUT_FILENO);
+	close(tokens->fdout);
 	return (1);
 }
