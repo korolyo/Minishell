@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	clear_all(t_tlist **tokens, t_btree *ast)
+void	clear_all(t_tlist **tokens)
 {
 	if (*tokens)
 	{
@@ -75,7 +75,7 @@ int	main(void)
 		lexer(prompt, &tokens, &var_list);
 //		printf("tokens :");
 //		print_tokens(tokens);
-		if (!(ft_start(ast, &var_list)))
+		if (!(ft_start(tokens, &var_list)))
 			printf("problem with executor");
 		clear_all(&tokens);
 	}
