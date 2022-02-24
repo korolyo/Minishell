@@ -55,3 +55,10 @@ void	tlist_clear(t_tlist *head)
 	head->next = NULL;
 	free(head);
 }
+
+int	is_key(char c)
+{
+	if (c == '_' || ft_isalnum(c))
+		return (1);
+	return (0);
+}
