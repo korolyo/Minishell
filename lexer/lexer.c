@@ -23,10 +23,16 @@ char	*dollar_string(char *tmp, t_list **var_list)
 	{
 		if (ret[i] == '\'')
 			preparse_quotes(ret, &i);
-		if (ret[i] == '$')
+		if (ret[i] == '\"')
 		{
-			ret = lexer_dollar(ret, &i, var_list);
-			i--;
+			while (ret[++i] != '\"')
+			{
+				if (ret[i] == '$')
+				{
+					ret = lexer_dollar(ret, &i, var_list);
+					i--;
+				}
+			}
 		}
 	}
 	free(tmp);
@@ -36,14 +42,10 @@ char	*dollar_string(char *tmp, t_list **var_list)
 void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 {
 	int		i;
-	int 	j;
 	char	*tmp;
 
-	j = 0;
 	i = -1;
-	printf("check\n");
 	tmp = dollar_string(prompt, var_list);
-	printf("tmp in lexer = |%s|\n", tmp);
 	while (tmp[++i])
 	{
 		if (tmp[i] == '\'' || tmp[i] == '\"')
@@ -51,7 +53,7 @@ void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 		if (tmp[i] == '|')
 			tmp = lexer_pipe(tokens, &i, tmp);
 		if (tmp[i] == '\0')
-			break;
+			break ;
 	}
 	lexer_cmd(tokens, tmp);
 	free(tmp);

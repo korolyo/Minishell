@@ -24,16 +24,14 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
-int ft_execute_cmd(char *path, t_tlist *tokens)
+int ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 {
 	pid_t	pid;
 	int		status;
 	int		redir_id;
 	int 	tmp_in;
 	int 	tmp_out;
-	int 	i;
 
-	i = 0;
 	status = 0;
 	redir_id = 0;
 	if ((tokens->fdin != -2 || tokens->fdout != -2) && !access(path, 00))
@@ -41,6 +39,7 @@ int ft_execute_cmd(char *path, t_tlist *tokens)
 	pid = fork();
 	if (pid == 0)
 	{
+		pipe_switch(tokens, misc);
 		if (execve(path, tokens->cmd, NULL))
 			ft_cmd_error(tokens->cmd[0]);
 		exit(EXIT_SUCCESS);
@@ -51,7 +50,7 @@ int ft_execute_cmd(char *path, t_tlist *tokens)
 		status = ft_wait_pid(pid);
 	if (redir_id == 1)
 		ft_restore_fd(tmp_in, tmp_out);
-	//TODO : PIPE SWITCH
+	close_pipes(misc->fdpipe, misc->i);
 	return (status);
 }
 
