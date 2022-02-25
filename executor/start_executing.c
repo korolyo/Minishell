@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int ft_execution(t_tlist *tokens, t_list **var_list)
+int ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 {
 	char **path_list;
 	char *executor_path;
@@ -17,7 +17,8 @@ int ft_execution(t_tlist *tokens, t_list **var_list)
 		executor_path = tokens->cmd[0];
 	else
 		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
-	if (ft_add_status(var_list, ft_execute_cmd(executor_path, tokens)) == 0)
+	if (ft_add_status(var_list, ft_execute_cmd(executor_path, tokens, misc))
+	== 0)
 		return (0); //ошибка
 	ft_clear_path_list(&path_list);
 	free(tmp_path);
@@ -49,7 +50,7 @@ int ft_check_if_var(char **args, t_list **var_list)
 	return (1);
 }
 
-int ft_start_execution(t_tlist *tokens, t_list **var_list)
+int ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 {
 	int				index;
 	int 			tmp_in;
@@ -71,7 +72,6 @@ int ft_start_execution(t_tlist *tokens, t_list **var_list)
 	redir_id = 0;
 	if (ft_strchr(tokens->cmd[0], '=') != NULL)
 		return (ft_check_if_var(tokens->cmd, var_list));
-	//TODO: PIPES
 	while (++index < 7)
 	{
 		if (!(strncmp(tokens->cmd[0], builtins[index].cmd, 7)))
@@ -81,13 +81,15 @@ int ft_start_execution(t_tlist *tokens, t_list **var_list)
 			index = builtins[index].f_cmd(tokens->cmd, var_list);
 			if (redir_id == 1)
 				ft_restore_fd(tmp_in, tmp_out);
-			//TODO: PIPE SWITCH
+			//TODO: PIPE SWITCH for builtins
+			if (misc->num_of_pipes != 0)
+				pipe_switch(tokens, misc);
 			return (index);
 		}
 	}
 	if (index == 7) //Обработка встроенных файлов
 	{
-		if (ft_execution(tokens, var_list) == 0)
+		if (ft_execution(tokens, var_list, misc) == 0)
 		{
 			ft_add_status(var_list, 127);
 			return (ft_cmd_error(tokens->cmd[0]));
@@ -98,11 +100,24 @@ int ft_start_execution(t_tlist *tokens, t_list **var_list)
 
 int ft_start(t_tlist *tokens, t_list **var_list)
 {
+	t_misc	misc;
 
+	init_misc(&misc, tokens);
+	misc.fdpipe = pipes(&misc);
+	cmd_kind(tokens);
 	while (tokens)
 	{
-		ft_start_execution(tokens, var_list);
+		ft_start_execution(tokens, var_list, &misc);
+		misc.i++;
 		tokens = tokens->next;
 	}
 	return (0);
+}
+
+void	init_misc(t_misc *misc, t_tlist *tokens)
+{
+	misc->cmd_count = find_cmd_num(tokens);
+	misc->i = 0;
+	misc->num_of_pipes = tokens->pipes;
+	misc->fdpipe = NULL;
 }

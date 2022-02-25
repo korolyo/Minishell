@@ -91,9 +91,9 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 {
 	char	*str;
-	int 	j;
+	int		j;
 	t_tlist	*tmp_head;
-	int 	type;
+	int		type;
 
 	j = i;
 	printf("check\n");
@@ -117,15 +117,13 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 		i++;
 	while (ft_isalpha(prompt[i]) || ft_isdigit(prompt[i]))
 		i++;
-
 	// DIFFERENT FUNCTION:
 	while (tmp_head->next)
 		tmp_head = tmp_head->next;
 	if (type == REDIR)
 	{
 		str = ft_substr(prompt, j + 1, i - j - 1);
-		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_TRUNC,
-							   0644);
+		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	if (type == REDIR_APPEND)
 	{
@@ -143,6 +141,8 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	{
 		tmp_head->fdin = 0;
 		tmp_head->fdout = 1;
+		str = ft_substr(prompt, j + 2, i - j - 2);
+		tmp_head->stop_word = ft_strdup(str);
 	}
 	str = str_delete_part(prompt, j, i - 1, DELETE_MID);
 	return (str);
@@ -151,8 +151,8 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 void	lexer_cmd(t_tlist **tokens, char *prompt)
 {
 	t_tlist	*tmp;
-	char 	*tmp_str;
-	int 	j;
+	char	*tmp_str;
+	int		j;
 	int		count;
 
 	count = -1;
@@ -180,7 +180,7 @@ char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
 {
 	t_tlist	*tmp_cmds;
 	char	*str_before;
-	char 	*str_after;
+	char	*str_after;
 
 	str_before = ft_substr(tmp, 0, *i);
 	lexer_cmd(tokens, str_before);

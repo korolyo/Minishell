@@ -11,28 +11,11 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
-//size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-//{
-//	size_t	len_src;
-//
-//	len_src = ft_strlen(src);
-//	printf("ft_strlcpy: src = |%s|, size = %zu\n", src, size);
-//	if (!size)
-//		return (len_src);
-//	if (len_src + 1 < size)
-//		memcpy(dst, src, len_src + 1);
-//	else if (size != 0)
-//	{
-//		memcpy(dst, src, size);
-//		dst[size - 1] = '\0';
-//	}
-//	return (len_src);
-//}
 
-size_t  ft_strlcpy(char *dst, const char *src, size_t size)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	size_t i;
+	size_t	i;
+
 	i = 0;
 	if (!(dst == NULL || src == NULL))
 	{

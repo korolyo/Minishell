@@ -14,6 +14,7 @@
 
 void	clear_all(t_tlist **tokens)
 {
+	unlink(".tmp_file");
 	if (*tokens)
 	{
 		tlist_clear(*tokens);
@@ -61,7 +62,7 @@ int	main(void)
 		ft_save_var(&var_list, *environ, 1);
 		environ++;
 	}
-	ft_save_var(&var_list, "?=0", 0); //  здесь делаем переменную для хранения статуса
+	ft_save_var(&var_list, "?=0", 0);
 	rl_catch_signals = 0;
 	ft_change_lvl(&var_list, 1);
 	while (1)
@@ -70,14 +71,16 @@ int	main(void)
 		prompt = readline("minishell > ");
 		if (prompt)
 			add_history(prompt);
-		if (!(prompt = preparse(prompt)))
+		prompt = preparse(prompt);
+		if (!prompt)
 			exit(EXIT_SUCCESS);
 		lexer(prompt, &tokens, &var_list);
-//		printf("tokens :");
-//		print_tokens(tokens);
 		if (!(ft_start(tokens, &var_list)))
 			printf("problem with executor");
 		clear_all(&tokens);
 	}
 	exit(EXIT_SUCCESS);
 }
+
+//		printf("tokens :");
+//		print_tokens(tokens);

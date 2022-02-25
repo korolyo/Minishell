@@ -12,67 +12,63 @@
 
 #include "minishell.h"
 
-//int find_cmd_num(t_tlist *tokens)
-//{
-//	int	count;
-//
-//	count = 0;
-//	while (tokens)
-//	{
-//		count++;
-//		tokens = tokens->next;
-//	}
-//	return (count);
-//}
-//
-//
-//void	pipes(t_tlist *tokens)
-//{
-//	int	*fdpipe;
-//	int	count_cmd;
-//	int	i;
-//	int	err;
-//
-//	i = 0;
-//	count_cmd = find_cmd_num(tokens);
-//	fdpipe = (int *) ft_calloc(sizeof(int), tokens->pipes);
-//	while (count_cmd != 0)
-//	{
-//		if ((err = pipe(fdpipe + 2)) == -1)
-//		{
-//			free(pipe);
-//			perror("Bad piping");
-//			exit(err);
-//		}
-//		count_cmd--;
-//		i++;
-//	}
-//}
-//
-//void	cmd_kind(t_tlist *tokens)
-//{
-//	tokens->kind = FIRST;
-//	while (tokens->next)
-//		tokens = tokens->next;
-//	tokens->kind = LAST;
-//}
-//
-//void	pipe_switch(t_tlist *tokens, int *i, int *fdpipe)
-//{
-//	if (tokens->kind == FIRST)
-//	{
-//		dup2(fdpipe[2 * (*i) + 1], STDOUT_FILENO);
-//		break;
-//	}
-//	else if (tokens->kind == MIDDLE)
-//	{
-//		dup2(fdpipe[2 * (*i) - 1], STDIN_FILENO);
-//		dup2(fdpipe[2 * (*i) + 1], STDOUT_FILENO);
-//		break;
-//	}
-//	else if (tokens->kind == LAST)
-//	{
-//		dup2(fdpipe[2 * (*i) - 1], STDIN_FILENO);
-//		break;
-//	}
-//}
+int	find_cmd_num(t_tlist *tokens)
+{
+	int	count;
+
+	count = 0;
+	while (tokens)
+	{
+		count++;
+		tokens = tokens->next;
+	}
+	return (count);
+}
+
+int	*pipes(t_misc *misc)
+{
+	int	*fdpipe;
+	int	i;
+
+	i = 0;
+	fdpipe = (int *) ft_calloc(sizeof(int), 2 * misc->num_of_pipes);
+	while (i < misc->cmd_count)
+	{
+		if (pipe(fdpipe + 2 * i) == -1)
+			perror("Bad piping");
+		i++;
+	}
+	return (fdpipe);
+}
+
+void	cmd_kind(t_tlist *tokens)
+{
+	tokens->kind = FIRST;
+	while (tokens->next)
+		tokens = tokens->next;
+	tokens->kind = LAST;
+}
+
+void	pipe_switch(t_tlist *tokens, t_misc *misc)
+{
+	if (tokens->kind == FIRST)
+		dup2(misc->fdpipe[2 * (misc->i) + 1], STDOUT_FILENO);
+	else if (tokens->kind == MIDDLE)
+	{
+		dup2(misc->fdpipe[2 * (misc->i) - 1], STDIN_FILENO);
+		dup2(misc->fdpipe[2 * (misc->i) + 1], STDOUT_FILENO);
+	}
+	else if (tokens->kind == LAST)
+		dup2(misc->fdpipe[2 * (misc->i) - 1], STDIN_FILENO);
+}
+
+void	close_pipes(int *fdpipe, int node_id)
+{
+	int	i;
+	int	n;
+
+	i = 0;
+	n = 2 * (node_id - 1);
+	while (i < n)
+		close(fdpipe[i++]);
+}

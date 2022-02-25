@@ -98,9 +98,7 @@ int	ft_exit(char **args, t_list **var_list)
 	if (lvl == 2)
 	{
 		ft_clear_vars(var_list); //TODO: здесь очистить все
-//		clear_all(&tokens, ast);;
 		exit(EXIT_SUCCESS);
 	}
-//	clear_all(&tokens, ast); // MB DOUBLE FREE HERE
 	exit(EXIT_SUCCESS);
 }
