@@ -88,7 +88,7 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 	return (tmp);
 }
 
-char	*find_type(char *prompt, int j, int *i)
+int	find_type(char *prompt, int j, int *i)
 {
 	int	type;
 

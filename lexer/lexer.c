@@ -15,8 +15,6 @@
 void	init_num(t_num *num)
 {
 	num = (t_num *)malloc(sizeof(t_num));
-	if (!num)
-		return (NULL);
 	num->i = 0;
 	num->j = 0;
 	num->k = 0;
