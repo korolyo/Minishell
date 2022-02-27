@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc.c                                         :+:      :+:    :+:   */
+/*   pipes1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,30 +12,10 @@
 
 #include "minishell.h"
 
-void	heredoc(t_tlist *tokens)
+void	init_misc(t_misc *misc, t_tlist *tokens)
 {
-	int		limiter;
-	int		fd;
-	char	*line;
-
-	if (tokens->stop_word)
-	{
-		fd = open(".tmp_file", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
-		while (1)
-		{
-			signal(SIGINT, SIG_DFL);
-			line = readline("> ");
-			if (line == NULL)
-				break ;
-			limiter = ft_strncmp(line, tokens->stop_word, ft_strlen(line));
-			if (limiter == 0)
-				break ;
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
-			free(line);
-		}
-		free(line);
-		tokens->fdin = fd;
-		close(fd);
-	}
+	misc->cmd_count = find_cmd_num(tokens);
+	misc->i = 0;
+	misc->num_of_pipes = tokens->pipes;
+	misc->fdpipe = NULL;
 }
