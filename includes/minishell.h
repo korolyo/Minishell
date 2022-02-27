@@ -60,6 +60,7 @@
 # define MAX_DIRNAME 	4096
 # define MAX_FILENAME 	255
 
+int						g_exit_status;
 typedef struct s_tlist	t_tlist;
 
 // Lexer linked list of tokens:
@@ -71,7 +72,7 @@ struct		s_tlist
 	int		fdin;
 	int		fdout;
 	int		kind;
-	char 	*stop_word;
+	char	*stop_word;
 	t_tlist	*next;
 };
 
@@ -98,11 +99,18 @@ typedef struct s_var
 
 typedef struct s_misc
 {
-	int 		i;
-	int 		num_of_pipes;
+	int			i;
+	int			num_of_pipes;
 	int			cmd_count;
-	int 		*fdpipe;
+	int			*fdpipe;
 }				t_misc;
+
+typedef struct s_num
+{
+	int			i;
+	int			j;
+	int			k;
+}				t_num;
 
 // Preparsing
 char	*preparse(char *prompt);
@@ -179,6 +187,7 @@ void	pipe_switch(t_tlist *tokens, t_misc *misc);
 int		find_cmd_num(t_tlist *tokens);
 void	close_pipes(int *fdpipe, int node_id);
 void	heredoc(t_tlist *tokens);
+void	catch_heredog_sig(void);
 
 // DEBUG:
 void	print_tokens(t_tlist *tokens);

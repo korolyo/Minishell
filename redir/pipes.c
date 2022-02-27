@@ -51,16 +51,15 @@ void	cmd_kind(t_tlist *tokens)
 
 void	pipe_switch(t_tlist *tokens, t_misc *misc)
 {
-//	printf("tokens->kind = %d\n", tokens->kind);
-//	if (misc->cmd_count == 2)
-//	{
-//		if (tokens->kind == FIRST && tokens->next != NULL)
-//			dup2(misc->fdpipe[1], 1);
-//		else if (tokens->kind == LAST)
-//			dup2(misc->fdpipe[0], 0);
-//	}
-//	else
-//	{
+	if (misc->cmd_count == 2)
+	{
+		if (tokens->kind == FIRST && tokens->next != NULL)
+			dup2(misc->fdpipe[1], 1);
+		else if (tokens->kind == LAST)
+			dup2(misc->fdpipe[0], 0);
+	}
+	else
+	{
 		if (tokens->kind == FIRST)
 			dup2(misc->fdpipe[2 * (misc->i) + 1], STDOUT_FILENO);
 		else if (tokens->kind == MIDDLE)
@@ -70,7 +69,7 @@ void	pipe_switch(t_tlist *tokens, t_misc *misc)
 		}
 		else if (tokens->kind == LAST)
 			dup2(misc->fdpipe[2 * (misc->i) - 2], STDIN_FILENO);
-//	}
+	}
 }
 
 void	close_pipes(int *fdpipe, int node_id)
@@ -82,12 +81,4 @@ void	close_pipes(int *fdpipe, int node_id)
 	n = 2 * (node_id - 1);
 	while (i < n)
 		close(fdpipe[i++]);
-}
-
-void	init_misc(t_misc *misc, t_tlist *tokens)
-{
-	misc->cmd_count = find_cmd_num(tokens);
-	misc->i = 0;
-	misc->num_of_pipes = tokens->pipes;
-	misc->fdpipe = NULL;
 }

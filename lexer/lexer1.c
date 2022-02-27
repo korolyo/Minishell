@@ -88,37 +88,38 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 	return (tmp);
 }
 
+char	*find_type(char *prompt, int j, int *i)
+{
+	int	type;
+
+	type = 0;
+	if (prompt[j] == '<' && prompt[j + 1] == '<')
+		type = HERE_DOC;
+	else if (prompt[j] == '>' && prompt[j + 1] == '>')
+		type = REDIR_APPEND;
+	else if (prompt[j] == '>')
+		type = REDIR;
+	else if (prompt[j] == '<')
+		type = REDIR_INPUT;
+	while (prompt[*i] == ' ' || prompt[*i] == '>' || prompt[*i] == '<')
+		(*i)++;
+	return (type);
+}
+
 char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 {
 	char	*str;
 	int		j;
-	int 	k;
 	t_tlist	*tmp_head;
 	int		type;
+	int		k;
 
 	j = i;
 	tmp_head = *tokens;
-	if (prompt[i] == '<' && prompt[i + 1] == '<')
-	{
-		type = HERE_DOC;
-		i++;
-	}
-	else if (prompt[i] == '>' && prompt[i + 1] == '>')
-	{
-		type = REDIR_APPEND;
-		i++;
-	}
-	else if (prompt[i] == '>')
-		type = REDIR;
-	else if (prompt[i] == '<')
-		type = REDIR_INPUT;
-	i++;
-	if (prompt[i] == ' ')
-		i++;
+	type = find_type(prompt, j, &i);
 	k = i;
 	while (ft_isalpha(prompt[i]) || ft_isdigit(prompt[i]))
 		i++;
-	// DIFFERENT FUNCTION:
 	while (tmp_head->next)
 		tmp_head = tmp_head->next;
 	if (type == REDIR)
@@ -135,16 +136,9 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	{
 		str = ft_substr(prompt, k, i - j - 2);
 		tmp_head->fdin = open(str, O_RDONLY, 0644);
-		if (tmp_head->fdin == -1)
-			printf("%s: No such file or directory", str);
 	}
 	if (type == HERE_DOC)
-	{
-		tmp_head->fdin = 0;
-		tmp_head->fdout = 1;
-		str = ft_substr(prompt, k, i - j - 2);
-		tmp_head->stop_word = ft_strdup(str);
-	}
+		tmp_head->stop_word = ft_substr(prompt, k, i - j - 2);
 	str = str_delete_part(prompt, j, i - 1, DELETE_MID);
 	return (str);
 }
@@ -173,21 +167,4 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 		}
 	}
 	tmp->cmd = ft_quotes_split(tmp_str, ' ');
-}
-
-char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
-{
-	t_tlist	*tmp_cmds;
-	char	*str_before;
-	char	*str_after;
-
-	str_before = ft_substr(tmp, 0, *i);
-	lexer_cmd(tokens, str_before);
-	tmp_cmds = *tokens;
-	tmp_cmds->pipes++;
-	printf("check pipes = %d\n", (*tokens)->pipes);
-	str_after = ft_substr(tmp, *i + 1, ft_strlen(tmp) - *i);
-	*i = -1;
-	free(tmp);
-	return (str_after);
 }
