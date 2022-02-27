@@ -10,6 +10,7 @@ SOURCES_LIST	= 	main.c \
 					lexer/lexer1.c \
 					lexer/lexer_utils.c \
 					redir/pipes.c \
+					redir/pipes1.c \
 					redir/here_doc.c \
 					executor/var_handling.c \
 					executor/start_executing.c \
