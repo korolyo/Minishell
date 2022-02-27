@@ -81,7 +81,6 @@ int ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 			index = builtins[index].f_cmd(tokens->cmd, var_list);
 			if (redir_id == 1)
 				ft_restore_fd(tmp_in, tmp_out);
-			//TODO: PIPE SWITCH for builtins
 			if (misc->num_of_pipes != 0)
 				pipe_switch(tokens, misc);
 			return (index);

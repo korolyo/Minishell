@@ -39,6 +39,7 @@ int ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	pid = fork();
 	if (pid == 0)
 	{
+		heredoc(tokens);
 		pipe_switch(tokens, misc);
 		if (execve(path, tokens->cmd, NULL))
 			ft_cmd_error(tokens->cmd[0]);

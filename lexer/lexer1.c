@@ -92,11 +92,11 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 {
 	char	*str;
 	int		j;
+	int 	k;
 	t_tlist	*tmp_head;
 	int		type;
 
 	j = i;
-	printf("check\n");
 	tmp_head = *tokens;
 	if (prompt[i] == '<' && prompt[i + 1] == '<')
 	{
@@ -115,6 +115,7 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	i++;
 	if (prompt[i] == ' ')
 		i++;
+	k = i;
 	while (ft_isalpha(prompt[i]) || ft_isdigit(prompt[i]))
 		i++;
 	// DIFFERENT FUNCTION:
@@ -122,17 +123,17 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 		tmp_head = tmp_head->next;
 	if (type == REDIR)
 	{
-		str = ft_substr(prompt, j + 1, i - j - 1);
+		str = ft_substr(prompt, k, i - j - 1);
 		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	}
 	if (type == REDIR_APPEND)
 	{
-		str = ft_substr(prompt, j + 2, i - j - 2);
+		str = ft_substr(prompt, k, i - j - 2);
 		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	}
 	if (type == REDIR_INPUT)
 	{
-		str = ft_substr(prompt, j + 1, i - j - 2);
+		str = ft_substr(prompt, k, i - j - 2);
 		tmp_head->fdin = open(str, O_RDONLY, 0644);
 		if (tmp_head->fdin == -1)
 			printf("%s: No such file or directory", str);
@@ -141,7 +142,7 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	{
 		tmp_head->fdin = 0;
 		tmp_head->fdout = 1;
-		str = ft_substr(prompt, j + 2, i - j - 2);
+		str = ft_substr(prompt, k, i - j - 2);
 		tmp_head->stop_word = ft_strdup(str);
 	}
 	str = str_delete_part(prompt, j, i - 1, DELETE_MID);
@@ -153,9 +154,7 @@ void	lexer_cmd(t_tlist **tokens, char *prompt)
 	t_tlist	*tmp;
 	char	*tmp_str;
 	int		j;
-	int		count;
 
-	count = -1;
 	j = -1;
 	tmp = tlistnew(CMD);
 	tlistadd_back(tokens, tmp);
