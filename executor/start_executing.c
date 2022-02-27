@@ -113,10 +113,3 @@ int ft_start(t_tlist *tokens, t_list **var_list)
 	return (0);
 }
 
-void	init_misc(t_misc *misc, t_tlist *tokens)
-{
-	misc->cmd_count = find_cmd_num(tokens);
-	misc->i = 0;
-	misc->num_of_pipes = tokens->pipes;
-	misc->fdpipe = NULL;
-}

@@ -39,8 +39,11 @@ int ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	pid = fork();
 	if (pid == 0)
 	{
-		heredoc(tokens);
+//		heredoc(tokens);
 		pipe_switch(tokens, misc);
+		close_pipes(misc->fdpipe, misc->cmd_count);
+		printf("check child misc->i = %d\n", misc->i);
+		printf("check child misc->i = %d\n", misc->i);
 		if (execve(path, tokens->cmd, NULL))
 			ft_cmd_error(tokens->cmd[0]);
 		exit(EXIT_SUCCESS);
@@ -48,10 +51,13 @@ int ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	else if (pid < 0)
 		perror("minishell"); // ошибка при форкинге
 	else
+	{
+		close_pipes(misc->fdpipe, misc->cmd_count);
 		status = ft_wait_pid(pid);
+	}
+	printf("check parent\n");
 	if (redir_id == 1)
 		ft_restore_fd(tmp_in, tmp_out);
-	close_pipes(misc->fdpipe, misc->i);
 	return (status);
 }
 
