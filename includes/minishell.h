@@ -148,6 +148,8 @@ int		ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_
 int		ft_execute_cmd(char *path, t_tlist *tokens);
 int		ft_redirection(t_tlist *tokens, int *tmp_in, int *tmp_out);
 void	ft_restore_fd(int tmp_in, int tmp_out);
+int		ft_check_if_var(char **args, t_list **var_list, int task_id);
+int		ft_check_var(char *args, char *check_cmd);
 
 
 // UTILS:
