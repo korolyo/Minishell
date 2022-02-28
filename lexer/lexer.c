@@ -12,6 +12,31 @@
 
 #include "minishell.h"
 
+void	init_num(t_num *num)
+{
+	num = (t_num *)malloc(sizeof(t_num));
+	num->i = 0;
+	num->j = 0;
+	num->k = 0;
+}
+
+char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
+{
+	t_tlist	*tmp_cmds;
+	char	*str_before;
+	char	*str_after;
+
+	str_before = ft_substr(tmp, 0, *i);
+	lexer_cmd(tokens, str_before);
+	tmp_cmds = *tokens;
+	tmp_cmds->pipes++;
+	printf("check pipes = %d\n", (*tokens)->pipes);
+	str_after = ft_substr(tmp, *i + 1, ft_strlen(tmp) - *i);
+	*i = -1;
+	free(tmp);
+	return (str_after);
+}
+
 char	*dollar_string(char *tmp, t_list **var_list)
 {
 	int		i;
@@ -23,6 +48,17 @@ char	*dollar_string(char *tmp, t_list **var_list)
 	{
 		if (ret[i] == '\'')
 			preparse_quotes(ret, &i);
+		if (ret[i] == '\"')
+		{
+			while (ret[++i] != '\"')
+			{
+				if (ret[i] == '$')
+				{
+					ret = lexer_dollar(ret, &i, var_list);
+					i--;
+				}
+			}
+		}
 		if (ret[i] == '$')
 		{
 			ret = lexer_dollar(ret, &i, var_list);
@@ -36,14 +72,12 @@ char	*dollar_string(char *tmp, t_list **var_list)
 void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 {
 	int		i;
-	int 	j;
 	char	*tmp;
+	t_num	num;
 
-	j = 0;
 	i = -1;
-	printf("check\n");
 	tmp = dollar_string(prompt, var_list);
-	printf("tmp in lexer = |%s|\n", tmp);
+	init_num(&num);
 	while (tmp[++i])
 	{
 		if (tmp[i] == '\'' || tmp[i] == '\"')
@@ -51,7 +85,7 @@ void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 		if (tmp[i] == '|')
 			tmp = lexer_pipe(tokens, &i, tmp);
 		if (tmp[i] == '\0')
-			break;
+			break ;
 	}
 	lexer_cmd(tokens, tmp);
 	free(tmp);

@@ -20,7 +20,29 @@ void	sig_handler(int signum)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		g_exit_status = 1;
 	}
+}
+
+void	sig_handler3(int signum)
+{
+	(void) signum;
+	if (signum == SIGINT)
+	{
+		write(1, "^C\n", 3);
+		g_exit_status = 130;
+	}
+	if (signum == SIGQUIT)
+	{
+		write(1, "^\\Quit: 3\n", 10);
+		g_exit_status = 131;
+	}
+}
+
+void	catch_heredog_sig(void)
+{
+	signal(SIGINT, sig_handler3);
+	signal(SIGQUIT, sig_handler3);
 }
 
 void	sig_init(void)

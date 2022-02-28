@@ -1,38 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atol.c                                          :+:      :+:    :+:   */
+/*   pipes1.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/04 21:56:06 by acollin           #+#    #+#             */
-/*   Updated: 2021/08/04 21:56:23 by acollin          ###   ########.fr       */
+/*   Created: 2021/10/06 20:38:28 by acollin           #+#    #+#             */
+/*   Updated: 2021/10/09 12:01:13 by acollin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int64_t	ft_atol(const char *nptr)
+void	init_misc(t_misc *misc, t_tlist *tokens)
 {
-	int64_t	n;
-	int64_t	sign;
-
-	n = 0;
-	sign = 1;
-	while (*nptr == ' ' || *nptr == '\f' || *nptr == '\n'
-		|| *nptr == '\r' || *nptr == '\t' || *nptr == '\v')
-		nptr++;
-	if (*nptr == '-')
-	{
-		sign = -sign;
-		nptr++;
-	}
-	else if (*nptr == '+')
-		nptr++;
-	while (*nptr >= '0' && *nptr <= '9')
-	{
-		n = 10 * n + (*nptr - '0');
-		nptr++;
-	}
-	return (n * sign);
+	misc->cmd_count = find_cmd_num(tokens);
+	misc->i = 0;
+	misc->num_of_pipes = tokens->pipes;
+	misc->fdpipe = NULL;
 }

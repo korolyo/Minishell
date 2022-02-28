@@ -22,7 +22,7 @@ int	preparse_pipe(char *prompt, int i)
 	return (1);
 }
 
-char *str_delete_part(char *prompt, int start, int end, int flag_mid)
+char	*str_delete_part(char *prompt, int start, int end, int flag_mid)
 {
 	char	*tmp;
 	char	*tmp2;

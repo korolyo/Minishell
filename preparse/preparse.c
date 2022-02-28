@@ -15,8 +15,8 @@
 char	*preparse_delim(char *prompt, int i)
 {
 	char	*tmp;
-	char 	*tmp2;
-	int 	j;
+	char	*tmp2;
+	int		j;
 
 	tmp = ft_strdup(prompt);
 	while (tmp[++i] != '\0')
@@ -98,22 +98,25 @@ int	unmatched_quotes(char *prompt, int i)
 	return (1);
 }
 
-int preparse_redir(char *prompt, int i)
+int	preparse_redir(char *prompt, int i)
 {
 	if (prompt[i] == '>')
 	{
-		if (prompt[i + 1] == '<' || prompt[i + 1] == '\0' ||
-			((prompt[i + 1] == '>' && ft_strchr("<>", prompt[i + 2]))))
+		if (prompt[i + 1] == '<' || prompt[i + 1] == '\0'
+			|| ((prompt[i + 1] == '>'
+					&& ft_strchr("<>", prompt[i + 2]))))
 			return (0);
 	}
 	if (prompt[i] == '<')
 	{
-		if (prompt[i + 1] == '>' || prompt[i + 1] == '\0' ||
-			((prompt[i + 1] == '<' && ft_strchr("<>", prompt[i + 2]))))
+		if (prompt[i + 1] == '>' || prompt[i + 1] == '\0'
+			|| ((prompt[i + 1] == '<'
+					&& ft_strchr("<>", prompt[i + 2]))))
 			return (0);
 	}
 	return (1);
 }
+
 // Checking readline string validity:
 char	*preparse(char *prompt)
 {
@@ -134,11 +137,9 @@ char	*preparse(char *prompt)
 		free(tmp);
 		return (NULL);
 	}
-//	printf("in preparse\n");
 	tmp = preparse_delim(tmp, i);
 	while (tmp[++i])
 	{
-//		printf("i = %d, tmp prep = %s\n", i, tmp);
 		if (!(preparse_redir(tmp, i)))
 		{
 			tmp = ft_strdup("Minishell: syntax error with redir symbol");
@@ -155,6 +156,5 @@ char	*preparse(char *prompt)
 		}
 	}
 	free(prompt);
-//	printf("tmp prep = %s\n", tmp);
 	return (tmp);
 }

@@ -12,25 +12,30 @@
 
 #include "minishell.h"
 
-// В ДОЧКЕ
-//int	here_doc(char *stop_word, t_tlist *tokens)
-//{
-//	char *here_doc;
-//	int fd_in_hd;
-//
-//	if (!(fd_in_hd = open(".tmp_hd", O_WRONLY | O_CREAT | O_APPEND, 0644)))
-//		perror("Cant create tmp file");
-//	while (не нашли стоп слово)
-//	{
-//		while (1)
-//		{
-//			here_doc = readline("> ");
-//			if (ft_strncmp(here_doc, stop_word, ft_strlen(stop_word)))
-//				return (1);
-//		};
-//	}
-//	tokens->fdin = fd_in_hd;
-//	close(".tmp_hd");
-//	.....
-//	return (0);
-//}
+void	heredoc(t_tlist *tokens)
+{
+	int		limiter;
+	int		fd;
+	char	*line;
+
+	if (tokens->stop_word)
+	{
+		fd = open(".tmp_file", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+		while (1)
+		{
+			signal(SIGINT, SIG_DFL);
+			line = readline("> ");
+			if (line == NULL)
+				break ;
+			limiter = ft_strncmp(line, tokens->stop_word, ft_strlen(line));
+			if (limiter == 0)
+				break ;
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+		}
+		free(line);
+		tokens->fdin = fd;
+		close(fd);
+	}
+}

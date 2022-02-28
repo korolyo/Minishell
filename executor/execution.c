@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execution.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/27 17:16:47 by acollin           #+#    #+#             */
+/*   Updated: 2022/02/27 17:16:50 by acollin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_wait_pid(pid_t pid)
@@ -24,23 +36,28 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
-int ft_execute_cmd(char *path, t_tlist *tokens)
+int ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 {
 	pid_t	pid;
 	int		status;
 	int		redir_id;
 	int 	tmp_in;
 	int 	tmp_out;
-	int 	i;
 
-	i = 0;
 	status = 0;
 	redir_id = 0;
 	if ((tokens->fdin != -2 || tokens->fdout != -2) && !access(path, 00))
 		redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
 	pid = fork();
+	if (pid && !tokens->stop_word)
+		catch_heredog_sig();
 	if (pid == 0)
 	{
+		heredoc(tokens);
+		pipe_switch(tokens, misc);
+		close_pipes(misc->fdpipe, misc->cmd_count);
+		printf("check child misc->i = %d\n", misc->i);
+		printf("check child misc->i = %d\n", misc->i);
 		if (execve(path, tokens->cmd, NULL))
 			ft_cmd_error(tokens->cmd[0]);
 		exit(EXIT_SUCCESS);
@@ -48,10 +65,13 @@ int ft_execute_cmd(char *path, t_tlist *tokens)
 	else if (pid < 0)
 		perror("minishell"); // ошибка при форкинге
 	else
+	{
+		close_pipes(misc->fdpipe, misc->cmd_count);
 		status = ft_wait_pid(pid);
+	}
+	printf("check parent\n");
 	if (redir_id == 1)
 		ft_restore_fd(tmp_in, tmp_out);
-	//TODO : PIPE SWITCH
 	return (status);
 }
 

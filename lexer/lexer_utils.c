@@ -83,8 +83,6 @@ int	get_quotes_arrlen(char const *s, char c)
 
 	i = 0;
 	len = 0;
-	if (!ft_strlen(s))
-		return (0);
 	while (s[i] != '\0')
 	{
 		if (s[i] != c && s[i] != '\0')

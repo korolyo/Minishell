@@ -16,8 +16,9 @@ t_tlist	*tlistnew(int type)
 {
 	t_tlist	*tmp;
 
-	if (!(tmp = (t_tlist *)malloc(sizeof(t_tlist))))
-			return (NULL);
+	tmp = (t_tlist *)malloc(sizeof(t_tlist));
+	if (!tmp)
+		return (NULL);
 	tmp->type = type;
 	tmp->cmd = NULL;
 	tmp->next = NULL;
@@ -25,6 +26,7 @@ t_tlist	*tlistnew(int type)
 	tmp->fdout = -2;
 	tmp->pipes = 0;
 	tmp->kind = MIDDLE;
+	tmp->stop_word = NULL;
 	return (tmp);
 }
 
@@ -32,7 +34,7 @@ void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken)
 {
 	t_tlist	*final;
 
-	if(!head_token && !newtoken)
+	if (!head_token && !newtoken)
 		return ;
 	if (!(*head_token))
 	{

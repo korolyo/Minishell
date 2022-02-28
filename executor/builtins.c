@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/27 17:16:22 by acollin           #+#    #+#             */
+/*   Updated: 2022/02/27 17:16:29 by acollin          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_pwd(char **args, t_list **var_list)
@@ -98,10 +110,8 @@ int	ft_exit(char **args, t_list **var_list)
 	if (lvl == 2)
 	{
 		ft_clear_vars(var_list); //TODO: здесь очистить все
-//		clear_all(&tokens, ast);;
 		exit(EXIT_SUCCESS);
 	}
-//	clear_all(&tokens, ast); // MB DOUBLE FREE HERE
 	exit(EXIT_SUCCESS);
 }
 
