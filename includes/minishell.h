@@ -169,13 +169,9 @@ int		ft_join_path(char *args, char *tmp_path, char **path_list,
 int		ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc);
 int		ft_redirection(t_tlist *tokens, int *tmp_in, int *tmp_out);
 void	ft_restore_fd(int tmp_in, int tmp_out);
-<<<<<<< HEAD
 int		ft_check_if_var(char **args, t_list **var_list, int task_id);
 int		ft_check_var(char *args, char *check_cmd);
-
-=======
 void	init_misc(t_misc *misc, t_tlist *tokens);
->>>>>>> 17823026856a2c8ddfb641eef3d079bd4eb5e072
 
 // UTILS:
 void	sig_handler(int signum);

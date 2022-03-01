@@ -114,21 +114,3 @@ int	ft_exit(char **args, t_list **var_list)
 	}
 	exit(EXIT_SUCCESS);
 }
-
-//
-//index = 1;
-//if (args[1] == NULL)
-//{
-//sort_list = ft_sort_list(var_list);
-//return (ft_print_export(&sort_list));
-//}
-//while (args[index] != NULL)
-//{
-//tmp_list = ft_find_var(var_list, args[index]);
-//if (tmp_list == NULL)
-//{
-//ft_check_var(args[index], "export");
-//return (1);
-//}
-//return (ft_save_var(var_list, args[index], 1));
-//}

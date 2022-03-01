@@ -81,7 +81,7 @@ void	*ft_make_var(char *var, t_var **variable)
 
 	len1 = 0;
 	len2 = 0;
-	while (var[len1] != '=')
+	while (var[len1] != '=' && var[len1] != '\0')
 		len1++;
 	(*variable)->name = malloc(sizeof (char) * len1);
 	if (!(*variable)->name)

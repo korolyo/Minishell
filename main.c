@@ -79,6 +79,7 @@ int	main(void)
 			printf("problem with executor");
 		clear_all(&tokens);
 	}
+	ft_clear_vars(&var_list);
 	exit(EXIT_SUCCESS);
 }
 

@@ -86,12 +86,7 @@ int ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	index = -1;
 	redir_id = 0;
 	if (ft_strchr(tokens->cmd[0], '=') != NULL)
-<<<<<<< HEAD
 		return (ft_check_if_var(tokens->cmd, var_list, 0));
-	//TODO: PIPES
-=======
-		return (ft_check_if_var(tokens->cmd, var_list));
->>>>>>> 17823026856a2c8ddfb641eef3d079bd4eb5e072
 	while (++index < 7)
 	{
 		if (!(strncmp(tokens->cmd[0], builtins[index].cmd, 7)))
@@ -130,6 +125,6 @@ int ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
-	return (0);
+	return (1);
 }
 

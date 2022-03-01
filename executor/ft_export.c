@@ -83,24 +83,25 @@ int ft_print_export(t_list **sort_list)
 int		ft_export(char **args,  t_list **var_list)
 {
 	t_list	*sort_list;
-//	t_list	*tmp_list;
-	int 	index;
-
-	index = 1;
-	while (args[index] != NULL)
-	{
-//		tmp_list = ft_find_var(var_list, args[index]);
-//		if (tmp_list == NULL && ft_strchr(args[index], '=') == NULL)
-//		{
-//			ft_check_var(args[index], "export");
-//			return (1);
-//		}
-		ft_save_var(var_list, args[index], 1);
-		index++;
-	}
+	t_list	*tmp_list;
+//	int 	index;
+//
+//	index = 1;
+//	while (args[index] != NULL)
+//	{
+////		tmp_list = ft_find_var(var_list, args[index]);
+////		if (tmp_list == NULL && ft_strchr(args[index], '=') == NULL)
+////		{
+////			ft_check_var(args[index], "export");
+////			return (1);
+////		}
+//		ft_save_var(var_list, args[index], 1);
+//		index++;
+//	}
+	tmp_list = *var_list;
 	if (args[1] == NULL)
 	{
-		sort_list = ft_sort_list(var_list);
+		sort_list = ft_sort_list(&tmp_list);
 		return (ft_print_export(&sort_list));
 	}
 	return(1);
