@@ -43,6 +43,7 @@ int stsrt(char **sorted_name, char **sorted_value, int num)
 	char *tmp2;
 	int top = 0, seek = 0;
 
+	printf("start2\n");
 	while (top < num - 1)
 	{
 		seek = top + 1;
@@ -58,6 +59,7 @@ int stsrt(char **sorted_name, char **sorted_value, int num)
 				sorted_value[seek] = tmp2;
 			}
 			seek++;
+//			printf("start2\n");
 		}
 		top++;
 	}
@@ -107,9 +109,9 @@ int ft_sort_env(t_list **var_list)
 		}
 		*tmp_list = (*tmp_list)->next;
 	}
-	printf("start2\n");
 	sorted_name[count] = NULL;
 	sorted_value[count] = NULL;
+	printf("start2\n");
 	stsrt(sorted_name, sorted_value, count);
 	return (1);
 	//return ();

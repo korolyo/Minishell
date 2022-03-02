@@ -29,6 +29,7 @@ int ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 		executor_path = tokens->cmd[0];
 	else
 		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
+	printf("executor path = |%s|\n", executor_path);
 	if (ft_add_status(var_list, ft_execute_cmd(executor_path, tokens, misc))
 	== 0)
 		return (0); //ошибка
@@ -91,13 +92,13 @@ int ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	{
 		if (!(strncmp(tokens->cmd[0], builtins[index].cmd, 7)))
 		{
+			if (misc->num_of_pipes != 0)
+				pipe_switch(tokens, misc);
 			if (tokens->fdin != -2 || tokens->fdout != -2)
 				redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
 			index = builtins[index].f_cmd(tokens->cmd, var_list);
 			if (redir_id == 1)
 				ft_restore_fd(tmp_in, tmp_out);
-			if (misc->num_of_pipes != 0)
-				pipe_switch(tokens, misc);
 			return (index);
 		}
 	}

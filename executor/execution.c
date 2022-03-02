@@ -53,10 +53,10 @@ int ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 		catch_heredog_sig();
 	if (pid == 0)
 	{
-		heredoc(tokens);
-		pipe_switch(tokens, misc);
-		close_pipes(misc->fdpipe, misc->cmd_count);
-		printf("check child misc->i = %d\n", misc->i);
+//		heredoc(tokens);
+//		pipe_switch(tokens, misc);
+//		close_pipes(misc->fdpipe, misc->cmd_count);
+//		printf("check child misc->i = %d\n", misc->i);
 		printf("check child misc->i = %d\n", misc->i);
 		if (execve(path, tokens->cmd, NULL))
 			ft_cmd_error(tokens->cmd[0]);

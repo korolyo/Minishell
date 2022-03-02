@@ -53,12 +53,12 @@ void	pipe_switch(t_tlist *tokens, t_misc *misc)
 {
 	if (misc->cmd_count == 2)
 	{
-		if (tokens->kind == FIRST && tokens->next != NULL)
+		if (tokens->kind == FIRST)
 			dup2(misc->fdpipe[1], 1);
 		else if (tokens->kind == LAST)
 			dup2(misc->fdpipe[0], 0);
 	}
-	else
+	else if (misc->cmd_count > 2)
 	{
 		if (tokens->kind == FIRST)
 			dup2(misc->fdpipe[2 * (misc->i) + 1], STDOUT_FILENO);
