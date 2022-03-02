@@ -38,7 +38,7 @@ int ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	return (1); // успешное завершение
 }
 
-int ft_check_if_var(char **args, t_list **var_list)
+int ft_check_if_var(char **args, t_list **var_list, int task_id)
 {
 	int index;
 
@@ -46,7 +46,11 @@ int ft_check_if_var(char **args, t_list **var_list)
 	while (args[index] != NULL)
 	{
 		if (ft_strchr(args[index], '=') == NULL)
-			return (ft_cmd_error(args[index]));
+		{
+			if (task_id == 0)
+				return (ft_cmd_error(args[index]));
+			return (-1);
+		}
 		index++;
 	}
 	if (args[index] == NULL)
@@ -77,13 +81,12 @@ int ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 			{"env", ft_env},
 			{"exit", ft_exit}
 	};
-
 	tmp_in = 0;
 	tmp_out = 0;
 	index = -1;
 	redir_id = 0;
 	if (ft_strchr(tokens->cmd[0], '=') != NULL)
-		return (ft_check_if_var(tokens->cmd, var_list));
+		return (ft_check_if_var(tokens->cmd, var_list, 0));
 	while (++index < 7)
 	{
 		if (!(strncmp(tokens->cmd[0], builtins[index].cmd, 7)))
@@ -122,6 +125,6 @@ int ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
-	return (0);
+	return (1);
 }
 
