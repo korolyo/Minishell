@@ -12,97 +12,115 @@
 
 #include "minishell.h"
 
-t_list *ft_insert_srt (t_list *sort_list, t_list *item)
+void ft_print_export(char **sorted_name, char **sorted_value)
 {
-	t_var	*tmp_var;
-	t_var	*tmp_var2;
-	t_list	*tmp_list;
+//	t_list *tmp;
+//	t_var *tmp_var;
+	int i;
 
-	if (sort_list)
-		tmp_var = (t_var *)sort_list->content;
-	else
-		tmp_var = NULL;
-	tmp_var2 = (t_var *)item->content;
-	if (!sort_list || ft_strncmp(tmp_var2->name, tmp_var->name, 250) < 0)
+	i = 0;
+	while (sorted_name[i] != NULL)
 	{
-		item->next = sort_list;
-		sort_list = item;
+		if (*sorted_name[i] == '_')
+			i++;
+//		tmp = ft_find_var(var_list, sorted_env[i]);
+//		tmp_var = (t_var *)tmp->content;
+		printf("declare -x %s=\"%s\"\n", sorted_name[i], sorted_value[i]);
+		i++;
 	}
-	else
+//	i = 0;
+//	while (sorted_env[i] != NULL)
+//	{
+//		free(sorted_env[i]);
+//		i++;
+//	}
+//	sorted_env = NULL;
+}
+
+int stsrt(char **sorted_name, char **sorted_value, int num)
+{
+	char *tmp;
+	char *tmp2;
+	int top = 0, seek = 0;
+
+	while (top < num - 1)
 	{
-		tmp_list = sort_list;
-		while (tmp_list)
+		seek = top + 1;
+		while (seek < num && sorted_name[seek] != NULL)
 		{
-			if (tmp_list->next == NULL || ft_strncmp(tmp_var2->name, tmp_var->name, 250) < 0)
+			if (ft_strncmp(sorted_name[top], sorted_name[seek], 255) > 0)
 			{
-				item->next = tmp_list->next;
-				tmp_list->next = item;
-				break;
+				tmp = sorted_name[top];
+				tmp2 = sorted_value[top];
+				sorted_name[top] = sorted_name[seek];
+				sorted_value[top] = sorted_value[seek];
+				sorted_name[seek] = tmp;
+				sorted_value[seek] = tmp2;
 			}
-			tmp_list = tmp_list->next;
+			seek++;
 		}
+		top++;
 	}
-	return (sort_list);
-}
-
-t_list *ft_sort_list(t_list **var_list)
-{
-	t_list *sort_list;
-	t_list *tmp_list;
-	t_list *tmp_list2;
-
-	tmp_list = *var_list;
-	while(tmp_list)
-	{
-		tmp_list2 = tmp_list;
-		tmp_list = tmp_list->next;
-		sort_list = ft_insert_srt(sort_list, tmp_list2);
-	}
-	return (sort_list);
-}
-
-int ft_print_export(t_list **sort_list)
-{
-	t_list	*tmp;
-	t_list	*next;
-	t_var	*tmp_ptr;
-
-	tmp = *sort_list;
-	while (tmp)
-	{
-		next = tmp->next;
-		tmp_ptr = (t_var *)tmp->content;
-		if (tmp_ptr->is_exported == 1 && *tmp_ptr->name != '_')
-			printf("declare -x %s=\"%s\"\n", tmp_ptr->name, tmp_ptr->value);
-		tmp = next;
-	}
-	ft_clear_vars(sort_list);
+//	int i = 0;
+//	while(strings[i] != NULL)
+//	{
+//		printf("%s\n", strings[i]);
+//		i++;
+//	}
+	ft_print_export(sorted_name, sorted_value);
+//	i = 0;
+//	while(i < num)
+//	{
+//		free(strings[i]);
+//		i++;
+//	}
+//	strings = NULL;
 	return (1);
+}
+
+int ft_sort_env(t_list **var_list)
+{
+	char	**sorted_name; /* массив для запоминания вводимых строк */
+	char	**sorted_value;
+	char	*name;  /* массив переменных типа указатель */
+	char	*value;
+	int		count = 1; /* счетчик вводимых строк */
+	t_list	**tmp_list;
+	t_var	*tmp_var;
+
+	tmp_list = var_list;
+	sorted_name = malloc(sizeof(char *) * ft_lstsize(*var_list));
+	sorted_value = malloc(sizeof(char *) * ft_lstsize(*var_list));
+	while(*tmp_list)
+	{
+		tmp_var = (t_var *)(*tmp_list)->content;
+		if (tmp_var->is_exported != 0)
+		{
+			name = malloc(sizeof(char) * ft_strlen(tmp_var->name) + 1);
+			value = malloc(sizeof(char) * ft_strlen(tmp_var->value) + 1);
+			ft_strlcpy(name, tmp_var->name, ft_strlen(tmp_var->name) + 1);
+			ft_strlcpy(value, tmp_var->value, ft_strlen(tmp_var->value) + 1);
+			printf("%s\n", name);
+			sorted_name[count - 1] = name;
+			sorted_value[count - 1] = value;
+			count++;
+		}
+		*tmp_list = (*tmp_list)->next;
+	}
+	printf("start2\n");
+	sorted_name[count] = NULL;
+	sorted_value[count] = NULL;
+	stsrt(sorted_name, sorted_value, count);
+	return (1);
+	//return ();
 }
 
 int		ft_export(char **args,  t_list **var_list)
 {
-	t_list	*sort_list;
-	t_list	*tmp_list;
-//	int 	index;
-//
-//	index = 1;
-//	while (args[index] != NULL)
-//	{
-////		tmp_list = ft_find_var(var_list, args[index]);
-////		if (tmp_list == NULL && ft_strchr(args[index], '=') == NULL)
-////		{
-////			ft_check_var(args[index], "export");
-////			return (1);
-////		}
-//		ft_save_var(var_list, args[index], 1);
-//		index++;
-//	}
-	tmp_list = *var_list;
 	if (args[1] == NULL)
 	{
-		sort_list = ft_sort_list(&tmp_list);
-		return (ft_print_export(&sort_list));
+		ft_sort_env(var_list);
+		return(1);
 	}
 	return(1);
 }
