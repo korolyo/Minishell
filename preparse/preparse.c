@@ -124,16 +124,12 @@ char	*preparse(char *prompt)
 	char	*tmp;
 
 	i = -1;
-	if (!prompt)
-	{
-		printf("exit\n");
+	if (prompt[0] == '\0')
 		return (NULL);
-	}
 	tmp = ft_strdup(prompt);
 	if (unmatched_quotes(tmp, i) == 0)
 	{
 		printf("unmatched quotes\n");
-		free(prompt);
 		free(tmp);
 		return (NULL);
 	}
@@ -143,14 +139,12 @@ char	*preparse(char *prompt)
 		if (!(preparse_redir(tmp, i)))
 		{
 			tmp = ft_strdup("Minishell: syntax error with redir symbol");
-			free(prompt);
 			free(tmp);
 			return (NULL);
 		}
 		if (!(preparse_pipe(tmp, i)))
 		{
 			printf("Error: Unclosed Pipe\n");
-			free(prompt);
 			free(tmp);
 			return (NULL);
 		}

@@ -29,7 +29,6 @@ int ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 		executor_path = tokens->cmd[0];
 	else
 		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
-	printf("executor path = |%s|\n", executor_path);
 	if (ft_add_status(var_list, ft_execute_cmd(executor_path, tokens, misc))
 	== 0)
 		return (0); //ошибка
@@ -69,18 +68,18 @@ int ft_check_if_var(char **args, t_list **var_list, int task_id)
 
 int ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 {
-	int				index;
-	int 			tmp_in;
-	int 			tmp_out;
-	int 			redir_id;
-	static t_cmd	builtins[] = {
-			{"echo", ft_echo},
-			{"cd", ft_cd},
-			{"pwd", ft_pwd},
+	int index;
+	int tmp_in;
+	int tmp_out;
+	int redir_id;
+	static t_cmd builtins[] = {
+			{"echo",   ft_echo},
+			{"cd",     ft_cd},
+			{"pwd",    ft_pwd},
 			{"export", ft_export},
-			{"unset", ft_unset},
-			{"env", ft_env},
-			{"exit", ft_exit}
+			{"unset",  ft_unset},
+			{"env",    ft_env},
+			{"exit",   ft_exit}
 	};
 	tmp_in = 0;
 	tmp_out = 0;
@@ -102,7 +101,7 @@ int ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 			return (index);
 		}
 	}
-	if (index == 7) //Обработка встроенных файлов
+	if (index == 7)
 	{
 		if (ft_execution(tokens, var_list, misc) == 0)
 		{
@@ -117,6 +116,8 @@ int ft_start(t_tlist *tokens, t_list **var_list)
 {
 	t_misc	misc;
 
+	if (!tokens)
+		return (1);
 	init_misc(&misc, tokens);
 	misc.fdpipe = pipes(&misc);
 	cmd_kind(tokens);
@@ -126,6 +127,8 @@ int ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
+	if (misc.fdpipe)
+		free(misc.fdpipe);
 	return (1);
 }
 
