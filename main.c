@@ -80,9 +80,8 @@ int	main(void)
 		if (prompt)
 			add_history(prompt);
 		prompt = preparse(prompt);
-		if (!prompt)
-			exit(EXIT_SUCCESS);
-		lexer(prompt, &tokens, &var_list);
+		if (prompt)
+			lexer(prompt, &tokens, &var_list);
 		if (!(ft_start(tokens, &var_list)))
 			printf("problem with executor");
 		clear_all(&tokens);
