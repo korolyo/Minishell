@@ -34,10 +34,14 @@ int	ft_change_pwd(t_list ***var_list, char *new_path)
 
 	tmp_list = ft_find_var(*var_list, "PWD");
 	tmp_var = (t_var *)tmp_list->content;
+	if (*new_path != '/')
+		new_path = getcwd(NULL, 0);
 	if (ft_chng_var(*var_list, "OLDPWD", tmp_var->value, 1) == 0)
 		return (0);
 	if (ft_chng_var(*var_list, "PWD", new_path, 1) == 0)
 		return (0);
+	if (*new_path != '/')
+		free(new_path);
 	return (1);
 }
 
