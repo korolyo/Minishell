@@ -15,8 +15,6 @@
 char	*preparse_delim(char *prompt, int i)
 {
 	char	*tmp;
-	char	*tmp2;
-	int		j;
 
 	tmp = ft_strdup(prompt);
 	while (tmp[++i] != '\0')
@@ -24,12 +22,7 @@ char	*preparse_delim(char *prompt, int i)
 		if (tmp[i] == '\'' || tmp[i] == '\"')
 			preparse_quotes(tmp, &i);
 		if ((tmp[i] == ' ' || tmp[i] == '\t') && i == 0)
-		{
-			while (tmp[i] == ' ' || tmp[i] == '\t')
-				i++;
-			tmp = ft_substr(prompt, i, ft_strlen(tmp) - i);
-			i = -1;
-		}
+			tmp = delim_str(prompt, &i, tmp);
 		else if ((tmp[i] == ' ' || tmp[i] == '\t') && (i != 0)
 			&& (tmp[i + 1] != ' ' && tmp[i + 1] != '\t' && tmp[i + 1] != '\0'))
 		{
@@ -41,19 +34,10 @@ char	*preparse_delim(char *prompt, int i)
 			}
 		}
 		else if (tmp[i] == ' ' || tmp[i] == '\t')
-		{
-			j = i;
-			while (tmp[i] == ' ' || tmp[i] == '\t')
-				i++;
-			if (tmp[i] == '\0')
-				j--;
-			tmp2 = str_delete_part(tmp, j + 1, i - 1, DELETE_MID);
-			tmp = ft_strdup(tmp2);
-			free(tmp2);
-			i = -1;
-		}
+			tmp = delim_str(prompt, &i, tmp);
+		if (!tmp)
+			return (NULL);
 	}
-	free(prompt);
 	return (tmp);
 }
 
@@ -117,7 +101,6 @@ int	preparse_redir(char *prompt, int i)
 	return (1);
 }
 
-// Checking readline string validity:
 char	*preparse(char *prompt)
 {
 	int		i;
@@ -128,26 +111,18 @@ char	*preparse(char *prompt)
 		return (NULL);
 	tmp = ft_strdup(prompt);
 	if (unmatched_quotes(tmp, i) == 0)
-	{
-		printf("unmatched quotes\n");
-		free(tmp);
-		return (NULL);
-	}
+		return (prep_clear("Unmatched quotes", tmp, prompt));
 	tmp = preparse_delim(tmp, i);
+	if (!tmp)
+		return (NULL);
+	if (tmp[0] == '\0')
+		return (prep_clear(NULL, tmp, prompt));
 	while (tmp[++i])
 	{
 		if (!(preparse_redir(tmp, i)))
-		{
-			tmp = ft_strdup("Minishell: syntax error with redir symbol");
-			free(tmp);
-			return (NULL);
-		}
+			return (prep_clear("Syntax error with redir symbol", tmp, prompt));
 		if (!(preparse_pipe(tmp, i)))
-		{
-			printf("Error: Unclosed Pipe\n");
-			free(tmp);
-			return (NULL);
-		}
+			return (prep_clear("Unclosed Pipe", tmp, prompt));
 	}
 	free(prompt);
 	return (tmp);

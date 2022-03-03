@@ -119,6 +119,8 @@ void	preparse_quotes(char const *prompt, int *i);
 char	*preparse_delim(char *prompt, int i);
 int		preparse_redir(char *prompt, int i);
 int		preparse_pipe(char *prompt, int i);
+char	*prep_clear(char *str, char *tmp, char *prompt);
+char	*delim_str(char *prompt, int *i, char *tmp);
 
 // Preparsing utils
 char	*str_delete_part(char *prompt, int start, int end, int flag_mid);
