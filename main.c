@@ -19,7 +19,8 @@ void	clear_all(t_tlist **tokens, char *prompt)
 		free(prompt);
 	if (*tokens)
 	{
-		tlist_clear(*tokens);
+//		printf("check\n");
+//		tlist_clear(*tokens);
 		*tokens = NULL;
 	}
 }
@@ -76,27 +77,29 @@ void	check_eof(char *line)
 int	main(void)
 {
 	char		*prompt;
+	char 		*input;
 	t_tlist		*tokens;
 	t_list		*var_list;
 
 	tokens = NULL;
 	var_list = save_var();
 	rl_catch_signals = 0;
+	prompt = create_prompt();
 	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
 		sig_init();
-		prompt = readline("minishell > ");
-		if (prompt)
-			add_history(prompt);
-		prompt = preparse(prompt);
-		if (prompt)
+		input = readline(prompt);
+		if (input)
+			add_history(input);
+		input = preparse(input);
+		if (input)
 		{
-			lexer(prompt, &tokens, &var_list);
+			lexer(input, &tokens, &var_list);
 			if (!(ft_start(tokens, &var_list)))
 				printf("problem with executor");
 		}
-		clear_all(&tokens, prompt);
+		clear_all(&tokens, input);
 	}
 	exit(EXIT_SUCCESS);
 }
