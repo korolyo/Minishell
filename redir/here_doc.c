@@ -18,12 +18,13 @@ void	heredoc(t_tlist *tokens)
 	int		fd;
 	char	*line;
 
+	signal(SIGINT, interrupt_here_document);
 	if (tokens->stop_word)
 	{
 		fd = open(".tmp_file", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
 		while (1)
 		{
-			signal(SIGINT, SIG_DFL);
+//			signal(SIGINT, SIG_DFL);
 			line = readline("> ");
 			if (line == NULL)
 				break ;

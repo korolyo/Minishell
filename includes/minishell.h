@@ -180,6 +180,9 @@ void	init_misc(t_misc *misc, t_tlist *tokens);
 // UTILS:
 void	sig_handler(int signum);
 void	sig_init(void);
+void	sig_handler3(int signum);
+void	catch_heredog_sig(void);
+void	interrupt_here_document(int signal);
 t_tlist	*tlistnew(int type);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist *head);

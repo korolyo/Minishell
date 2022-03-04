@@ -50,3 +50,11 @@ void	sig_init(void)
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
+
+void	interrupt_here_document(int signal)
+{
+	(void)signal;
+	g_exit_status = 130;
+	write(1, "\n", 1);
+	exit(130);
+}
