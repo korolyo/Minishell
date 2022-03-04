@@ -154,7 +154,7 @@ int		ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc);
 int		ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc);
 t_list	*ft_find_var(t_list **var_list, char *var_name);
 int		ft_save_var(t_list **var_list, char *var, int var_id);
-void	*ft_make_var(char *var, t_var **variable);
+t_var	*ft_make_var(char *var, t_var *variable);
 int		ft_clear_vars(t_list **var_list);
 int		ft_chng_var(t_list **var_list, char *var_name,
 			char *new_value, int var_id);
@@ -172,6 +172,7 @@ void	ft_restore_fd(int tmp_in, int tmp_out);
 int		ft_check_if_var(char **args, t_list **var_list, int task_id);
 int		ft_check_var(char *args, char *check_cmd);
 void	init_misc(t_misc *misc, t_tlist *tokens);
+
 
 // UTILS:
 void	sig_handler(int signum);

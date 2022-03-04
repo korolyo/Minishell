@@ -12,11 +12,20 @@
 
 #include "minishell.h"
 
-int ft_echo(char **args, t_list **var_list) // TODO больше 25 строк
+void	ft_print_echo(char *str, int *len, int *index)
 {
-	int flag;
-	int index;
-	int len;
+	printf("%s", str);
+	if (*len > 1)
+		printf(" ");
+	*len = *len - 1;
+	*index = *index + 1;
+}
+
+int	ft_echo(char **args, t_list **var_list)
+{
+	int	flag;
+	int	index;
+	int	len;
 
 	(void)var_list;
 	flag = 1;
@@ -33,14 +42,8 @@ int ft_echo(char **args, t_list **var_list) // TODO больше 25 строк
 		len--;
 	}
 	while (args[index] != NULL)
-	{
-		printf("%s", args[index]);
-		if (len > 1)
-			printf(" ");
-		len--;
-		index++;
-	}
+		ft_print_echo(args[index], &len, &index);
 	if (flag != 0)
 		printf("\n");
-	return (1); //успешное завершение
+	return (1);
 }
