@@ -14,28 +14,24 @@
 
 void	heredoc(t_tlist *tokens)
 {
-	int		limiter;
 	int		fd;
 	char	*line;
 
-	if (tokens->stop_word)
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, interrupt_here_document);
+	fd = open(".tmp_file", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+	while (1)
 	{
-		fd = open(".tmp_file", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
-		while (1)
+		line = readline("> ");
+		if (ft_strncmp(line, tokens->stop_word, ft_strlen(line)) == 0)
 		{
-			signal(SIGINT, SIG_DFL);
-			line = readline("> ");
-			if (line == NULL)
-				break ;
-			limiter = ft_strncmp(line, tokens->stop_word, ft_strlen(line));
-			if (limiter == 0)
-				break ;
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
+			close(fd);
 			free(line);
+			break ;
 		}
-		free(line);
-		tokens->fdin = fd;
-		close(fd);
+		ft_putendl_fd(line, fd);
 	}
+	tokens->fdin = fd;
+	close(fd);
+	exit(0);
 }

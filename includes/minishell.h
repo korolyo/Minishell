@@ -119,6 +119,8 @@ void	preparse_quotes(char const *prompt, int *i);
 char	*preparse_delim(char *prompt, int i);
 int		preparse_redir(char *prompt, int i);
 int		preparse_pipe(char *prompt, int i);
+char	*prep_clear(char *str, char *tmp, char *prompt);
+char	*delim_str(char *prompt, int *i, char *tmp);
 
 // Preparsing utils
 char	*str_delete_part(char *prompt, int start, int end, int flag_mid);
@@ -156,7 +158,7 @@ int		ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc);
 int		ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc);
 t_list	*ft_find_var(t_list **var_list, char *var_name);
 int		ft_save_var(t_list **var_list, char *var, int var_id);
-void	*ft_make_var(char *var, t_var **variable);
+t_var	*ft_make_var(char *var, t_var *variable);
 int		ft_clear_vars(t_list **var_list);
 int		ft_chng_var(t_list **var_list, char *var_name,
 			char *new_value, int var_id);
@@ -178,14 +180,18 @@ void	init_misc(t_misc *misc, t_tlist *tokens);
 // UTILS:
 void	sig_handler(int signum);
 void	sig_init(void);
+void	sig_handler3(int signum);
+void	catch_heredoc_sig(void);
+void	interrupt_here_document(int signal);
 t_tlist	*tlistnew(int type);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist *head);
 void	rl_replace_line(const char *buffer, int val);
-void	clear_all(t_tlist **tokens);
+void	clear_all(t_tlist **tokens, char *prompt);
 int		is_key(char c);
 void	init_num(t_num *num);
 t_list	*save_var(void);
+void	check_eof(char *line);
 
 //PIPING
 

@@ -29,10 +29,8 @@ int	*pipes(t_misc *misc)
 {
 	int	*fdpipe;
 	int	i;
-	int check;
 
 	i = 0;
-	check = 0;
 	fdpipe = (int *) ft_calloc(sizeof(int) * 2, misc->num_of_pipes);
 	while (i < (misc->cmd_count - 1))
 	{
