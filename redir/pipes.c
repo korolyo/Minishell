@@ -29,9 +29,11 @@ int	*pipes(t_misc *misc)
 {
 	int	*fdpipe;
 	int	i;
+	int check;
 
 	i = 0;
-	fdpipe = (int *) ft_calloc(sizeof(int), 2 * misc->num_of_pipes);
+	check = 0;
+	fdpipe = (int *) ft_calloc(sizeof(int) * 2, misc->num_of_pipes);
 	while (i < (misc->cmd_count - 1))
 	{
 		if (pipe(fdpipe + 2 * i) == -1)
@@ -53,12 +55,12 @@ void	pipe_switch(t_tlist *tokens, t_misc *misc)
 {
 	if (misc->cmd_count == 2)
 	{
-		if (tokens->kind == FIRST && tokens->next != NULL)
-			dup2(misc->fdpipe[1], 1);
+		if (tokens->kind == FIRST)
+			dup2(misc->fdpipe[1], STDOUT_FILENO);
 		else if (tokens->kind == LAST)
-			dup2(misc->fdpipe[0], 0);
+			dup2(misc->fdpipe[0], STDIN_FILENO);
 	}
-	else
+	if (misc->cmd_count > 2)
 	{
 		if (tokens->kind == FIRST)
 			dup2(misc->fdpipe[2 * (misc->i) + 1], STDOUT_FILENO);

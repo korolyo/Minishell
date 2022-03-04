@@ -138,6 +138,8 @@ void	lexer_cmd(t_tlist **tokens, char *prompt);
 char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp);
 int		find_type(char *prompt, int j, int *i);
 void	init_misc(t_misc *misc, t_tlist *tokens);
+char	*join_dollar(char *tmp, char *tmp2, char *tmp3);
+char	*find_value(t_list **var_list, char *tmp2);
 
 //builtings
 int		ft_echo(char **args, t_list **var_list);
@@ -184,6 +186,7 @@ void	rl_replace_line(const char *buffer, int val);
 void	clear_all(t_tlist **tokens);
 int		is_key(char c);
 void	init_num(t_num *num);
+t_list	*save_var(void);
 
 //PIPING
 

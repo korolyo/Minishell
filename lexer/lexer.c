@@ -51,19 +51,11 @@ char	*dollar_string(char *tmp, t_list **var_list)
 		if (ret[i] == '\"')
 		{
 			while (ret[++i] != '\"')
-			{
 				if (ret[i] == '$')
-				{
 					ret = lexer_dollar(ret, &i, var_list);
-					i--;
-				}
-			}
 		}
 		if (ret[i] == '$')
-		{
 			ret = lexer_dollar(ret, &i, var_list);
-			i--;
-		}
 	}
 	free(tmp);
 	return (ret);

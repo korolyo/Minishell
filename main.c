@@ -48,14 +48,11 @@ void	print_tokens(t_tlist *tokens)
 	printf("\nnum of nodes = %d\n", i);
 }
 
-int	main(void)
+t_list	*save_var(void)
 {
-	char		*prompt;
-	t_tlist		*tokens;
-	t_list		*var_list;
 	extern char	**environ;
+	t_list		*var_list;
 
-	tokens = NULL;
 	var_list = NULL;
 	while (*environ != NULL)
 	{
@@ -63,6 +60,17 @@ int	main(void)
 		environ++;
 	}
 	ft_save_var(&var_list, "?=0", 0);
+	return (var_list);
+}
+
+int	main(void)
+{
+	char		*prompt;
+	t_tlist		*tokens;
+	t_list		*var_list;
+
+	tokens = NULL;
+	var_list = save_var();
 	rl_catch_signals = 0;
 	ft_change_lvl(&var_list, 1);
 	while (1)
@@ -72,9 +80,8 @@ int	main(void)
 		if (prompt)
 			add_history(prompt);
 		prompt = preparse(prompt);
-		if (!prompt)
-			exit(EXIT_SUCCESS);
-		lexer(prompt, &tokens, &var_list);
+		if (prompt)
+			lexer(prompt, &tokens, &var_list);
 		if (!(ft_start(tokens, &var_list)))
 			printf("problem with executor");
 		clear_all(&tokens);

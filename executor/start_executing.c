@@ -68,6 +68,7 @@ int	ft_check_if_var(char **args, t_list **var_list, int task_id)
 
 int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 {
+<<<<<<< HEAD
 	int				index;
 	int				tmp_in;
 	int				tmp_out;
@@ -80,6 +81,20 @@ int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	{"unset", ft_unset},
 	{"env", ft_env},
 	{"exit", ft_exit}
+=======
+	int index;
+	int tmp_in;
+	int tmp_out;
+	int redir_id;
+	static t_cmd builtins[] = {
+			{"echo",   ft_echo},
+			{"cd",     ft_cd},
+			{"pwd",    ft_pwd},
+			{"export", ft_export},
+			{"unset",  ft_unset},
+			{"env",    ft_env},
+			{"exit",   ft_exit}
+>>>>>>> b5c1b1db7960209f1402c5765b378c9ec538a6bf
 	};
 
 	tmp_in = 0;
@@ -93,13 +108,13 @@ int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	{
 		if (!(strncmp(tokens->cmd[0], builtins[index].cmd, 8)))
 		{
+			if (misc->num_of_pipes != 0)
+				pipe_switch(tokens, misc);
 			if (tokens->fdin != -2 || tokens->fdout != -2)
 				redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
 			index = builtins[index].f_cmd(tokens->cmd, var_list);
 			if (redir_id == 1)
 				ft_restore_fd(tmp_in, tmp_out);
-			if (misc->num_of_pipes != 0)
-				pipe_switch(tokens, misc);
 			return (index);
 		}
 	}
@@ -118,6 +133,8 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 {
 	t_misc	misc;
 
+	if (!tokens)
+		return (1);
 	init_misc(&misc, tokens);
 	misc.fdpipe = pipes(&misc);
 	cmd_kind(tokens);
@@ -129,5 +146,7 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
+	if (misc.fdpipe)
+		free(misc.fdpipe);
 	return (1);
 }
