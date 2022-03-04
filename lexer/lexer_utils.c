@@ -43,8 +43,6 @@ int	get_quotes_len(char *str, char c, int *i)
 			*i = j;
 		}
 		len++;
-		printf("len in len = %d\n", len);
-		printf("str[%d] = %c\n", *i, str[*i]);
 		(*i)++;
 	}
 	return (len);
@@ -72,7 +70,6 @@ char	**get_quotes_str(char ***res, char **str, char c, int size)
 			return (ft_quotes_abort(res, size));
 		if (dup[start] == '\'' || dup[start] == '\"')
 			start++;
-		printf("len = %d\n", len);
 		ft_strlcpy(res[0][j], &dup[start], len + 1);
 		j++;
 	}
