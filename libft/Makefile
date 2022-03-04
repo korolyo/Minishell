@@ -24,6 +24,7 @@ LIST	= 	ft_atoi.c		ft_bzero.c			ft_isalnum.c\
 			ft_strnstr.c	ft_strmapi.c		ft_strrchr.c\
 			ft_substr.c		ft_strtrim.c		ft_tolower.c\
 			ft_toupper.c	get_next_line.c		ft_atol.c\
+			variadic_strjoin.c \
 
 OBJS	=	$(patsubst %.c, %.o, $(LIST))
 

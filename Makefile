@@ -22,6 +22,7 @@ SOURCES_LIST	= 	main.c \
 					executor/ft_echo.c \
 					executor/ft_export.c \
 					executor/make_redirection.c \
+					prompt.c \
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -g -I $(READLINE_INC)
@@ -72,5 +73,8 @@ clean:
 fclean:	clean
 		@rm -f $(NAME)
 		@rm -f $(LIBFT)
+
+install:
+		sudo apt-get install libreadline-dev
 
 re:		fclean all
