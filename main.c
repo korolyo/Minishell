@@ -90,7 +90,6 @@ int	main(void)
 		if (prompt)
 			add_history(prompt);
 		prompt = preparse(prompt);
-//		printf("check\n");
 		if (prompt)
 		{
 			lexer(prompt, &tokens, &var_list);

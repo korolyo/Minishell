@@ -177,7 +177,6 @@ int		ft_check_if_var(char **args, t_list **var_list, int task_id);
 int		ft_check_var(char *args, char *check_cmd);
 void	init_misc(t_misc *misc, t_tlist *tokens);
 
-
 // UTILS:
 void	sig_handler(int signum);
 void	sig_init(void);

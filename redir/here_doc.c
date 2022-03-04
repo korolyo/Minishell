@@ -27,11 +27,9 @@ void	heredoc(t_tlist *tokens)
 		{
 			close(fd);
 			free(line);
-			break;
+			break ;
 		}
 		ft_putendl_fd(line, fd);
-//		rl_redisplay();
-//		free(line);
 	}
 	tokens->fdin = fd;
 	close(fd);
