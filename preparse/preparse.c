@@ -63,6 +63,8 @@ void	preparse_quotes(char const *prompt, int *i)
 int	unmatched_quotes(char *prompt, int i)
 {
 	i++;
+	if (!prompt)
+		return (2);
 	while (prompt[i])
 	{
 		if (prompt[i] == '\'')
@@ -107,8 +109,7 @@ char	*preparse(char *prompt)
 	char	*tmp;
 
 	i = -1;
-	if (prompt[0] == '\0')
-		return (NULL);
+	check_eof(prompt);
 	tmp = ft_strdup(prompt);
 	if (unmatched_quotes(tmp, i) == 0)
 		return (prep_clear("Unmatched quotes", tmp, prompt));

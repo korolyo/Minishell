@@ -181,16 +181,17 @@ void	init_misc(t_misc *misc, t_tlist *tokens);
 void	sig_handler(int signum);
 void	sig_init(void);
 void	sig_handler3(int signum);
-void	catch_heredog_sig(void);
+void	catch_heredoc_sig(void);
 void	interrupt_here_document(int signal);
 t_tlist	*tlistnew(int type);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist *head);
 void	rl_replace_line(const char *buffer, int val);
-void	clear_all(t_tlist **tokens);
+void	clear_all(t_tlist **tokens, char *prompt);
 int		is_key(char c);
 void	init_num(t_num *num);
 t_list	*save_var(void);
+void	check_eof(char *line);
 
 //PIPING
 
