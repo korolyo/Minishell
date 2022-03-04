@@ -14,8 +14,8 @@
 
 int	ft_wait_pid(pid_t pid)
 {
-	int	status;
-	pid_t wpid;
+	int		status;
+	pid_t	wpid;
 
 	wpid = 0;
 	while (1)
@@ -36,13 +36,13 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
-int ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
+int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 {
 	pid_t	pid;
 	int		status;
 	int		redir_id;
-	int 	tmp_in;
-	int 	tmp_out;
+	int		tmp_in;
+	int		tmp_out;
 
 	status = 0;
 	redir_id = 0;
@@ -62,7 +62,7 @@ int ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 		exit(EXIT_SUCCESS);
 	}
 	else if (pid < 0)
-		perror("minishell"); // ошибка при форкинге
+		perror("minishell");
 	else
 	{
 		close_pipes(misc->fdpipe, misc->cmd_count);
@@ -73,11 +73,11 @@ int ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	return (status);
 }
 
-char *ft_find_path(char **path_list, char *executor_name)
+char	*ft_find_path(char **path_list, char *executor_name)
 {
 	DIR				*dir;
 	struct dirent	*ent;
-	int 			index;
+	int				index;
 
 	index = 0;
 	while (path_list[index] != NULL)
@@ -100,12 +100,12 @@ char *ft_find_path(char **path_list, char *executor_name)
 	return (NULL);
 }
 
-char **ft_parse_path(t_list **var_list, char *cmd)
+char	**ft_parse_path(t_list **var_list, char *cmd)
 {
-	const char *path;
-	char **path_list;
-	t_list	*tmp_list;
-	t_var	*tmp_var;
+	const char	*path;
+	char		**path_list;
+	t_list		*tmp_list;
+	t_var		*tmp_var;
 
 	tmp_list = ft_find_var(var_list, "PATH");
 	if (!tmp_list)
@@ -117,24 +117,24 @@ char **ft_parse_path(t_list **var_list, char *cmd)
 	path = tmp_var->value;
 	path_list = ft_split(path, ':');
 	if (!path_list)
-		return (NULL); //ошибка
+		return (NULL);
 	return (path_list);
 }
 
-int ft_join_path(char *args, char *tmp_path, char **path_list, char **executor_path)
+int	ft_join_path(char *args, char *tmp_path, char **path_list, char **exec_path)
 {
 	tmp_path = ft_strjoin("/", &args[0]);
 	if (!tmp_path)
 	{
-		ft_clear_path_list(&path_list);;
-		return (0); //ошибка
+		ft_clear_path_list(&path_list);
+		return (0);
 	}
-	*executor_path = ft_strjoin(ft_find_path(path_list, args), tmp_path);
-	if (!*executor_path)
+	*exec_path = ft_strjoin(ft_find_path(path_list, args), tmp_path);
+	if (!*exec_path)
 	{
 		free(path_list);
 		free(tmp_path);
-		return (0); //ошибка
+		return (0);
 	}
 	return (1);
 }

@@ -12,15 +12,15 @@
 
 #include "minishell.h"
 
-int ft_cmd_error(char *cmd)
+int	ft_cmd_error(char *cmd)
 {
 	printf("minishell: %s: command not found\n", cmd);
-	return(1);
+	return (1);
 }
 
 int	ft_clear_path_list(char ***path_list)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	while (path_list[0][index] != NULL)
@@ -33,9 +33,9 @@ int	ft_clear_path_list(char ***path_list)
 }
 
 //if id == 0: SHLVL--; if id == 1: SHLVL++
-int ft_change_lvl(t_list **var_list, int id)
+int	ft_change_lvl(t_list **var_list, int id)
 {
-	int 	lvl;
+	int		lvl;
 	char	*new_value;
 	t_list	*tmp_list;
 	t_var	*tmp_var;

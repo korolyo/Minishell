@@ -40,7 +40,7 @@ int	ft_check_var(char *args, char *check_cmd)
 	if (args[index] != '\0')
 	{
 		printf("minishell: %s: '%s': not a valid identifier\n", check_cmd, args);
-		return (1);
+		return (0);
 	}
 	return (1);
 }
@@ -56,19 +56,19 @@ int	ft_unset(char **args, t_list **var_list)
 	{
 		tmp_list = ft_find_var(var_list, args[index]);
 		if (tmp_list == NULL)
-		{
 			ft_check_var(args[index], "unset");
-			return (1);
-		}
-		*var_list = (*var_list)->next;
-		tmp_var = (t_var *)(tmp_list->content);
-		if (tmp_var)
+		else
 		{
-			free(tmp_var->value);
-			free(tmp_var->name);
-			free(tmp_var);
+			*var_list = (*var_list)->next;
+			tmp_var = (t_var *) (tmp_list->content);
+			if (tmp_var)
+			{
+				free(tmp_var->value);
+				free(tmp_var->name);
+				free(tmp_var);
+			}
+			tmp_list = NULL;
 		}
-		tmp_list = NULL;
 		index++;
 	}
 	return (0);

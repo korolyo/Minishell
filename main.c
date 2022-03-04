@@ -99,7 +99,6 @@ int	main(void)
 		}
 		clear_all(&tokens, prompt);
 	}
-	ft_clear_vars(&var_list);
 	exit(EXIT_SUCCESS);
 }
 
