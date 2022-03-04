@@ -124,8 +124,6 @@ char	*preparse(char *prompt)
 	char	*tmp;
 
 	i = -1;
-	if (prompt[0] == '\0')
-		return (NULL);
 	tmp = ft_strdup(prompt);
 	if (unmatched_quotes(tmp, i) == 0)
 	{
@@ -133,7 +131,10 @@ char	*preparse(char *prompt)
 		free(tmp);
 		return (NULL);
 	}
+	printf("check\n");
 	tmp = preparse_delim(tmp, i);
+	if (tmp[0] == '\0')
+		return (NULL);
 	while (tmp[++i])
 	{
 		if (!(preparse_redir(tmp, i)))
