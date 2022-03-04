@@ -23,7 +23,9 @@ ____
 Clone the repo
 ``` git clone https://github.com/korolyo/Minishell.git ```
 
-Then just ` Make `
+You need Readline library for this project ` Make install `
+
+then just ` Make `
 
 ... and run ` ./minishell `
 
