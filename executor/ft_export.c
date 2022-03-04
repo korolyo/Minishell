@@ -32,7 +32,6 @@ void	ft_print_export(char **sorted_env, t_list **var_list)
 	t_var	*tmp_var;
 	int		i;
 
-<<<<<<< HEAD
 	i = 0;
 	tmp = *var_list;
 	while (sorted_env[i] != NULL)
@@ -61,9 +60,6 @@ int	ft_sort(char **sorted_name, t_list **var_list, int num)
 
 	top = 0;
 	seek = 0;
-=======
-	printf("start2\n");
->>>>>>> b5c1b1db7960209f1402c5765b378c9ec538a6bf
 	while (top < num - 1)
 	{
 		seek = top + 1;
@@ -108,13 +104,7 @@ int	ft_sort_env(t_list **var_list)
 		tmp_list = tmp_list->next;
 	}
 	sorted_name[count] = NULL;
-<<<<<<< HEAD
 	ft_sort(sorted_name, var_list, count);
-=======
-	sorted_value[count] = NULL;
-	printf("start2\n");
-	stsrt(sorted_name, sorted_value, count);
->>>>>>> b5c1b1db7960209f1402c5765b378c9ec538a6bf
 	return (1);
 }
 

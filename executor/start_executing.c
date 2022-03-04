@@ -68,7 +68,6 @@ int	ft_check_if_var(char **args, t_list **var_list, int task_id)
 
 int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 {
-<<<<<<< HEAD
 	int				index;
 	int				tmp_in;
 	int				tmp_out;
@@ -81,20 +80,6 @@ int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	{"unset", ft_unset},
 	{"env", ft_env},
 	{"exit", ft_exit}
-=======
-	int index;
-	int tmp_in;
-	int tmp_out;
-	int redir_id;
-	static t_cmd builtins[] = {
-			{"echo",   ft_echo},
-			{"cd",     ft_cd},
-			{"pwd",    ft_pwd},
-			{"export", ft_export},
-			{"unset",  ft_unset},
-			{"env",    ft_env},
-			{"exit",   ft_exit}
->>>>>>> b5c1b1db7960209f1402c5765b378c9ec538a6bf
 	};
 
 	tmp_in = 0;
