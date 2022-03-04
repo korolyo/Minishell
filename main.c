@@ -19,7 +19,8 @@ void	clear_all(t_tlist **tokens, char *prompt)
 		free(prompt);
 	if (*tokens)
 	{
-		tlist_clear(*tokens);
+//		printf("check\n");
+//		tlist_clear(*tokens);
 		*tokens = NULL;
 	}
 }
