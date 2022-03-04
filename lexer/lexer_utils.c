@@ -40,6 +40,7 @@ int	get_quotes_len(char *str, char c, int *i)
 		{
 			preparse_quotes(str, &j);
 			len = len + j - (*i) - 3;
+			*i = j;
 		}
 		len++;
 		(*i)++;

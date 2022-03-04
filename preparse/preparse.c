@@ -43,17 +43,18 @@ char	*preparse_delim(char *prompt, int i)
 
 void	preparse_quotes(char const *prompt, int *i)
 {
-	(*i)++;
-	if (prompt[(*i) - 1] == '\'')
+	if (prompt[*i] == '\'')
 	{
-		while (prompt[*i] != '\'')
+		(*i)++;
+		while (prompt[*i] != '\'' && prompt[*i] != '\0')
 			(*i)++;
 		if (prompt[*i] != '\0')
 			(*i)++;
 	}
-	if (prompt[(*i) - 1] == '\"')
+	if (prompt[*i] == '\"')
 	{
-		while (prompt[*i] != '\"')
+		(*i)++;
+		while (prompt[*i] != '\"' && prompt[*i] != '\0')
 			(*i)++;
 		if (prompt[*i] != '\0')
 			(*i)++;
