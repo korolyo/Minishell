@@ -32,7 +32,6 @@ t_list	*ft_find_var(t_list **var_list, char *var_name)
 	return (NULL);
 }
 
-
 int	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id)
 {
 	t_list	*tmp_list;
@@ -95,10 +94,7 @@ t_var	*ft_make_var(char *var, t_var *variable)
 	{
 		variable->value = malloc(sizeof(char) * len2);
 		if (!variable->value)
-		{
 			free(variable->name);
-			return (NULL);
-		}
 		ft_strlcpy(variable->value, &var[len1 - len2], len2);
 	}
 	else

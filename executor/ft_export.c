@@ -63,7 +63,6 @@ int	ft_sort(char **sorted_name, t_list **var_list, int num)
 
 	top = 0;
 	seek = 0;
-
 	while (top < num - 1)
 	{
 		seek = top + 1;
@@ -83,12 +82,11 @@ int	ft_sort(char **sorted_name, t_list **var_list, int num)
 	return (1);
 }
 
-int	ft_sort_env(t_list **var_list)
+int	ft_sort_env(t_list **var_list, int len)
 {
 	char	**sorted_name;
 	char	*name;
 	int		count;
-	int 	len;
 	t_list	*tmp_list;
 	t_var	*tmp_var;
 
@@ -112,43 +110,50 @@ int	ft_sort_env(t_list **var_list)
 	return (1);
 }
 
-int	ft_export(char **args, t_list **var_list)
+int	ft_export_var(t_list **var_list, char *args, t_var *tmp)
 {
-	int		i;
-	t_var	*tmp_var;
 	t_list	*tmp_list;
 	t_var	*tmp_var2;
 
+	ft_make_var(args, tmp);
+	tmp_list = ft_find_var(var_list, tmp->name);
+	if (tmp_list != NULL)
+		tmp_var2 = (t_var *)tmp_list->content;
+	if (tmp_list && tmp_var2->is_exported == 0)
+	{
+		if (tmp->value != NULL)
+			return (ft_chng_var(var_list, tmp->name, tmp->value, 1));
+		return (ft_chng_var(var_list, tmp->name, tmp_var2->value, 1));
+	}
+	if (!tmp_list && ft_check_var(tmp->name, "export"))
+	{
+		if (tmp->value)
+			ft_save_var(var_list, args, 1);
+		else
+			ft_save_var(var_list, args, -1);
+	}
+	return (1);
+}
+
+int	ft_export(char **args, t_list **var_list)
+{
+	int		i;
+	t_var	*tmp;
+
 	i = 1;
-	tmp_var = malloc(sizeof(t_var));
+	tmp = malloc(sizeof(t_var));
+	if (!tmp)
+		return (1);
 	if (args[1] == NULL)
 	{
-		ft_sort_env(var_list);
+		ft_sort_env(var_list, 0);
 		return (1);
 	}
-	while(args[i] != NULL)
+	while (args[i] != NULL)
 	{
-		ft_make_var(args[i], tmp_var);
-		tmp_list = ft_find_var(var_list, tmp_var->name);
-		if (tmp_list != NULL)
-			tmp_var2 = (t_var *)tmp_list->content;
-		if (tmp_list && tmp_var2->is_exported == 0)
-		{
-			if (tmp_var->value != NULL)
-				return (ft_chng_var(var_list, tmp_var->name, tmp_var->value,
-									1));
-			return (ft_chng_var(var_list, tmp_var->name, tmp_var2->value,
-								1));
-		}
-		if (!tmp_list && ft_check_var(tmp_var->name, "export"))
-		{
-			if (tmp_var->value)
-				ft_save_var(var_list, args[i], 1);
-			else
-				ft_save_var(var_list, args[i], -1);
-		}
+		ft_export_var(var_list, args[i], tmp);
 		i++;
-		free(tmp_var);
+		free(tmp);
 	}
 	return (1);
 }

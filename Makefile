@@ -18,6 +18,7 @@ SOURCES_LIST	= 	main.c \
 					executor/builtins.c \
 					executor/execution.c \
 					executor/exec_utils.c \
+					executor/exec_utils2.c \
 					executor/ft_cd.c \
 					executor/ft_echo.c \
 					executor/ft_export.c \
@@ -41,14 +42,14 @@ LIBFT	=	$(LIBFT_DIRECTORY)libft.a
 LIBFT_DIRECTORY = ./libft/
 LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 
-#READLINE_INC = /opt/homebrew/Cellar/readline/8.1.2/include
-#READLINE_LIB = /opt/homebrew/Cellar/readline/8.1.2/lib
+READLINE_INC = /opt/homebrew/Cellar/readline/8.1.2/include
+READLINE_LIB = /opt/homebrew/Cellar/readline/8.1.2/lib
 
 #READLINE_INC = /usr/local/opt/readline/include
 #READLINE_LIB = /usr/local/opt/readline/lib
 
-READLINE_INC = ~/.brew/opt/readline/include
-READLINE_LIB = ~/.brew/opt/readline/lib
+#READLINE_INC = ~/.brew/opt/readline/include
+#READLINE_LIB = ~/.brew/opt/readline/lib
 
 OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 

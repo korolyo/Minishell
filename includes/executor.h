@@ -83,5 +83,7 @@ int		ft_check_if_var(char **args, t_list **var_list, int task_id);
 int		ft_check_var(char *var, char *check_cmd);
 void	init_misc(t_misc *misc, t_tlist *tokens);
 void	print_var_list(t_list **var_list);
+int		ft_del_elem(t_list *list, t_list **head, void (*del)(void *));
+void	(ft_del_var)(void *var);
 
 #endif
