@@ -50,10 +50,9 @@ LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 READLINE_INC = ~/.brew/opt/readline/include
 READLINE_LIB = ~/.brew/opt/readline/lib
 
-
 OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
-.PHONY:	all clean fclean re
+.PHONY:	all clean fclean re install
 
 all	: 	$(NAME)
 

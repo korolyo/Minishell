@@ -33,10 +33,10 @@ char	*create_name(void)
 	return (ft_strdup("Minichill \U0001f3c4:"));
 }
 
-char 	*create_prompt(void)
+char	*create_prompt(void)
 {
-	char *name;
-	char *end;
+	char	*name;
+	char	*end;
 
 	name = create_name();
 	end = ft_strdup("$ ");

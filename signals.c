@@ -46,6 +46,7 @@ void	catch_heredoc_sig(void)
 
 void	sig_init(void)
 {
+	rl_catch_signals = 0;
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
