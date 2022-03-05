@@ -73,6 +73,7 @@ int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	int				tmp_out;
 	int				redir_id;
 	static t_cmd	builtins[] = {
+<<<<<<< HEAD
 	{"echo", ft_echo},
 	{"cd", ft_cd},
 	{"pwd", ft_pwd},
@@ -80,6 +81,15 @@ int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	{"unset", ft_unset},
 	{"env", ft_env},
 	{"exit", ft_exit}
+=======
+	{"echo",		ft_echo},
+	{"cd",		ft_cd},
+	{"pwd",		ft_pwd},
+	{"export",	ft_export},
+	{"unset",		ft_unset},
+	{"env",		ft_env},
+	{"exit",		ft_exit}
+>>>>>>> 985dd15b60c9b660a719352a7c1b915160e14040
 	};
 
 	tmp_in = 0;
@@ -132,9 +142,12 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
+<<<<<<< HEAD
 	printf("start2\n");
 	if (misc.fdpipe)
 		free(misc.fdpipe);
 	printf("start3\n");
+=======
+>>>>>>> 985dd15b60c9b660a719352a7c1b915160e14040
 	return (1);
 }

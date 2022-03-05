@@ -15,8 +15,8 @@
 void	ft_restore_fd(int tmp_in, int tmp_out)
 {
 	dup2(tmp_in, STDIN_FILENO);
-	dup2(tmp_out, STDOUT_FILENO);
 	close(tmp_in);
+	dup2(tmp_out, STDOUT_FILENO);
 	close(tmp_out);
 }
 
