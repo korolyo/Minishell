@@ -37,6 +37,7 @@ void	pipe_switch(t_tlist *tokens, t_misc *misc);
 int		find_cmd_num(t_tlist *tokens);
 void	close_pipes(int *fdpipe, int node_id);
 void	heredoc(t_tlist *tokens);
+void	here_doc_input(t_tlist *tokens);
 
 // DEBUG:
 void	print_tokens(t_tlist *tokens);
