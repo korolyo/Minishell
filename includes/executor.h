@@ -18,9 +18,6 @@
 # include <stdlib.h>
 
 // Executor:
-# define MALLOC_ERR		1
-# define FORK_ERR		2
-# define MAX_DIRNAME 	4096
 # define MAX_FILENAME 	255
 
 //Executor:
@@ -85,5 +82,6 @@ void	ft_restore_fd(int tmp_in, int tmp_out);
 int		ft_check_if_var(char **args, t_list **var_list, int task_id);
 int		ft_check_var(char *args, char *check_cmd);
 void	init_misc(t_misc *misc, t_tlist *tokens);
+void	print_var_list(t_list **var_list);
 
 #endif
