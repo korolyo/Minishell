@@ -85,7 +85,6 @@ int	find_type(char *prompt, int j, int *i)
 
 char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 {
-	char	*str;
 	int		j;
 	t_tlist	*tmp_head;
 	int		type;
@@ -100,24 +99,16 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	while (tmp_head->next)
 		tmp_head = tmp_head->next;
 	if (type == REDIR)
-	{
-		str = ft_substr(prompt, k, i - j - 1);
-		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	}
+		tmp_head->fdout = open(ft_substr(prompt, k, i - j - 1),
+				O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (type == REDIR_APPEND)
-	{
-		str = ft_substr(prompt, k, i - j - 2);
-		tmp_head->fdout = open(str, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	}
+		tmp_head->fdout = open(ft_substr(prompt, k, i - j - 2),
+				O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (type == REDIR_INPUT)
-	{
-		str = ft_substr(prompt, k, i - j - 2);
-		tmp_head->fdin = open(str, O_RDONLY, 0644);
-	}
+		tmp_head->fdin = open(ft_substr(prompt, k, i - j - 2), O_RDONLY, 0644);
 	if (type == HERE_DOC)
 		tmp_head->stop_word = ft_substr(prompt, k, i - j - 2);
-	str = str_delete_part(prompt, j, i - 1, DELETE_MID);
-	return (str);
+	return (str_delete_part(prompt, j, i - 1, DELETE_MID));
 }
 
 void	lexer_cmd(t_tlist **tokens, char *prompt)

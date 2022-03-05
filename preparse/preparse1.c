@@ -43,3 +43,36 @@ char	*str_delete_part(char *prompt, int start, int end, int flag_mid)
 		free(tmp3);
 	return (tmp);
 }
+
+char	*prep_clear(char *str, char *tmp, char *prompt)
+{
+	if (str)
+		printf("Error: %s\n", str);
+	if (tmp)
+		free(tmp);
+	if (prompt)
+		free(prompt);
+	return (NULL);
+}
+
+char	*delim_str(char *prompt, int *i, char *tmp)
+{
+	char	*retu;
+	int		j;
+
+	j = *i;
+	while ((tmp[*i] == ' ' || tmp[*i] == '\t') && tmp[*i] != '\0')
+		(*i)++;
+	if (j == 0)
+		retu = ft_substr(prompt, *i, ft_strlen(tmp) - (*i));
+	else
+	{
+		if (tmp[*i] == '\0')
+			j--;
+		retu = str_delete_part(tmp, j + 1, (*i) - 1, DELETE_MID);
+	}
+	(*i) = -1;
+	if (tmp)
+		free(tmp);
+	return (retu);
+}

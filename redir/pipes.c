@@ -29,10 +29,8 @@ int	*pipes(t_misc *misc)
 {
 	int	*fdpipe;
 	int	i;
-	int check;
 
 	i = 0;
-	check = 0;
 	fdpipe = (int *) ft_calloc(sizeof(int) * 2, misc->num_of_pipes);
 	while (i < (misc->cmd_count - 1))
 	{
@@ -81,6 +79,9 @@ void	close_pipes(int *fdpipe, int node_id)
 
 	i = 0;
 	n = 2 * (node_id - 1);
-	while (i < n)
-		close(fdpipe[i++]);
+	if (fdpipe)
+	{
+		while (i < n)
+			close(fdpipe[i++]);
+	}
 }

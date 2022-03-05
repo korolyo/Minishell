@@ -60,7 +60,10 @@ int	ft_sort(char **sorted_name, t_list **var_list, int num)
 
 	top = 0;
 	seek = 0;
+<<<<<<< HEAD
 
+=======
+>>>>>>> e1d46e86d89686d9a6bfa404f66dda8ae0b3b4e1
 	while (top < num - 1)
 	{
 		seek = top + 1;

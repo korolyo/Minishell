@@ -12,30 +12,42 @@
 
 #include "minishell.h"
 
+static void	make_tmp_file_input(t_tlist *tokens)
+{
+	tokens->fdin = open(".tmp_file", O_RDONLY, 0644);
+	unlink(".tmp_file");
+	dup2(tokens->fdin, 0);
+	close(tokens->fdin);
+}
+
 void	heredoc(t_tlist *tokens)
 {
-	int		limiter;
 	int		fd;
 	char	*line;
 
-	if (tokens->stop_word)
+	signal(SIGINT, interrupt_here_document);
+	fd = open(".tmp_file", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
+	while (1)
 	{
-		fd = open(".tmp_file", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
-		while (1)
+		line = readline("> ");
+		if (ft_strncmp(line, tokens->stop_word, ft_strlen(line)) == 0)
 		{
-			signal(SIGINT, SIG_DFL);
-			line = readline("> ");
-			if (line == NULL)
-				break ;
-			limiter = ft_strncmp(line, tokens->stop_word, ft_strlen(line));
-			if (limiter == 0)
-				break ;
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
+			close(fd);
 			free(line);
+			break ;
 		}
-		free(line);
-		tokens->fdin = fd;
-		close(fd);
+		ft_putendl_fd(line, fd);
 	}
+	close(fd);
+}
+
+void	here_doc_input(t_tlist *tokens)
+{
+	int save_fd_out;
+
+	save_fd_out = dup(1);
+	dup2(tokens->fdout, STDOUT_FILENO);
+	signal(SIGINT, SIG_IGN);
+	heredoc(tokens);
+	make_tmp_file_input(tokens);
 }

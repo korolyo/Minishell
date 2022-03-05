@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   preparser.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,36 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef PREPARSER_H
+# define PREPARSER_H
 
 # include "libft.h"
-# include "lexer.h"
-# include "preparser.h"
-# include "executor.h"
-# include "signal.h"
-# include "prompt.h"
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <errno.h>
-# include <fcntl.h>
 
-// UTILS:
-void	clear_all(t_tlist **tokens, char *prompt);
+# define DELIM	" \t"
 
-//PIPING
-int		*pipes(t_misc *misc);
-void	cmd_kind(t_tlist *tokens);
-void	pipe_switch(t_tlist *tokens, t_misc *misc);
-int		find_cmd_num(t_tlist *tokens);
-void	close_pipes(int *fdpipe, int node_id);
-void	heredoc(t_tlist *tokens);
-void	here_doc_input(t_tlist *tokens);
+# define DELETE_MID	7
 
-// DEBUG:
-void	print_tokens(t_tlist *tokens);
+char	*preparse(char *prompt);
+int		unmatched_quotes(char *prompt, int i);
+void	preparse_quotes(char const *prompt, int *i);
+char	*preparse_delim(char *prompt, int i);
+int		preparse_redir(char *prompt, int i);
+int		preparse_pipe(char *prompt, int i);
+char	*prep_clear(char *str, char *tmp, char *prompt);
+char	*delim_str(char *prompt, int *i, char *tmp);
+
+// Utils
+char	*str_delete_part(char *prompt, int start, int end, int flag_mid);
 
 #endif

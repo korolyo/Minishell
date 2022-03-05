@@ -12,14 +12,13 @@
 
 #include "minishell.h"
 
-void	clear_all(t_tlist **tokens)
+void	clear_all(t_tlist **tokens, char *prompt)
 {
 	unlink(".tmp_file");
+	if (prompt)
+		free(prompt);
 	if (*tokens)
-	{
-		tlist_clear(*tokens);
 		*tokens = NULL;
-	}
 }
 
 void	print_tokens(t_tlist *tokens)
@@ -63,28 +62,39 @@ t_list	*save_var(void)
 	return (var_list);
 }
 
+void	check_eof(char *line)
+{
+	if (line)
+		return ;
+	printf("exit\n");
+	exit(g_exit_status);
+}
+
 int	main(void)
 {
 	char		*prompt;
+	char		*input;
 	t_tlist		*tokens;
 	t_list		*var_list;
 
 	tokens = NULL;
 	var_list = save_var();
-	rl_catch_signals = 0;
+	prompt = create_prompt();
 	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
 		sig_init();
-		prompt = readline("minishell > ");
-		if (prompt)
-			add_history(prompt);
-		prompt = preparse(prompt);
-		if (prompt)
-			lexer(prompt, &tokens, &var_list);
-		if (!(ft_start(tokens, &var_list)))
-			printf("problem with executor");
-		clear_all(&tokens);
+		input = readline(prompt);
+		if (input)
+			add_history(input);
+		input = preparse(input);
+		if (input)
+		{
+			lexer(input, &tokens, &var_list);
+			if (!(ft_start(tokens, &var_list)))
+				printf("problem with executor");
+		}
+		clear_all(&tokens, input);
 	}
 	exit(EXIT_SUCCESS);
 }

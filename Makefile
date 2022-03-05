@@ -22,6 +22,7 @@ SOURCES_LIST	= 	main.c \
 					executor/ft_echo.c \
 					executor/ft_export.c \
 					executor/make_redirection.c \
+					prompt.c \
 
 CC		= gcc
 CFLAGS	=	-Werror -Wall -Wextra -g -I $(READLINE_INC)
@@ -40,18 +41,23 @@ LIBFT	=	$(LIBFT_DIRECTORY)libft.a
 LIBFT_DIRECTORY = ./libft/
 LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 
-READLINE_INC = /opt/homebrew/Cellar/readline/8.1.2/include
-READLINE_LIB = /opt/homebrew/Cellar/readline/8.1.2/lib
+#READLINE_INC = /opt/homebrew/Cellar/readline/8.1.2/include
+#READLINE_LIB = /opt/homebrew/Cellar/readline/8.1.2/lib
 
 #READLINE_INC = /usr/local/opt/readline/include
 #READLINE_LIB = /usr/local/opt/readline/lib
 
+<<<<<<< HEAD
 #READLINE_INC = ~/.brew/opt/readline/include
 #READLINE_LIB = ~/.brew/opt/readline/lib
+=======
+READLINE_INC = ~/.brew/opt/readline/include
+READLINE_LIB = ~/.brew/opt/readline/lib
+>>>>>>> e1d46e86d89686d9a6bfa404f66dda8ae0b3b4e1
 
 OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
-.PHONY:	all clean fclean re
+.PHONY:	all clean fclean re install
 
 all	: 	$(NAME)
 
@@ -71,5 +77,8 @@ clean:
 fclean:	clean
 		@rm -f $(NAME)
 		@rm -f $(LIBFT)
+
+install:
+		sudo apt-get install libreadline-dev
 
 re:		fclean all

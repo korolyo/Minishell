@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,49 +12,33 @@
 
 #include "minishell.h"
 
-void	sig_handler(int signum)
+char	*concatenate_prompt(char *name, char *end)
 {
-	if (signum == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		g_exit_status = 130;
-	}
+	char	*prompt;
+
+	prompt = variadic_strjoin(
+			5,
+			ESC_BOLD_PURPLE,
+			name,
+			ESC_BOLD_RED,
+			end,
+			ESC_RESET_COLOR);
+	free(name);
+	free(end);
+	return (prompt);
 }
 
-void	sig_handler3(int signum)
+char	*create_name(void)
 {
-	if (signum == SIGINT)
-	{
-		write(1, "\n", 1);
-		g_exit_status = 130;
-	}
-	if (signum == SIGQUIT)
-	{
-		write(1, "Quit: 3\n", 8);
-		g_exit_status = 131;
-	}
+	return (ft_strdup("Minichill \U0001f3c4:"));
 }
 
-void	catch_heredoc_sig(void)
+char	*create_prompt(void)
 {
-	signal(SIGINT, sig_handler3);
-	signal(SIGQUIT, sig_handler3);
-}
+	char	*name;
+	char	*end;
 
-void	sig_init(void)
-{
-	rl_catch_signals = 0;
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, SIG_IGN);
-}
-
-void	interrupt_here_document(int signal)
-{
-	(void)signal;
-	g_exit_status = 130;
-//	write(1, "\n", 1);
-	exit(130);
+	name = create_name();
+	end = ft_strdup("$ ");
+	return (concatenate_prompt(name, end));
 }
