@@ -12,12 +12,19 @@
 
 #include "minishell.h"
 
+static void	make_tmp_file_input(t_tlist *tokens)
+{
+	tokens->fdin = open(".tmp_file", O_RDONLY, 0644);
+	unlink(".tmp_file");
+	dup2(tokens->fdin, 0);
+	close(tokens->fdin);
+}
+
 void	heredoc(t_tlist *tokens)
 {
 	int		fd;
 	char	*line;
 
-	signal(SIGINT, SIG_IGN);
 	signal(SIGINT, interrupt_here_document);
 	fd = open(".tmp_file", O_WRONLY | O_CREAT | O_TRUNC, S_IRWXU);
 	while (1)
@@ -31,7 +38,16 @@ void	heredoc(t_tlist *tokens)
 		}
 		ft_putendl_fd(line, fd);
 	}
-	tokens->fdin = fd;
 	close(fd);
-	exit(0);
+}
+
+void	here_doc_input(t_tlist *tokens)
+{
+	int save_fd_out;
+
+	save_fd_out = dup(1);
+	dup2(tokens->fdout, STDOUT_FILENO);
+	signal(SIGINT, SIG_IGN);
+	heredoc(tokens);
+	make_tmp_file_input(tokens);
 }
