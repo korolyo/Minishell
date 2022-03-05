@@ -24,21 +24,21 @@ int	ft_pwd(char **args, t_list **var_list)
 	return (1);
 }
 
-int	ft_check_var(char *args, char *check_cmd)
+int	ft_check_var(char *var, char *check_cmd)
 {
 	int	i;
 
 	i = 0;
-	if ((args[i] >= 'a' && args[i] <= 'z') || (args[i] >= 'A'
-			&& args[i] <= 'Z') || (args[i] == '_'
-			&& args[i + 1] != '\0'))
+	if ((var[i] >= 'a' && var[i] <= 'z') || (var[i] >= 'A'
+			&& var[i] <= 'Z') || (var[i] == '_'
+			&& var[i + 1] != '\0'))
 	{
-		while (ft_isdigit(args[i]) || ft_isalpha(args[i]))
+		while (ft_isdigit(var[i]) || ft_isalpha(var[i]))
 			i++;
 	}
-	if (args[i] != '\0')
+	if (var[i] != '\0')
 	{
-		printf("minishell: %s: '%s': not a valid identifier\n", check_cmd, args);
+		printf("minishell: %s: '%s': not a valid identifier\n", check_cmd, var);
 		return (0);
 	}
 	return (1);
@@ -112,7 +112,12 @@ int	ft_env(char **args, t_list **var_list)
 		next = tmp->next;
 		tmp_ptr = (t_var *)tmp->content;
 		if (tmp_ptr->is_exported == 1)
-			printf("%s=%s\n", tmp_ptr->name, tmp_ptr->value);
+		{
+			printf("%s=", tmp_ptr->name);
+			if (tmp_ptr->value)
+				printf("%s", tmp_ptr->value);
+			printf("\n");
+		}
 		tmp = next;
 	}
 	return (1);
@@ -125,12 +130,12 @@ int	ft_exit(char **args, t_list **var_list)
 	(void)args;
 	printf("exit\n");
 	lvl = ft_change_lvl(var_list, 0);
-	if (lvl == 0)
-		return (0);
+	if (lvl != 2)
+		return (1);
 	if (lvl == 2)
 	{
 		ft_clear_vars(var_list); //TODO: здесь очистить все
 		exit(EXIT_SUCCESS);
 	}
-	exit(EXIT_SUCCESS);
+	return (1);
 }

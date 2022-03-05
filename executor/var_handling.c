@@ -32,6 +32,7 @@ t_list	*ft_find_var(t_list **var_list, char *var_name)
 	return (NULL);
 }
 
+
 int	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id)
 {
 	t_list	*tmp_list;
@@ -41,12 +42,13 @@ int	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id)
 	if (tmp_list == NULL)
 		return (ft_save_var(var_list, ft_strjoin(ft_strjoin(var_name,
 						"="), new_value), var_id));
-	tmp_val = (t_var *) tmp_list->content;
+	tmp_val = (t_var *)tmp_list->content;
 	free(tmp_val->value);
 	tmp_val->value = malloc(sizeof(char) * (ft_strlen(new_value) + 1));
 	if (!tmp_val->value)
 		return (0);
 	strlcpy(tmp_val->value, new_value, ft_strlen(new_value) + 1);
+	tmp_val->is_exported = var_id;
 	return (1);
 }
 
@@ -83,7 +85,7 @@ t_var	*ft_make_var(char *var, t_var *variable)
 	len2 = 0;
 	while (var[len1] != '=' && var[len1] != '\0')
 		len1++;
-	variable->name = malloc(sizeof (char) * len1);
+	variable->name = malloc(sizeof(char) * (len1 + 1));
 	if (!variable->name)
 		return (NULL);
 	ft_strlcpy(variable->name, var, len1 + 1);

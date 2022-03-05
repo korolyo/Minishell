@@ -73,30 +73,20 @@ int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	int				tmp_out;
 	int				redir_id;
 	static t_cmd	builtins[] = {
-<<<<<<< HEAD
-	{"echo", ft_echo},
-	{"cd", ft_cd},
-	{"pwd", ft_pwd},
+
+	{"echo",   ft_echo},
+	{"cd",     ft_cd},
+	{"pwd",    ft_pwd},
 	{"export", ft_export},
-	{"unset", ft_unset},
-	{"env", ft_env},
-	{"exit", ft_exit}
-=======
-	{"echo",		ft_echo},
-	{"cd",		ft_cd},
-	{"pwd",		ft_pwd},
-	{"export",	ft_export},
-	{"unset",		ft_unset},
-	{"env",		ft_env},
-	{"exit",		ft_exit}
->>>>>>> 985dd15b60c9b660a719352a7c1b915160e14040
+	{"unset",  ft_unset},
+	{"env",    ft_env},
+	{"exit",   ft_exit}
 	};
 
 	tmp_in = 0;
 	tmp_out = 0;
 	index = -1;
 	redir_id = 0;
-	printf("cmd %s\n", tokens->cmd[0]);
 	if (ft_strchr(tokens->cmd[0], '=') != NULL)
 		return (ft_check_if_var(tokens->cmd, var_list, 0));
 	while (++index < 7)
@@ -128,7 +118,6 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 {
 	t_misc	misc;
 
-	printf("start1\n");
 	if (!tokens)
 		return (1);
 	init_misc(&misc, tokens);
@@ -142,12 +131,7 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
-<<<<<<< HEAD
-	printf("start2\n");
 	if (misc.fdpipe)
 		free(misc.fdpipe);
-	printf("start3\n");
-=======
->>>>>>> 985dd15b60c9b660a719352a7c1b915160e14040
 	return (1);
 }
