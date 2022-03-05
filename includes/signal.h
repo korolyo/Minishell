@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   signal.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,35 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef SIGNAL_H
+# define SIGNAL_H
 
-# include "libft.h"
-# include "lexer.h"
-# include "preparser.h"
-# include "executor.h"
-# include "signal.h"
-# include "prompt.h"
-# include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <errno.h>
-# include <fcntl.h>
+# include <signal.h>
 
-// UTILS:
-void	clear_all(t_tlist **tokens, char *prompt);
+/*
+ * Global variable for hosting exit status
+ */
+int		g_exit_status;
 
-//PIPING
-int		*pipes(t_misc *misc);
-void	cmd_kind(t_tlist *tokens);
-void	pipe_switch(t_tlist *tokens, t_misc *misc);
-int		find_cmd_num(t_tlist *tokens);
-void	close_pipes(int *fdpipe, int node_id);
-void	heredoc(t_tlist *tokens);
-
-// DEBUG:
-void	print_tokens(t_tlist *tokens);
+void	sig_handler(int signum);
+void	sig_init(void);
+void	sig_handler3(int signum);
+void	catch_heredoc_sig(void);
+void	interrupt_here_document(int signal);
+void	check_eof(char *line);
 
 #endif

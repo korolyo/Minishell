@@ -12,14 +12,6 @@
 
 #include "minishell.h"
 
-void	init_num(t_num *num)
-{
-	num = (t_num *)malloc(sizeof(t_num));
-	num->i = 0;
-	num->j = 0;
-	num->k = 0;
-}
-
 char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
 {
 	t_tlist	*tmp_cmds;
@@ -30,7 +22,6 @@ char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
 	lexer_cmd(tokens, str_before);
 	tmp_cmds = *tokens;
 	tmp_cmds->pipes++;
-	printf("check pipes = %d\n", (*tokens)->pipes);
 	str_after = ft_substr(tmp, *i + 1, ft_strlen(tmp) - *i);
 	*i = -1;
 	free(tmp);
@@ -65,11 +56,9 @@ void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
 {
 	int		i;
 	char	*tmp;
-	t_num	num;
 
 	i = -1;
 	tmp = dollar_string(prompt, var_list);
-	init_num(&num);
 	while (tmp[++i])
 	{
 		if (tmp[i] == '\'' || tmp[i] == '\"')

@@ -18,11 +18,7 @@ void	clear_all(t_tlist **tokens, char *prompt)
 	if (prompt)
 		free(prompt);
 	if (*tokens)
-	{
-//		printf("check\n");
-//		tlist_clear(*tokens);
 		*tokens = NULL;
-	}
 }
 
 void	print_tokens(t_tlist *tokens)
@@ -77,13 +73,12 @@ void	check_eof(char *line)
 int	main(void)
 {
 	char		*prompt;
-	char 		*input;
+	char		*input;
 	t_tlist		*tokens;
 	t_list		*var_list;
 
 	tokens = NULL;
 	var_list = save_var();
-	rl_catch_signals = 0;
 	prompt = create_prompt();
 	ft_change_lvl(&var_list, 1);
 	while (1)
