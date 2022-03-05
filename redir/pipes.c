@@ -54,15 +54,9 @@ void	pipe_switch(t_tlist *tokens, t_misc *misc)
 	if (misc->cmd_count == 2)
 	{
 		if (tokens->kind == FIRST)
-		{
 			dup2(misc->fdpipe[1], 1);
-//			close(misc->fdpipe[1]);
-		}
 		if (tokens->kind == LAST)
-		{
 			dup2(misc->fdpipe[0], 0);
-//			close(misc->fdpipe[0]);
-		}
 	}
 	if (misc->cmd_count > 2)
 	{
