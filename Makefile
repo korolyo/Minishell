@@ -43,17 +43,11 @@ LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 READLINE_INC = /opt/homebrew/Cellar/readline/8.1.2/include
 READLINE_LIB = /opt/homebrew/Cellar/readline/8.1.2/lib
 
-<<<<<<< HEAD
-#READLINE_INC = ~/.brew/opt/readline/include
-#READLINE_LIB = ~/.brew/opt/readline/lib
-=======
 #READLINE_INC = /usr/local/opt/readline/include
 #READLINE_LIB = /usr/local/opt/readline/lib
 
-READLINE_INC = ~/.brew/opt/readline/include
-READLINE_LIB = ~/.brew/opt/readline/lib
->>>>>>> b5c1b1db7960209f1402c5765b378c9ec538a6bf
-
+#READLINE_INC = ~/.brew/opt/readline/include
+#READLINE_LIB = ~/.brew/opt/readline/lib
 
 OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
