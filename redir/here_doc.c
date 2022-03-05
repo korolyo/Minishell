@@ -43,7 +43,7 @@ void	heredoc(t_tlist *tokens)
 
 void	here_doc_input(t_tlist *tokens)
 {
-	int save_fd_out;
+	int	save_fd_out;
 
 	save_fd_out = dup(1);
 	dup2(tokens->fdout, STDOUT_FILENO);
