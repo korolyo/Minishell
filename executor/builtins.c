@@ -45,10 +45,21 @@ int	ft_check_var(char *args, char *check_cmd)
 	return (1);
 }
 
+void (ft_del_var)(void *var)
+{
+	t_var	*tmp_var;
+
+	tmp_var = (t_var *)(var);
+	printf("%s\n", tmp_var->name);
+	free(tmp_var->value);
+	free(tmp_var->name);
+	free(tmp_var);
+}
+
 int	ft_unset(char **args, t_list **var_list)
 {
 	t_list	*tmp_list;
-	t_var	*tmp_var;
+	//t_var	*tmp_var;
 	int		index;
 
 	index = 1;
@@ -58,17 +69,7 @@ int	ft_unset(char **args, t_list **var_list)
 		if (tmp_list == NULL)
 			ft_check_var(args[index], "unset");
 		else
-		{
-			*var_list = (*var_list)->next;
-			tmp_var = (t_var *) (tmp_list->content);
-			if (tmp_var)
-			{
-				free(tmp_var->value);
-				free(tmp_var->name);
-				free(tmp_var);
-			}
-			tmp_list = NULL;
-		}
+			ft_lstdelone(tmp_list, ft_del_var);
 		index++;
 	}
 	return (0);

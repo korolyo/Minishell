@@ -67,12 +67,15 @@ int	ft_sort(char **sorted_name, t_list **var_list, int num)
 		{
 			if (ft_strncmp(sorted_name[top], sorted_name[seek], 255) > 0)
 			{
+				printf("Start\n");
 				tmp = sorted_name[top];
+				printf("Start1\n");
 				sorted_name[top] = sorted_name[seek];
+				printf("Start2\n");
 				sorted_name[seek] = tmp;
+				printf("Start3\n");
 			}
 			seek++;
-//			printf("start2\n");
 		}
 		top++;
 	}

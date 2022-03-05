@@ -54,8 +54,10 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	if (pid == 0)
 	{
 		if (tokens->stop_word)
+		{
 			here_doc_input(tokens);
-		ft_redirection(tokens, &tmp_in, &tmp_out);
+			ft_redirection(tokens, &tmp_in, &tmp_out);
+		}
 		pipe_switch(tokens, misc);
 		close_pipes(misc->fdpipe, misc->cmd_count);
 		if (execve(path, tokens->cmd, NULL))
