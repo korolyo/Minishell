@@ -19,6 +19,7 @@ char	*find_value(t_list **var_list, char *tmp2)
 	t_var	*tmp5;
 
 	ret = NULL;
+//	printf("tmp2 in f_value = |%s|\n", tmp2);
 	if (tmp2)
 	{
 		tmp4 = ft_find_var(var_list, tmp2);

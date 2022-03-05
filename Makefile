@@ -47,13 +47,8 @@ LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 #READLINE_INC = /usr/local/opt/readline/include
 #READLINE_LIB = /usr/local/opt/readline/lib
 
-<<<<<<< HEAD
-#READLINE_INC = ~/.brew/opt/readline/include
-#READLINE_LIB = ~/.brew/opt/readline/lib
-=======
 READLINE_INC = ~/.brew/opt/readline/include
 READLINE_LIB = ~/.brew/opt/readline/lib
->>>>>>> e1d46e86d89686d9a6bfa404f66dda8ae0b3b4e1
 
 OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
