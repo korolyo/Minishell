@@ -79,9 +79,6 @@ void	close_pipes(int *fdpipe, int node_id)
 
 	i = 0;
 	n = 2 * (node_id - 1);
-	if (fdpipe)
-	{
-		while (i < n)
-			close(fdpipe[i++]);
-	}
+	while (i < n)
+		close(fdpipe[i++]);
 }

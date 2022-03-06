@@ -30,6 +30,7 @@ CFLAGS	=	-Werror -Wall -Wextra -g -I $(READLINE_INC)
 LIBRARIES =	-lft -lreadline\
 	-L$(LIBFT_DIRECTORY) \
 
+#-fsanitize=address -fno-omit-frame-pointer
 INCLUDES = -I$(LIBFT_HEADERS) -I$(HEADERS_DIR)
 
 HEADERS_LIST = \
@@ -57,7 +58,7 @@ OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
 all	: 	$(NAME)
 
-$(NAME): $(LIBFT) $(OBJECTS)
+$(NAME): $(LIBFT) $(OBJECTS) Makefile
 		@$(CC) $(CFLAGS) $(LIBRARIES) $(INCLUDES) -I $(READLINE_INC) -L $(READLINE_LIB) $(OBJECTS) -o $(NAME)
 
 %.o : %.c $(HEADERS)
