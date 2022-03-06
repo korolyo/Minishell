@@ -43,6 +43,8 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	int		redir_id;
 	int		tmp_in;
 	int		tmp_out;
+//	(void)misc;
+
 
 	status = 0;
 	redir_id = 0;
@@ -54,12 +56,11 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	if (pid == 0)
 	{
 		if (tokens->stop_word)
-		{
 			here_doc_input(tokens);
+		if (misc->num_of_pipes > 0 || tokens->stop_word)
 			ft_redirection(tokens, &tmp_in, &tmp_out);
-		}
 		pipe_switch(tokens, misc);
-		close_pipes(misc->fdpipe, misc->cmd_count);
+//		close_pipes(misc->fdpipe, misc->cmd_count);
 		if (execve(path, tokens->cmd, NULL))
 			ft_cmd_error(tokens->cmd[0]);
 		exit(EXIT_SUCCESS);
@@ -71,7 +72,7 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 		close_pipes(misc->fdpipe, misc->cmd_count);
 		status = ft_wait_pid(pid);
 	}
-	if (redir_id == 1)
+	if (redir_id == 1 || misc->num_of_pipes > 0)
 		ft_restore_fd(tmp_in, tmp_out);
 	return (status);
 }
