@@ -43,24 +43,26 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	int		redir_id;
 	int		tmp_in;
 	int		tmp_out;
-	(void)misc;
+//	(void)misc;
 
 	status = 0;
 	redir_id = 0;
-	if ((tokens->fdin != -2 || tokens->fdout != -2) && !access(path, 00))
-		redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
+//	if ((tokens->fdin != -2 || tokens->fdout != -2) && !access(path, 00))
+	redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
 	pid = fork();
 	if (pid && !tokens->stop_word)
 		catch_heredoc_sig();
 	if (pid == 0)
 	{
-//		if (tokens->stop_word)
-//			here_doc_input(tokens);
-//		if (misc->num_of_pipes > 0)
-//			pipe_switch(tokens, misc);
-//		if (misc->num_of_pipes > 0 || tokens->stop_word)
-//			ft_redirection(tokens, &tmp_in, &tmp_out);
+		if (tokens->stop_word)
+			here_doc_input(tokens);
+		if (misc->num_of_pipes > 0)
+			pipe_switch(tokens, misc);
+		if (misc->num_of_pipes > 0 || tokens->stop_word)
+			ft_redirection(tokens, &tmp_in, &tmp_out);
 //		close_pipes(misc->fdpipe, misc->cmd_count);
+//		close(misc->fdpipe[0]);
+//		close(misc->fdpipe[1]);
 		if (execve(path, tokens->cmd, NULL))
 			ft_cmd_error(tokens->cmd[0]);
 		exit(EXIT_SUCCESS);
@@ -69,12 +71,14 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 		perror("minishell");
 	else
 	{
+//		close(misc->fdpipe[0]);
+		close(misc->fdpipe[1]);
 //		if (misc->fdpipe)
 //			close_pipes(misc->fdpipe, misc->cmd_count);
 		status = ft_wait_pid(pid);
 	}
-	if (redir_id == 1)
-		ft_restore_fd(tmp_in, tmp_out);
+//	if (redir_id == 1)
+	ft_restore_fd(tmp_in, tmp_out);
 	return (status);
 }
 

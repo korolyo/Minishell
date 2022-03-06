@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-void	clear_all(t_tlist **tokens, char *prompt)
-{
-	unlink(".tmp_file");
-	if (prompt)
-		free(prompt);
-	if (*tokens)
-		*tokens = NULL;
-}
+//void	clear_all(t_tlist **tokens, char *prompt)
+//{
+//	unlink(".tmp_file");
+////	if (prompt)
+////		free(prompt);
+//	if (*tokens)
+//		*tokens = NULL;
+//}
 
 void	print_tokens(t_tlist *tokens)
 {
@@ -102,7 +102,7 @@ int	main(void)
 			if (!(ft_start(tokens, &var_list)))
 				printf("problem with executor");
 			printf("i'm in loop5\n");
-			clear_all(&tokens, input);
+//			clear_all(&tokens, input);
 		}
 //		ft_clear_vars(&var_list);
 	}

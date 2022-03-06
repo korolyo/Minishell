@@ -120,8 +120,8 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 	if (!tokens)
 		return (1);
 	init_misc(&misc, tokens);
-//	if (misc.num_of_pipes > 0)
-//		misc.fdpipe = pipes(&misc);
+	if (misc.num_of_pipes > 0)
+		misc.fdpipe = pipes(&misc);
 	cmd_kind(tokens);
 	if (tokens->cmd[0] == NULL)
 		return (1);
