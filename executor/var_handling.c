@@ -37,12 +37,15 @@ int	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id)
 	t_list	*tmp_list;
 	t_var	*tmp_val;
 
+	printf("var_name = %s\n", var_name);
+	printf("var_name = %s\n", new_value);
 	tmp_list = ft_find_var(var_list, var_name);
 	if (tmp_list == NULL)
 		return (ft_save_var(var_list, ft_strjoin(ft_strjoin(var_name,
 						"="), new_value), var_id));
 	tmp_val = (t_var *)tmp_list->content;
-	free(tmp_val->value);
+	if (tmp_val->value != NULL)
+		free(tmp_val->value);
 	tmp_val->value = malloc(sizeof(char) * (ft_strlen(new_value) + 1));
 	if (!tmp_val->value)
 		return (0);
@@ -88,14 +91,15 @@ t_var	*ft_make_var(char *var, t_var *variable)
 	if (!variable->name)
 		return (NULL);
 	ft_strlcpy(variable->name, var, len1 + 1);
+	printf("%s\n", variable->name);
 	while (var[len1++] != '\0')
 		len2++;
 	if (len2 > 0)
 	{
-		variable->value = malloc(sizeof(char) * len2);
+		variable->value = malloc(sizeof(char) * (len2 + 1));
 		if (!variable->value)
 			free(variable->name);
-		ft_strlcpy(variable->value, &var[len1 - len2], len2);
+		ft_strlcpy(variable->value, &var[len1 - len2], len2 + 1);
 	}
 	else
 		variable->value = NULL;

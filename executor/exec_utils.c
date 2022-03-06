@@ -18,17 +18,17 @@ int	ft_cmd_error(char *cmd)
 	return (1);
 }
 
-int	ft_clear_path_list(char ***path_list)
+int	ft_clear_arr(char **arr)
 {
 	int	index;
 
 	index = 0;
-	while (path_list[0][index] != NULL)
+	while (arr[index] != NULL)
 	{
-		free(path_list[0][index]);
+		free(arr[index]);
 		index++;
 	}
-	free(path_list[0]);
+	free(arr);
 	return (0);
 }
 
@@ -58,8 +58,37 @@ int	ft_add_status(t_list **var_list, int status)
 	char	*new_value;
 
 	new_value = ft_itoa(status);
-	if (ft_chng_var(var_list, "?", new_value, 1) == 0)
+	if (ft_chng_var(var_list, "?", new_value, 0) == 0)
 		return (0);
 	free(new_value);
 	return (1);
+}
+
+char **ft_make_env(t_list **var_list)
+{
+	char	**env_list;
+	char 	*tmp_value;
+	int		count;
+	t_list	*tmp_list;
+	t_var	*tmp_var;
+
+	count = 0;
+	tmp_list = *var_list;
+	env_list = malloc(sizeof(char *) * (ft_lstsize(tmp_list) + 1));
+	while (tmp_list)
+	{
+		tmp_var = (t_var *)tmp_list->content;
+		if (tmp_var->is_exported == 1)
+		{
+			tmp_value = ft_strjoin(tmp_var->name, "=");
+			env_list[count] = ft_strjoin(tmp_value, tmp_var->value);
+			//printf("%s\n", env_list[count]);
+			free(tmp_value);
+			count++;
+		}
+		tmp_list = tmp_list->next;
+	}
+	env_list[count] = NULL;
+	return (env_list);
+
 }

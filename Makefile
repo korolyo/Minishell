@@ -58,10 +58,10 @@ OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
 all	: 	$(NAME)
 
-$(NAME): $(LIBFT) $(OBJECTS) Makefile
+$(NAME): $(LIBFT) $(OBJECTS)
 		@$(CC) $(CFLAGS) $(LIBRARIES) $(INCLUDES) -I $(READLINE_INC) -L $(READLINE_LIB) $(OBJECTS) -o $(NAME)
 
-%.o : %.c $(HEADERS)
+%.o : %.c $(HEADERS) $(LIBFT) Makefile
 	$(CC) $(CFLAGS) -c $(INCLUDES) $< -o $@
 
 $(LIBFT):

@@ -47,16 +47,15 @@ void	print_tokens(t_tlist *tokens)
 	printf("\nnum of nodes = %d\n", i);
 }
 
-t_list	*save_var(void)
+t_list	*save_var(char **envp)
 {
-	extern char	**environ;
 	t_list		*var_list;
 
 	var_list = NULL;
-	while (*environ != NULL)
+	while (*envp != NULL)
 	{
-		ft_save_var(&var_list, *environ, 1);
-		environ++;
+		ft_save_var(&var_list, *envp, 1);
+		envp++;
 	}
 	ft_save_var(&var_list, "?=0", 0);
 	return (var_list);
@@ -70,22 +69,24 @@ void	check_eof(char *line)
 	exit(g_exit_status);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*prompt;
 	char		*input;
 	t_tlist		*tokens;
 	t_list		*var_list;
 
-	var_list = save_var();
+	(void)argc;
+	(void)argv;
+	var_list = save_var(envp);
 	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
+		prompt = create_prompt();
 		tokens = NULL;
 		prompt = create_prompt();
 		sig_init();
 		input = readline(prompt);
-		free(prompt);
 		if (input)
 			add_history(input);
 		input = preparse(input);
@@ -95,10 +96,9 @@ int	main(void)
 			if (!(ft_start(tokens, &var_list)))
 				printf("problem with executor");
 			tlist_clear(tokens);
-//			free(input);
-//			clear_all(&tokens, input);
 		}
-//		ft_clear_vars(&var_list);
+		free(prompt);
 	}
+	ft_clear_vars(&var_list);
 	exit(EXIT_SUCCESS);
 }

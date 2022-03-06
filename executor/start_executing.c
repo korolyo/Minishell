@@ -18,9 +18,11 @@ int	ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	char	*executor_path;
 	char	*tmp_path;
 	char	*tmp_path2;
+	char 	**envp;
 
 	tmp_path = NULL;
 	executor_path = NULL;
+	envp = ft_make_env(var_list);
 	path_list = ft_parse_path(var_list, tokens->cmd[0]);
 	if (!path_list)
 		return (1);
@@ -29,10 +31,10 @@ int	ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 		executor_path = tokens->cmd[0];
 	else
 		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
-	if (ft_add_status(var_list, ft_execute_cmd(executor_path, tokens, misc))
-		== 0)
-		return (0);
-	ft_clear_path_list(&path_list);
+	ft_add_status(var_list, ft_execute_cmd(executor_path, tokens, misc,
+											   envp));
+	ft_clear_arr(path_list);
+	ft_clear_arr(envp);
 	free(tmp_path);
 	free(executor_path);
 	return (1);

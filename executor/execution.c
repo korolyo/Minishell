@@ -36,7 +36,7 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
-int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
+int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc, char **envp)
 {
 	pid_t	pid;
 	int		status;
@@ -46,7 +46,8 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 
 	status = 0;
 	redir_id = 0;
-	redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
+	if ((tokens->fdin != -2 || tokens->fdout != -2) && !access(path, 00))
+		redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
 	pid = fork();
 	if (pid && !tokens->stop_word)
 		catch_heredoc_sig();
@@ -58,7 +59,7 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 			pipe_switch(tokens, misc);
 		if (misc->num_of_pipes > 0 || tokens->stop_word)
 			ft_redirection(tokens, &tmp_in, &tmp_out);
-		if (execve(path, tokens->cmd, NULL))
+		if (execve(path, tokens->cmd, envp))
 			ft_cmd_error(tokens->cmd[0]);
 		exit(EXIT_SUCCESS);
 	}
@@ -129,7 +130,7 @@ int	ft_join_path(char *args, char *tmp_path, char **path_list, char **exec_path)
 	tmp_path = ft_strjoin("/", &args[0]);
 	if (!tmp_path)
 	{
-		ft_clear_path_list(&path_list);
+		ft_clear_arr(path_list);
 		return (0);
 	}
 	*exec_path = ft_strjoin(ft_find_path(path_list, args), tmp_path);
