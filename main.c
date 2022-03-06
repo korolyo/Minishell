@@ -76,13 +76,9 @@ int	main(int argc, char **argv, char **envp)
 	t_tlist		*tokens;
 	t_list		*var_list;
 
-<<<<<<< HEAD
 	(void)argc;
 	(void)argv;
 	var_list = save_var(envp);
-=======
-	var_list = save_var();
->>>>>>> 360006bb72c4976dcb41aa89192d649cd14b29b4
 	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
@@ -91,10 +87,6 @@ int	main(int argc, char **argv, char **envp)
 		prompt = create_prompt();
 		sig_init();
 		input = readline(prompt);
-<<<<<<< HEAD
-=======
-		free(prompt);
->>>>>>> 360006bb72c4976dcb41aa89192d649cd14b29b4
 		if (input)
 			add_history(input);
 		input = preparse(input);
@@ -103,15 +95,9 @@ int	main(int argc, char **argv, char **envp)
 			lexer(input, &tokens, &var_list);
 			if (!(ft_start(tokens, &var_list)))
 				printf("problem with executor");
-<<<<<<< HEAD
-=======
 			tlist_clear(tokens);
-//			free(input);
-//			clear_all(&tokens, input);
->>>>>>> 360006bb72c4976dcb41aa89192d649cd14b29b4
 		}
 		free(prompt);
-		//clear_all(&tokens, input);
 	}
 	ft_clear_vars(&var_list);
 	exit(EXIT_SUCCESS);

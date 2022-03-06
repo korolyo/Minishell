@@ -133,11 +133,5 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
-<<<<<<< HEAD
-//	print_var_list(var_list);
-//	if (misc.fdpipe)
-//		free(misc.fdpipe);
-=======
->>>>>>> 360006bb72c4976dcb41aa89192d649cd14b29b4
 	return (1);
 }
