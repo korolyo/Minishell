@@ -131,7 +131,5 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
-//	if (misc.fdpipe)
-//		free(misc.fdpipe);
 	return (1);
 }
