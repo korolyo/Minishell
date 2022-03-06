@@ -65,6 +65,6 @@ void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist *head);
 void	check_eof(char *line);
 int		is_key(char c);
-t_list	*save_var(void);
+t_list	*save_var(char **envp);
 
 #endif

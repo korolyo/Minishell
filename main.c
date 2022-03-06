@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-void	clear_all(t_tlist **tokens, char *prompt)
-{
-	unlink(".tmp_file");
-	if (prompt)
-		free(prompt);
-	if (*tokens)
-		*tokens = NULL;
-}
+//void	clear_all(t_tlist **tokens, char *prompt)
+//{
+//	unlink(".tmp_file");
+//	if (prompt)
+//		free(prompt);
+//	if (*tokens)
+//		*tokens = NULL;
+//}
 
 void	print_tokens(t_tlist *tokens)
 {
@@ -47,16 +47,15 @@ void	print_tokens(t_tlist *tokens)
 	printf("\nnum of nodes = %d\n", i);
 }
 
-t_list	*save_var(void)
+t_list	*save_var(char **envp)
 {
-	extern char	**environ;
 	t_list		*var_list;
 
 	var_list = NULL;
-	while (*environ != NULL)
+	while (*envp != NULL)
 	{
-		ft_save_var(&var_list, *environ, 1);
-		environ++;
+		ft_save_var(&var_list, *envp, 1);
+		envp++;
 	}
 	ft_save_var(&var_list, "?=0", 0);
 	return (var_list);
@@ -70,44 +69,35 @@ void	check_eof(char *line)
 	exit(g_exit_status);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*prompt;
 	char		*input;
 	t_tlist		*tokens;
 	t_list		*var_list;
 
-//	printf("i'm started\n");
-//	print_var_list(&var_list);
-//	printf("i'm in loop\n");
-	var_list = save_var();
+	(void)argc;
+	(void)argv;
+	var_list = save_var(envp);
 	ft_change_lvl(&var_list, 1);
-//	printf("i'm in loop2\n");
-	prompt = create_prompt();
 	while (1)
 	{
+		prompt = create_prompt();
 		tokens = NULL;
 		sig_init();
 		input = readline(prompt);
-//		free(prompt);
-//		printf("i'm in loop3\n");
 		if (input)
 			add_history(input);
 		input = preparse(input);
 		if (input)
 		{
 			lexer(input, &tokens, &var_list);
-//			if (!ft_strncmp(tokens->cmd[0], "./minishell", 10))
-//				ft_change_lvl(&var_list, 1);
 			if (!(ft_start(tokens, &var_list)))
 				printf("problem with executor");
-			printf("i'm in loop5\n");
-			clear_all(&tokens, input);
 		}
-//		ft_clear_vars(&var_list);
+		free(prompt);
+		//clear_all(&tokens, input);
 	}
+	ft_clear_vars(&var_list);
 	exit(EXIT_SUCCESS);
 }
-
-//		printf("tokens :");
-//		print_tokens(tokens);

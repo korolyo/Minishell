@@ -81,7 +81,7 @@ int	ft_sort(char **sorted_name, t_list **var_list, int num)
 	return (1);
 }
 
-int	ft_sort_env(t_list **var_list, int len)
+int	ft_sort_env(t_list **var_list)
 {
 	char	**sorted_name;
 	char	*name;
@@ -90,7 +90,6 @@ int	ft_sort_env(t_list **var_list, int len)
 	t_var	*tmp_var;
 
 	count = 0;
-	len = 0;
 	tmp_list = *var_list;
 	sorted_name = malloc(sizeof(char *) * (ft_lstsize(tmp_list) + 1));
 	while (tmp_list)
@@ -110,50 +109,57 @@ int	ft_sort_env(t_list **var_list, int len)
 	return (1);
 }
 
-int	ft_export_var(t_list **var_list, char *args, t_var *tmp)
+int	ft_export_var(t_list **var_list, char *args)
 {
-	t_list	*tmp_list;
-	t_var	*tmp_var2;
+//	t_list	*tmp_list;
+//	t_var	*tmp_var2;
+	t_var	*tmp;
 
+	tmp = malloc(sizeof(t_var));
 	ft_make_var(args, tmp);
-	tmp_list = ft_find_var(var_list, tmp->name);
-	if (tmp_list != NULL)
-		tmp_var2 = (t_var *)tmp_list->content;
-	if (tmp_list && tmp_var2->is_exported == 0)
-	{
-		if (tmp->value != NULL)
-			return (ft_chng_var(var_list, tmp->name, tmp->value, 1));
-		return (ft_chng_var(var_list, tmp->name, tmp_var2->value, 1));
-	}
-	if (!tmp_list && ft_check_var(tmp->name, "export"))
-	{
-		if (tmp->value)
-			ft_save_var(var_list, args, 1);
-		else
-			ft_save_var(var_list, args, -1);
-	}
+	printf("tmp name = %s\n", tmp->name);
+	printf("tmp value = %s\n", tmp->value);
+	ft_chng_var(var_list, tmp->name, tmp->value, 1);
+
+//	tmp_list = ft_find_var(var_list, tmp->name);
+//	if (tmp_list)
+//	{
+//		tmp_var2 = (t_var *) tmp_list->content;
+//
+//	}
+//	if (tmp_list && tmp_var2->value == NULL)
+//	{
+//		tmp_var = mall
+//		return (ft_chng_var(var_list, tmp->name, tmp_var2->value, 1));
+//	}
+//	if (!tmp_list && ft_check_var(tmp->name, "export"))
+//	{
+//		if (tmp->value)
+//			ft_save_var(var_list, args, 1);
+//		else
+//			ft_save_var(var_list, args, -1);
+//	}
+	free(tmp->name);
+	if (tmp->value != NULL)
+		free(tmp->value);
+	free(tmp);
 	return (1);
 }
 
 int	ft_export(char **args, t_list **var_list)
 {
 	int		i;
-	t_var	*tmp;
 
 	i = 1;
-	tmp = malloc(sizeof(t_var));
-	if (!tmp)
-		return (1);
 	if (args[1] == NULL)
 	{
-		ft_sort_env(var_list, 0);
+		ft_sort_env(var_list);
 		return (1);
 	}
 	while (args[i] != NULL)
 	{
-		ft_export_var(var_list, args[i], tmp);
+		ft_export_var(var_list, args[i]);
 		i++;
-		free(tmp);
 	}
 	return (1);
 }
