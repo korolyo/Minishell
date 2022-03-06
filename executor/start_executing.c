@@ -86,7 +86,6 @@ int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	tmp_out = 0;
 	index = -1;
 	redir_id = 0;
-	printf("cmd %s\n", tokens->cmd[0]);
 	if (ft_strchr(tokens->cmd[0], '=') != NULL)
 		return (ft_check_if_var(tokens->cmd, var_list, 0));
 	while (++index < 7)
@@ -131,5 +130,7 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
+	if (misc.fdpipe)
+		free(misc.fdpipe);
 	return (1);
 }

@@ -89,6 +89,7 @@ int	ft_cd(char **args, t_list **var_list)
 		if (chdir(args[1]) != 0)
 		{
 			printf("minishell: cd: %s: %s\n", args[1], strerror(errno));
+			ft_chng_var(var_list, "?", "127", 0);
 			return (1);
 		}
 		return (ft_change_pwd(&var_list, args[1]));

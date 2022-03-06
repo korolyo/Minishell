@@ -88,7 +88,8 @@ char	*ft_find_path(char **path_list, char *executor_name)
 		dir = opendir(path_list[index]);
 		if (dir != NULL)
 		{
-			while ((ent = readdir(dir)) != NULL)
+			ent = readdir(dir);
+			while (ent != NULL)
 			{
 				if (!ft_strncmp(ent->d_name, executor_name, MAX_FILENAME))
 				{
@@ -96,6 +97,7 @@ char	*ft_find_path(char **path_list, char *executor_name)
 						return (NULL);
 					return (path_list[index]);
 				}
+				ent = readdir(dir);
 			}
 		}
 		index++;

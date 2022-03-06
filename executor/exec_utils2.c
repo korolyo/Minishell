@@ -12,54 +12,53 @@
 
 #include "minishell.h"
 
-int	ft_cmd_error(char *cmd)
+int	ft_check_var(char *var, char *check_cmd)
 {
-	printf("minishell: %s: command not found\n", cmd);
+	int	i;
+
+	i = 0;
+	if ((var[i] >= 'a' && var[i] <= 'z') || (var[i] >= 'A' && var[i] <= 'Z')
+		|| (var[i] == '_' && var[i + 1] != '\0'))
+	{
+		while (ft_isdigit(var[i]) || ft_isalpha(var[i]))
+			i++;
+	}
+	if (var[i] != '\0')
+	{
+		printf("minishell: %s: '%s': not a valid identifier\n", check_cmd, var);
+		return (0);
+	}
 	return (1);
 }
 
-int	ft_clear_path_list(char ***path_list)
+void	(ft_del_var)(void *var)
 {
-	int	index;
-
-	index = 0;
-	while (path_list[0][index] != NULL)
-	{
-		free(path_list[0][index]);
-		index++;
-	}
-	free(path_list[0]);
-	return (0);
-}
-
-//if id == 0: SHLVL--; if id == 1: SHLVL++
-int	ft_change_lvl(t_list **var_list, int id)
-{
-	int		lvl;
-	char	*new_value;
-	t_list	*tmp_list;
 	t_var	*tmp_var;
 
-	tmp_list = ft_find_var(var_list, "SHLVL");
-	tmp_var = (t_var *)tmp_list->content;
-	lvl = ft_atoi(tmp_var->value);
-	if (id == 0)
-		new_value = ft_itoa(lvl - 1);
-	if (id == 1)
-		new_value = ft_itoa(lvl + 1);
-	if (ft_chng_var(var_list, "SHLVL", new_value, 1) == 0)
-		return (-1);
-	free(new_value);
-	return (lvl);
+	tmp_var = (t_var *)(var);
+	free(tmp_var->value);
+	free(tmp_var->name);
+	free(tmp_var);
+	tmp_var = NULL;
 }
 
-int	ft_add_status(t_list **var_list, int status)
+int	ft_del_elem(t_list *list, t_list **head, void (*del)(void *))
 {
-	char	*new_value;
+	t_list	*tmp;
 
-	new_value = ft_itoa(status);
-	if (ft_chng_var(var_list, "?", new_value, 1) == 0)
-		return (0);
-	free(new_value);
+	tmp = *head;
+	if (list == *head)
+	{
+		tmp = (*head)->next;
+		del((*head)->content);
+		free(*head);
+		*head = tmp;
+		return (1);
+	}
+	while (tmp->next != list)
+		tmp = tmp->next;
+	tmp->next = list->next;
+	del(list->content);
+	free(list);
 	return (1);
 }
