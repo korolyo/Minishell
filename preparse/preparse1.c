@@ -41,6 +41,7 @@ char	*str_delete_part(char *prompt, int start, int end, int flag_mid)
 	tmp = ft_strjoin(tmp, tmp3);
 	if (tmp3)
 		free(tmp3);
+	free(prompt);
 	return (tmp);
 }
 
@@ -72,7 +73,6 @@ char	*delim_str(char *prompt, int *i, char *tmp)
 		retu = str_delete_part(tmp, j + 1, (*i) - 1, DELETE_MID);
 	}
 	(*i) = -1;
-	if (tmp)
-		free(tmp);
+	free(prompt);
 	return (retu);
 }
