@@ -33,10 +33,9 @@ void	ft_print_export(char **sorted_env, t_list **var_list, int len)
 	int		i;
 
 	i = 0;
-	tmp = *var_list;
-	while (i < len)
+	while (sorted_env[i] != NULL)
 	{
-		if (*sorted_env[i] == '_')
+		if (sorted_env[i][0] == '_' && sorted_env[i][1] == '\0')
 			i++;
 		tmp = ft_find_var(var_list, sorted_env[i]);
 		tmp_var = (t_var *)tmp->content;
@@ -63,7 +62,7 @@ int	ft_sort(char **sorted_name, t_list **var_list, int num)
 
 	top = 0;
 	seek = 0;
-	while (top < num - 1)
+	while (top < num - 1 && sorted_name[top] != NULL)
 	{
 		seek = top + 1;
 		while (seek < num && sorted_name[seek] != NULL)
@@ -94,7 +93,7 @@ int	ft_sort_env(t_list **var_list, int len)
 	len = 0;
 	tmp_list = *var_list;
 	sorted_name = malloc(sizeof(char *) * (ft_lstsize(tmp_list) + 1));
-	while (len < ft_lstsize(tmp_list))
+	while (tmp_list)
 	{
 		tmp_var = (t_var *)tmp_list->content;
 		if (tmp_var->is_exported != 0)
@@ -106,6 +105,7 @@ int	ft_sort_env(t_list **var_list, int len)
 		}
 		tmp_list = tmp_list->next;
 	}
+	sorted_name[count] = NULL;
 	ft_sort(sorted_name, var_list, count);
 	return (1);
 }
