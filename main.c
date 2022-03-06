@@ -80,13 +80,13 @@ int	main(void)
 //	printf("i'm started\n");
 //	print_var_list(&var_list);
 //	printf("i'm in loop\n");
-	tokens = NULL;
 	var_list = save_var();
 	ft_change_lvl(&var_list, 1);
 //	printf("i'm in loop2\n");
 	prompt = create_prompt();
 	while (1)
 	{
+		tokens = NULL;
 		sig_init();
 		input = readline(prompt);
 //		free(prompt);
@@ -96,14 +96,13 @@ int	main(void)
 		input = preparse(input);
 		if (input)
 		{
-			printf("i'm in loop4\n");
 			lexer(input, &tokens, &var_list);
-			if (!ft_strncmp(tokens->cmd[0], "./minishell", 10))
-				ft_change_lvl(&var_list, 1);
+//			if (!ft_strncmp(tokens->cmd[0], "./minishell", 10))
+//				ft_change_lvl(&var_list, 1);
 			if (!(ft_start(tokens, &var_list)))
 				printf("problem with executor");
 			printf("i'm in loop5\n");
-//			clear_all(&tokens, input);
+			clear_all(&tokens, input);
 		}
 //		ft_clear_vars(&var_list);
 	}
