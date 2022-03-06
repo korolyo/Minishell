@@ -33,9 +33,9 @@ char	*dollar_string(char *tmp, t_list **var_list)
 	int		i;
 	char	*ret;
 
-	i = -1;
+	i = 0;
 	ret = ft_strdup(tmp);
-	while (ret[++i])
+	while (ret[i])
 	{
 		if (ret[i] == '\'')
 			preparse_quotes(ret, &i);
@@ -47,6 +47,7 @@ char	*dollar_string(char *tmp, t_list **var_list)
 		}
 		if (ret[i] == '$')
 			ret = lexer_dollar(ret, &i, var_list);
+		i++;
 	}
 	free(tmp);
 	return (ret);

@@ -3,7 +3,7 @@
 
 Group project to make shell from scratch...
 
-# Introduction
+## Introduction
 ________________
 
   The existence of shells is linked to the very existence of IT.
@@ -17,7 +17,7 @@ people faced when Windows didn’t exist.
 [wiki - Shell](https://en.wikipedia.org/wiki/Shell_(computing))
 
 
-# Usage
+## Usage
 ____
 
 Clone the repo
