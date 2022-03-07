@@ -66,6 +66,7 @@ int	ft_clear_vars(t_list **var_list)
 		{
 			free(tmp_var->value);
 			free(tmp_var->name);
+			free(tmp_var);
 			tmp_var = NULL;
 		}
 		free(tmp);

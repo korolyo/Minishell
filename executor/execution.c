@@ -45,7 +45,6 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	int		tmp_out;
 
 	status = 0;
-	redir_id = 0;
 	redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
 	pid = fork();
 	if (pid && !tokens->stop_word)
@@ -66,6 +65,7 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 		perror("minishell");
 	else
 	{
+//		free(path);
 		if (misc->num_of_pipes > 0)
 			close(misc->fdpipe[1]);
 		status = ft_wait_pid(pid);
