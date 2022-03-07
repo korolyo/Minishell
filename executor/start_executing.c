@@ -31,8 +31,9 @@ int	ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 		executor_path = tokens->cmd[0];
 	else
 		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
-	ft_add_status(var_list, ft_execute_cmd(executor_path, tokens, misc,
-											   envp));
+	if (ft_add_status(var_list, ft_execute_cmd(executor_path, tokens, misc, envp))
+		== 0)
+		return (0);
 	ft_clear_arr(path_list);
 	ft_clear_arr(envp);
 	free(tmp_path);

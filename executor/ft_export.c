@@ -116,7 +116,7 @@ int	ft_export_var(t_list **var_list, char *args)
 	t_var	*tmp;
 
 	tmp = malloc(sizeof(t_var));
-	ft_make_var(args, tmp);
+	ft_make_var(args, tmp, var_list, 1);
 	printf("tmp name = %s\n", tmp->name);
 	printf("tmp value = %s\n", tmp->value);
 	ft_chng_var(var_list, tmp->name, tmp->value, 1);
@@ -139,9 +139,6 @@ int	ft_export_var(t_list **var_list, char *args)
 //		else
 //			ft_save_var(var_list, args, -1);
 //	}
-	free(tmp->name);
-	if (tmp->value != NULL)
-		free(tmp->value);
 	free(tmp);
 	return (1);
 }
