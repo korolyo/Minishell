@@ -61,9 +61,9 @@ int	ft_env(char **args, t_list **var_list)
 		tmp_ptr = (t_var *)tmp->content;
 		if (tmp_ptr->is_exported == 1)
 		{
-			printf("%s=", tmp_ptr->name);
-			if (tmp_ptr->value)
-				printf("%s", tmp_ptr->value);
+			printf("%s", tmp_ptr->name);
+			if (tmp_ptr->value != NULL && tmp_ptr->value[0] != '\0')
+				printf("=%s", tmp_ptr->value);
 			printf("\n");
 		}
 		tmp = next;
@@ -80,7 +80,8 @@ int	ft_exit(char **args, t_list **var_list)
 	lvl = ft_change_lvl(var_list, 0);
 	if (lvl == 2)
 	{
-		ft_clear_vars(var_list); //TODO: здесь очистить все
+		ft_clear_vars(var_list);
+		//TODO: здесь очистить все
 	}
 	exit(EXIT_SUCCESS);
 	return (1);

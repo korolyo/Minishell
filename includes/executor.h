@@ -64,7 +64,7 @@ int		ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc);
 int		ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc);
 t_list	*ft_find_var(t_list **var_list, char *var_name);
 int		ft_save_var(t_list **var_list, char *var, int var_id);
-t_var	*ft_make_var(char *var, t_var *variable);
+t_var	*ft_make_var(char *var, t_var *variable, t_list **var_list, int id);
 int		ft_clear_vars(t_list **var_list);
 int		ft_chng_var(t_list **var_list, char *var_name,
 			char *new_value, int var_id);
