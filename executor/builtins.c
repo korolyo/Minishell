@@ -62,7 +62,7 @@ int	ft_env(char **args, t_list **var_list)
 		if (tmp_ptr->is_exported == 1)
 		{
 			printf("%s", tmp_ptr->name);
-			if (tmp_ptr->value != NULL)
+			if (tmp_ptr->value != NULL && tmp_ptr->value[0] != '\0')
 				printf("=%s", tmp_ptr->value);
 			printf("\n");
 		}

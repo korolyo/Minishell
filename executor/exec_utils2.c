@@ -20,7 +20,8 @@ int	ft_check_var(char *var, char *check_cmd)
 	if ((var[i] >= 'a' && var[i] <= 'z') || (var[i] >= 'A' && var[i] <= 'Z')
 		|| (var[i] == '_' && var[i + 1] != '\0'))
 	{
-		while (ft_isdigit(var[i]) || ft_isalpha(var[i]))
+		while (ft_isdigit(var[i]) || ft_isalpha(var[i]) || var[i] == '_'
+			|| var[i] == '$' || var[i] == '\\' || var[i] == '%' || var[i] == '/')
 			i++;
 	}
 	if (var[i] != '\0')

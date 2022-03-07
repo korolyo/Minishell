@@ -40,7 +40,7 @@ void	ft_print_export(char **sorted_env, t_list **var_list, int len)
 		tmp = ft_find_var(var_list, sorted_env[i]);
 		tmp_var = (t_var *)tmp->content;
 		printf("declare -x %s", tmp_var->name);
-		if (tmp_var->value != NULL)
+		if (tmp_var->value != NULL && tmp_var->value[0] != '\0')
 			printf("=\"%s\"", tmp_var->value);
 		printf("\n");
 		i++;
@@ -111,34 +111,17 @@ int	ft_sort_env(t_list **var_list)
 
 int	ft_export_var(t_list **var_list, char *args)
 {
-//	t_list	*tmp_list;
-//	t_var	*tmp_var2;
 	t_var	*tmp;
 
 	tmp = malloc(sizeof(t_var));
 	ft_make_var(args, tmp, var_list, 1);
-	printf("tmp name = %s\n", tmp->name);
-	printf("tmp value = %s\n", tmp->value);
-	ft_chng_var(var_list, tmp->name, tmp->value, 1);
-
-//	tmp_list = ft_find_var(var_list, tmp->name);
-//	if (tmp_list)
-//	{
-//		tmp_var2 = (t_var *) tmp_list->content;
-//
-//	}
-//	if (tmp_list && tmp_var2->value == NULL)
-//	{
-//		tmp_var = mall
-//		return (ft_chng_var(var_list, tmp->name, tmp_var2->value, 1));
-//	}
-//	if (!tmp_list && ft_check_var(tmp->name, "export"))
-//	{
-//		if (tmp->value)
-//			ft_save_var(var_list, args, 1);
-//		else
-//			ft_save_var(var_list, args, -1);
-//	}
+	if (ft_check_var(tmp->name, "export") && ft_find_var(var_list, tmp->name))
+		ft_chng_var(var_list, tmp->name, tmp->value, 1);
+	if (ft_check_var(tmp->name, "export") && !ft_find_var(var_list, tmp->name))
+		ft_chng_var(var_list, tmp->name, tmp->value, -1);
+	free(tmp->name);
+	if (tmp->value)
+		free(tmp->value);
 	free(tmp);
 	return (1);
 }
