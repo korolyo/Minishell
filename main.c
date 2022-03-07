@@ -47,16 +47,15 @@ void	print_tokens(t_tlist *tokens)
 	printf("\nnum of nodes = %d\n", i);
 }
 
-t_list	*save_var(void)
+t_list	*save_var(char **envp)
 {
-	extern char	**environ;
 	t_list		*var_list;
 
 	var_list = NULL;
-	while (*environ != NULL)
+	while (*envp != NULL)
 	{
-		ft_save_var(&var_list, *environ, 1);
-		environ++;
+		ft_save_var(&var_list, *envp, 1);
+		envp++;
 	}
 	ft_save_var(&var_list, "?=0", 0);
 	return (var_list);
@@ -70,20 +69,24 @@ void	check_eof(char *line)
 	exit(g_exit_status);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*prompt;
 	char		*input;
 	t_tlist		*tokens;
 	t_list		*var_list;
 
-	var_list = save_var();
+	(void)argc;
+	(void)argv;
+	var_list = save_var(envp);
 	ft_change_lvl(&var_list, 1);
+
+	printf("chaeck1\n");
 	while (1)
 	{
 		tokens = NULL;
-		prompt = create_prompt();
 		sig_init();
+		prompt = create_prompt();
 		input = readline(prompt);
 		free(prompt);
 		if (input)
@@ -94,11 +97,10 @@ int	main(void)
 			lexer(input, &tokens, &var_list);
 			if (!(ft_start(tokens, &var_list)))
 				printf("problem with executor");
+			printf("finish1\n");
 			tlist_clear(tokens);
-//			free(input);
-//			clear_all(&tokens, input);
 		}
-//		ft_clear_vars(&var_list);
 	}
+	ft_clear_vars(&var_list);
 	exit(EXIT_SUCCESS);
 }

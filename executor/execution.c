@@ -36,7 +36,7 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
-int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
+int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc, char **envp)
 {
 	pid_t	pid;
 	int		status;
@@ -55,20 +55,20 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 			here_doc_input(tokens);
 		if (misc->num_of_pipes > 0)
 			pipe_switch(tokens, misc);
-		if (misc->num_of_pipes > 0 || tokens->stop_word)
-			ft_redirection(tokens, &tmp_in, &tmp_out);
-		if (execve(path, tokens->cmd, NULL))
+//		if (misc->num_of_pipes > 0 || tokens->stop_word)
+//			ft_redirection(tokens, &tmp_in, &tmp_out);
+		if (execve(path, tokens->cmd, envp))
 			ft_cmd_error(tokens->cmd[0]);
-		exit(EXIT_SUCCESS);
+		//exit(EXIT_SUCCESS);
 	}
 	else if (pid < 0)
 		perror("minishell");
 	else
 	{
-//		free(path);
 		if (misc->num_of_pipes > 0)
+		{
 			close(misc->fdpipe[1]);
-		status = ft_wait_pid(pid);
+		}
 	}
 	ft_restore_fd(tmp_in, tmp_out);
 	return (status);
@@ -129,7 +129,7 @@ int	ft_join_path(char *args, char *tmp_path, char **path_list, char **exec_path)
 	tmp_path = ft_strjoin("/", &args[0]);
 	if (!tmp_path)
 	{
-		ft_clear_path_list(&path_list);
+		ft_clear_arr(path_list);
 		return (0);
 	}
 	*exec_path = ft_strjoin(ft_find_path(path_list, args), tmp_path);

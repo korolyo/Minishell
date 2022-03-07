@@ -43,14 +43,14 @@ LIBFT	=	$(LIBFT_DIRECTORY)libft.a
 LIBFT_DIRECTORY = ./libft/
 LIBFT_HEADERS = $(LIBFT_DIRECTORY)includes/
 
-#READLINE_INC = /opt/homebrew/Cellar/readline/8.1.2/include
-#READLINE_LIB = /opt/homebrew/Cellar/readline/8.1.2/lib
+READLINE_INC = /opt/homebrew/Cellar/readline/8.1.2/include
+READLINE_LIB = /opt/homebrew/Cellar/readline/8.1.2/lib
 
 #READLINE_INC = /usr/local/opt/readline/include
 #READLINE_LIB = /usr/local/opt/readline/lib
 
-READLINE_INC = ~/.brew/opt/readline/include
-READLINE_LIB = ~/.brew/opt/readline/lib
+#READLINE_INC = ~/.brew/opt/readline/include
+#READLINE_LIB = ~/.brew/opt/readline/lib
 
 OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
@@ -58,10 +58,10 @@ OBJECTS	=	$(patsubst %.c, %.o, $(SOURCES_LIST))
 
 all	: 	$(NAME)
 
-$(NAME): $(LIBFT) $(OBJECTS) Makefile
+$(NAME): $(LIBFT) $(OBJECTS)
 		@$(CC) $(CFLAGS) $(LIBRARIES) $(INCLUDES) -I $(READLINE_INC) -L $(READLINE_LIB) $(OBJECTS) -o $(NAME)
 
-%.o : %.c $(HEADERS)
+%.o : %.c $(HEADERS) $(LIBFT) Makefile
 	$(CC) $(CFLAGS) -c $(INCLUDES) $< -o $@
 
 $(LIBFT):
