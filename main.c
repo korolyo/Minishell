@@ -82,11 +82,11 @@ int	main(int argc, char **argv, char **envp)
 	ft_change_lvl(&var_list, 1);
 	while (1)
 	{
-		prompt = create_prompt();
 		tokens = NULL;
-		prompt = create_prompt();
 		sig_init();
+		prompt = create_prompt();
 		input = readline(prompt);
+		free(prompt);
 		if (input)
 			add_history(input);
 		input = preparse(input);
@@ -97,7 +97,6 @@ int	main(int argc, char **argv, char **envp)
 				printf("problem with executor");
 			tlist_clear(tokens);
 		}
-		free(prompt);
 	}
 	ft_clear_vars(&var_list);
 	exit(EXIT_SUCCESS);
