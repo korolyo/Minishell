@@ -80,11 +80,13 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	var_list = save_var(envp);
 	ft_change_lvl(&var_list, 1);
+
+	printf("chaeck1\n");
 	while (1)
 	{
 		tokens = NULL;
-		prompt = create_prompt();
 		sig_init();
+		prompt = create_prompt();
 		input = readline(prompt);
 		free(prompt);
 		if (input)
@@ -95,6 +97,7 @@ int	main(int argc, char **argv, char **envp)
 			lexer(input, &tokens, &var_list);
 			if (!(ft_start(tokens, &var_list)))
 				printf("problem with executor");
+			printf("finish1\n");
 			tlist_clear(tokens);
 		}
 	}

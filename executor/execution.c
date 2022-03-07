@@ -55,22 +55,21 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc, char **envp)
 			here_doc_input(tokens);
 		if (misc->num_of_pipes > 0)
 			pipe_switch(tokens, misc);
-		if (misc->num_of_pipes > 0 || tokens->stop_word)
-			ft_redirection(tokens, &tmp_in, &tmp_out);
+//		if (misc->num_of_pipes > 0 || tokens->stop_word)
+//			ft_redirection(tokens, &tmp_in, &tmp_out);
 		if (execve(path, tokens->cmd, envp))
 			ft_cmd_error(tokens->cmd[0]);
-		printf("check\n");
-		exit(EXIT_SUCCESS);
+		//exit(EXIT_SUCCESS);
 	}
 	else if (pid < 0)
 		perror("minishell");
 	else
 	{
+		printf("check\n");
 		if (misc->num_of_pipes > 0)
 		{
 			close(misc->fdpipe[1]);
 		}
-		status = ft_wait_pid(pid);
 	}
 	ft_restore_fd(tmp_in, tmp_out);
 	return (status);
