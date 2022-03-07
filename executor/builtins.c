@@ -80,7 +80,8 @@ int	ft_exit(char **args, t_list **var_list)
 	lvl = ft_change_lvl(var_list, 0);
 	if (lvl == 2)
 	{
-		ft_clear_vars(var_list); //TODO: здесь очистить все
+		ft_clear_vars(var_list);
+		//TODO: здесь очистить все
 	}
 	exit(EXIT_SUCCESS);
 	return (1);
