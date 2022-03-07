@@ -89,6 +89,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("chaeck2\n");
 		sig_init();
 		input = readline(prompt);
+		free(prompt);
 		if (input)
 			add_history(input);
 		input = preparse(input);
@@ -100,8 +101,6 @@ int	main(int argc, char **argv, char **envp)
 			printf("finish1\n");
 			tlist_clear(tokens);
 		}
-		printf("finish1\n");
-		free(prompt);
 	}
 	ft_clear_vars(&var_list);
 	exit(EXIT_SUCCESS);

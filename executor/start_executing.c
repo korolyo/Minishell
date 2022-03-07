@@ -27,6 +27,7 @@ int	ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	if (!path_list)
 		return (1);
 	tmp_path2 = ft_find_path(path_list, tokens->cmd[0]);
+	printf("check here\n");
 	if (tmp_path2 == NULL)
 		executor_path = tokens->cmd[0];
 	else

@@ -117,7 +117,6 @@ char	*preparse(char *prompt)
 	if (unmatched_quotes(tmp2, i) == 0)
 		return (prep_clear("Unmatched quotes", tmp, prompt));
 	tmp = preparse_delim(tmp2, i);
-	//free(tmp2);
 	if (!tmp)
 		return (NULL);
 	if (tmp[0] == '\0')
