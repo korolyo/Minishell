@@ -45,10 +45,10 @@ struct		s_tlist
 
 char	*dollar_string(char *tmp, t_list **var_list);
 char	**ft_quotes_split(char const *str, char c);
-void	*ft_quotes_abort(char ***arr, int size);
+void	*ft_quotes_abort(char **arr, int size);
 int		get_quotes_len(char *str, char c, int *i);
 int		get_quotes_arrlen(char const *s, char c);
-char	**get_quotes_str(char ***res, char **str, char c, int size);
+char	**get_quotes_str(char **res, char **str, char c, int size);
 void	lexer(char *prompt, t_tlist **tokens, t_list **var_list);
 char	*lexer_quotes(char *prompt, int *i, t_list **var_list);
 char	*lexer_dollar(char *prompt, int *i, t_list **var_list);
@@ -63,7 +63,7 @@ char	*find_value(t_list **var_list, char *tmp2);
 t_tlist	*tlistnew(int type);
 void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist *head);
-void	check_eof(char *line);
+void	free_array(char **array);
 int		is_key(char c);
 t_list	*save_var(char **envp);
 

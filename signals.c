@@ -26,6 +26,7 @@ void	sig_handler(int signum)
 
 void	sig_handler3(int signum)
 {
+	(void) signum;
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acollin <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: kclassie <kclassie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 17:16:22 by acollin           #+#    #+#             */
-/*   Updated: 2022/02/27 17:16:29 by acollin          ###   ########.fr       */
+/*   Updated: 2022/03/07 21:04:14 by kclassie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,28 @@ int	ft_env(char **args, t_list **var_list)
 
 int	ft_exit(char **args, t_list **var_list)
 {
-	int	lvl;
+	// int	lvl;
+	// t_var	*tmp_var;
+	// t_list	*tmp_list;
 
 	(void)args;
 	printf("exit\n");
-	lvl = ft_change_lvl(var_list, 0);
-	if (lvl == 2)
-	{
-		ft_clear_vars(var_list);
-		//TODO: здесь очистить все
-	}
+	// tmp_list = ft_find_var(var_list, "SHLVL");
+	// tmp_var = (t_var *)tmp_list->content;
+	// if (tmp_var->value[0] == '2)
+	// {
+	ft_clear_vars(*var_list);
+	// 	//TODO: здесь очистить все
+	// }
+	// else
+	// 	lvl = ft_change_lvl(var_list, 0);
+	// tmp_var = (t_var *)((*var_list)->content);
+	// if (tmp_var->value)
+	// 	free(tmp_var->value);
+	// if (tmp_var->name)
+	// 	free(tmp_var->name);
+	// free(tmp_var);
+//	free(var_list);
 	exit(EXIT_SUCCESS);
 	return (1);
 }

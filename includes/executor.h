@@ -27,12 +27,6 @@ typedef struct s_cmd
 	int			(*f_cmd)(char **args, t_list **var_list);
 }				t_cmd;
 
-typedef struct s_vlist
-{
-	struct s_var	*content;
-	struct s_vlist	*next;
-}					t_vlist;
-
 //0 - переменная среды, 1 - переменная окружения
 typedef struct s_var
 {
@@ -65,7 +59,7 @@ int		ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc);
 t_list	*ft_find_var(t_list **var_list, char *var_name);
 int		ft_save_var(t_list **var_list, char *var, int var_id);
 t_var	*ft_make_var(char *var, t_var *variable, t_list **var_list, int id);
-int		ft_clear_vars(t_list **var_list);
+int		ft_clear_vars(t_list *var_list);
 int		ft_chng_var(t_list **var_list, char *var_name,
 			char *new_value, int var_id);
 int		ft_change_lvl(t_list **var_list, int id);

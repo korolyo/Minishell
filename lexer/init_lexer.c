@@ -47,15 +47,32 @@ void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken)
 	final->next = newtoken;
 }
 
+void	free_array(char **array)
+{
+	int i;
+
+	i = 0;
+
+	while (array[i] != NULL)
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
+
 void	tlist_clear(t_tlist *head)
 {
 	if (head == NULL)
 		return ;
 	tlist_clear(head->next);
 	if (head->cmd)
-		free(head->cmd);
+		free_array(head->cmd);
+	if (head->stop_word)
+		free(head->stop_word);
 	head->next = NULL;
-	free(head);
+	if (head)
+		free(head);
 }
 
 int	is_key(char c)

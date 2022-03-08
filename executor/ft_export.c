@@ -111,18 +111,24 @@ int	ft_sort_env(t_list **var_list)
 
 int	ft_export_var(t_list **var_list, char *args)
 {
-	t_var	*tmp;
+//	t_var	*tmp;
 
-	tmp = malloc(sizeof(t_var));
-	ft_make_var(args, tmp, var_list, 1);
-	if (ft_check_var(tmp->name, "export") && ft_find_var(var_list, tmp->name))
-		ft_chng_var(var_list, tmp->name, tmp->value, 1);
-	if (ft_check_var(tmp->name, "export") && !ft_find_var(var_list, tmp->name))
-		ft_chng_var(var_list, tmp->name, tmp->value, -1);
-	free(tmp->name);
-	if (tmp->value)
-		free(tmp->value);
-	free(tmp);
+	ft_save_var(var_list, args, 1);
+//	tmp = malloc(sizeof(t_var));
+//	ft_make_var(args, tmp, var_list, 1);
+////	if (ft_check_var(tmp->name, "export") && ft_find_var(var_list, tmp->name))
+////		ft_chng_var(var_list, tmp->name, tmp->value, 1);
+//	if (ft_check_var(tmp->name, "export") && !ft_find_var(var_list, tmp->name))
+//	{
+//		if (ft_strchr(args, '='))
+//			ft_chng_var(var_list, tmp->name, tmp->value, 1);
+//		else
+//			ft_chng_var(var_list, tmp->name, tmp->value, -1);
+//	}
+//	free(tmp->name);
+//	if (tmp->value)
+//		free(tmp->value);
+//	free(tmp);
 	return (1);
 }
 
