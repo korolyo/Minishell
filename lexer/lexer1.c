@@ -12,30 +12,6 @@
 
 #include "minishell.h"
 
-char	*lexer_quotes(char *prompt, int *i, t_list **var_list)
-{
-	char	*tmp;
-
-	tmp = ft_strdup(prompt);
-	if (tmp[*i] == '\'')
-		preparse_quotes(tmp, i);
-	if (tmp[*i] == '\"')
-	{
-		(*i)++;
-		while (tmp[*i] != '\"')
-		{
-			if (tmp[(*i)] == '$')
-			{
-				tmp = lexer_dollar(tmp, i, var_list);
-				(*i)--;
-			}
-			(*i)++;
-		}
-	}
-	free(prompt);
-	return (tmp);
-}
-
 char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 {
 	char	*tmp;
@@ -46,7 +22,6 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 	tmp = ft_substr(prompt, 0, (*i));
 	(*i)++;
 	j = 0;
-	tmp2 = NULL;
 	if (prompt[*i] == ' ' || prompt[*i] == '\0')
 		tmp2 = ft_strdup("$");
 	if (ft_isdigit(prompt[*i]))
@@ -61,8 +36,7 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 	tmp3 = ft_substr(prompt, (*i), ft_strlen(prompt) - (*i));
 	tmp2 = find_value(var_list, tmp2);
 	*i = j + ft_strlen(tmp2) - 3;
-	if (prompt)
-		free(prompt);
+	free(prompt);
 	tmp = join_dollar(tmp, tmp2, tmp3);
 	return (tmp);
 }
@@ -85,6 +59,20 @@ int	find_type(char *prompt, int j, int *i)
 	return (type);
 }
 
+t_tlist	*open_file(char *name, int type, t_tlist *tmp_head)
+{
+	if (type == REDIR)
+		tmp_head->fdout = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (type == REDIR_APPEND)
+		tmp_head->fdout = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (type == REDIR_INPUT)
+		tmp_head->fdin = open(name, O_RDONLY, 0644);
+	if (type == HERE_DOC)
+		tmp_head->stop_word = ft_strdup(name);
+	if (name)
+		free(name);
+}
+
 char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 {
 	int		j;
@@ -102,20 +90,10 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	while (tmp_head->next)
 		tmp_head = tmp_head->next;
 	if (type == REDIR)
-	{
 		name = ft_substr(prompt, k, i - j - 1);
-		tmp_head->fdout = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	}
-	else
+	else if (type == REDIR_INPUT || type == REDIR_APPEND || type == HERE_DOC)
 		name = ft_substr(prompt, k, i - j - 2);
-	if (type == REDIR_APPEND)
-		tmp_head->fdout = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (type == REDIR_INPUT)
-		tmp_head->fdin = open(name, O_RDONLY, 0644);
-	if (type == HERE_DOC)
-		tmp_head->stop_word = ft_substr(prompt, k, i - j - 2);
-	if (name)
-		free(name);
+	tmp_head = open_file(name, type, tmp_head);
 	return (str_delete_part(prompt, j, i - 1, DELETE_MID));
 }
 

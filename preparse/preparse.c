@@ -38,8 +38,6 @@ char	*preparse_delim(char *input, int i)
 		if (!tmp)
 			return (NULL);
 	}
-	if (input)
-	free(input);
 	return (tmp);
 }
 
@@ -118,6 +116,8 @@ char	*preparse(char *input)
 	if (unmatched_quotes(tmp2, i) == 0)
 		return (prep_clear("Unmatched quotes", tmp, input));
 	tmp = preparse_delim(tmp2, i);
+	if (tmp2)
+		free(tmp2);
 	if (!tmp)
 		return (NULL);
 	if (tmp[0] == '\0')

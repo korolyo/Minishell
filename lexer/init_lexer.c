@@ -49,10 +49,9 @@ void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken)
 
 void	free_array(char **array)
 {
-	int i;
+	int	i;
 
 	i = 0;
-
 	while (array[i] != NULL)
 	{
 		free(array[i]);

@@ -75,8 +75,6 @@ char	*delim_str(char *prompt, int *i, char *tmp)
 		retu = str_delete_part(tmp, j + 1, (*i) - 1, DELETE_MID);
 	}
 	(*i) = -1;
-//	if (prompt)
-//		free(prompt);
 	if (tmp)
 		free(tmp);
 	return (retu);

@@ -28,7 +28,7 @@
 # include <fcntl.h>
 
 // UTILS:
-void	clear_all(t_tlist **tokens, char *prompt);
+void	clear_all(char *input, t_tlist *tokens, char *prompt);
 
 //PIPING
 int		*pipes(t_misc *misc);
