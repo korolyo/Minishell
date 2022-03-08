@@ -31,17 +31,17 @@ int	ft_change_pwd(t_list ***var_list, char *new_path)
 {
 	t_list	*tmp_list;
 	t_var	*tmp_var;
+	char 	*new_path2;
 
 	tmp_list = ft_find_var(*var_list, "PWD");
 	tmp_var = (t_var *)tmp_list->content;
+	new_path2 = ft_strdup(tmp_var->value);
 	if (*new_path != '/')
 		new_path = getcwd(NULL, 0);
-	if (ft_chng_var(*var_list, "OLDPWD", tmp_var->value, 1) == 0)
+	if (ft_chng_var(*var_list, "OLDPWD", new_path2, 1) == 0)
 		return (0);
 	if (ft_chng_var(*var_list, "PWD", new_path, 1) == 0)
 		return (0);
-	if (*new_path != '/')
-		free(new_path);
 	return (1);
 }
 
@@ -63,7 +63,6 @@ int	ft_cd_prev_dir(t_list ***var_list)
 		return (0);
 	}
 	i = ft_change_pwd(var_list, prev_dir);
-	free(prev_dir);
 	return (i);
 }
 

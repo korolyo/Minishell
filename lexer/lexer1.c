@@ -61,6 +61,8 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 	tmp3 = ft_substr(prompt, (*i), ft_strlen(prompt) - (*i));
 	tmp2 = find_value(var_list, tmp2);
 	*i = j + ft_strlen(tmp2) - 3;
+	if (prompt)
+		free(prompt);
 	tmp = join_dollar(tmp, tmp2, tmp3);
 	return (tmp);
 }
@@ -89,6 +91,7 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	t_tlist	*tmp_head;
 	int		type;
 	int		k;
+	char	*name;
 
 	j = i;
 	tmp_head = *tokens;
@@ -99,40 +102,47 @@ char	*lexer_redir(t_tlist **tokens, char *prompt, int i)
 	while (tmp_head->next)
 		tmp_head = tmp_head->next;
 	if (type == REDIR)
-		tmp_head->fdout = open(ft_substr(prompt, k, i - j - 1),
-				O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	{
+		name = ft_substr(prompt, k, i - j - 1);
+		tmp_head->fdout = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	}
+	else
+		name = ft_substr(prompt, k, i - j - 2);
 	if (type == REDIR_APPEND)
-		tmp_head->fdout = open(ft_substr(prompt, k, i - j - 2),
-				O_WRONLY | O_CREAT | O_APPEND, 0644);
+		tmp_head->fdout = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (type == REDIR_INPUT)
-		tmp_head->fdin = open(ft_substr(prompt, k, i - j - 2), O_RDONLY, 0644);
+		tmp_head->fdin = open(name, O_RDONLY, 0644);
 	if (type == HERE_DOC)
 		tmp_head->stop_word = ft_substr(prompt, k, i - j - 2);
+	if (name)
+		free(name);
 	return (str_delete_part(prompt, j, i - 1, DELETE_MID));
 }
 
-void	lexer_cmd(t_tlist **tokens, char *prompt)
+void	lexer_cmd(t_tlist **tokens, char *cmd)
 {
-	t_tlist	*tmp;
-	char	*tmp_str;
+	t_tlist	*tmp_list;
+	char	*tmp_cmd;
 	int		j;
 
 	j = -1;
-	tmp = tlistnew(CMD);
-	tlistadd_back(tokens, tmp);
-	tmp_str = prompt;
-	while (tmp_str[++j])
+	tmp_list = tlistnew(CMD);
+	tlistadd_back(tokens, tmp_list);
+	tmp_cmd = cmd;
+	while (tmp_cmd[++j])
 	{
-		if (tmp_str[j] == '\'' || tmp_str[j] == '\"')
+		if (tmp_cmd[j] == '\'' || tmp_cmd[j] == '\"')
 		{
-			preparse_quotes(tmp_str, &j);
+			preparse_quotes(tmp_cmd, &j);
 			j--;
 		}
-		if (ft_strchr("><", tmp_str[j]))
+		if (ft_strchr("><", tmp_cmd[j]))
 		{
-			tmp_str = lexer_redir(tokens, tmp_str, j);
-			j = 0;
+			tmp_cmd = lexer_redir(tokens, tmp_cmd, j);
+			j = -1;
 		}
 	}
-	tmp->cmd = ft_quotes_split(tmp_str, ' ');
+	tmp_list->cmd = ft_quotes_split(tmp_cmd, ' ');
+	if (tmp_cmd)
+		free(tmp_cmd);
 }

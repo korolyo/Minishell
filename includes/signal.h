@@ -26,6 +26,6 @@ void	sig_init(void);
 void	sig_handler3(int signum);
 void	catch_heredoc_sig(void);
 void	interrupt_here_document(int signal);
-void	check_eof(char *line);
+void	check_eof(char *line, t_list *var_list);
 
 #endif

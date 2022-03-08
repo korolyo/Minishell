@@ -28,47 +28,48 @@ char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
 	return (str_after);
 }
 
-char	*dollar_string(char *tmp, t_list **var_list)
-{
-	int		i;
-	char	*ret;
-
-	i = 0;
-	ret = ft_strdup(tmp);
-	while (ret[i])
-	{
-		if (ret[i] == '\'')
-			preparse_quotes(ret, &i);
-		if (ret[i] == '\"')
-		{
-			while (ret[++i] != '\"')
-				if (ret[i] == '$')
-					ret = lexer_dollar(ret, &i, var_list);
-		}
-		if (ret[i] == '$')
-			ret = lexer_dollar(ret, &i, var_list);
-		i++;
-	}
-	free(tmp);
-	return (ret);
-}
-
-void	lexer(char *prompt, t_tlist **tokens, t_list **var_list)
+char	*dollar_string(char *input, t_list **var_list)
 {
 	int		i;
 	char	*tmp;
 
-	i = -1;
-	tmp = dollar_string(prompt, var_list);
-	while (tmp[++i])
+	i = 0;
+	tmp = ft_strdup(input);
+	while (tmp[i])
 	{
-		if (tmp[i] == '\'' || tmp[i] == '\"')
+		if (tmp[i] == '\'')
+		{
 			preparse_quotes(tmp, &i);
-		if (tmp[i] == '|')
-			tmp = lexer_pipe(tokens, &i, tmp);
-		if (tmp[i] == '\0')
+			i--;
+		}
+		if (tmp[i] == '\"')
+		{
+			while (tmp[++i] != '\"')
+				if (tmp[i] == '$')
+					tmp = lexer_dollar(tmp, &i, var_list);
+		}
+		if (tmp[i] == '$')
+			tmp = lexer_dollar(tmp, &i, var_list);
+		i++;
+	}
+	return (tmp);
+}
+
+void	lexer(char *input, t_tlist **tokens, t_list **var_list)
+{
+	int		i;
+	char	*cmd;
+
+	i = -1;
+	cmd = dollar_string(input, var_list);
+	while (cmd[++i])
+	{
+		if (cmd[i] == '\'' || cmd[i] == '\"')
+			preparse_quotes(cmd, &i);
+		if (cmd[i] == '|')
+			cmd = lexer_pipe(tokens, &i, cmd);
+		else if (cmd[i] == '\0')
 			break ;
 	}
-	lexer_cmd(tokens, tmp);
-	free(tmp);
+	lexer_cmd(tokens, cmd);
 }

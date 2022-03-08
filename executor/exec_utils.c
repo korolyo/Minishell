@@ -23,7 +23,7 @@ int	ft_clear_arr(char **arr)
 	int	index;
 
 	index = 0;
-	while (arr[index] != NULL)
+	while(arr[index] != NULL)
 	{
 		free(arr[index]);
 		index++;
@@ -49,7 +49,6 @@ int	ft_change_lvl(t_list **var_list, int id)
 		new_value = ft_itoa(lvl + 1);
 	if (ft_chng_var(var_list, "SHLVL", new_value, 1) == 0)
 		return (-1);
-	free(new_value);
 	return (lvl);
 }
 
@@ -58,9 +57,7 @@ int	ft_add_status(t_list **var_list, int status)
 	char	*new_value;
 
 	new_value = ft_itoa(status);
-	if (ft_chng_var(var_list, "?", new_value, 0) == 0)
-		return (0);
-	free(new_value);
+	ft_chng_var(var_list, "?", new_value, 0);
 	return (1);
 }
 
@@ -74,7 +71,7 @@ char **ft_make_env(t_list **var_list)
 
 	count = 0;
 	tmp_list = *var_list;
-	env_list = malloc(sizeof(char *) * (ft_lstsize(tmp_list) + 1));
+	env_list = malloc(sizeof(char *) * (ft_lstsize(tmp_list)));
 	while (tmp_list)
 	{
 		tmp_var = (t_var *)tmp_list->content;
@@ -82,7 +79,6 @@ char **ft_make_env(t_list **var_list)
 		{
 			tmp_value = ft_strjoin(tmp_var->name, "=");
 			env_list[count] = ft_strjoin(tmp_value, tmp_var->value);
-			//printf("%s\n", env_list[count]);
 			free(tmp_value);
 			count++;
 		}

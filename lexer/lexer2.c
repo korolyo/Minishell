@@ -37,14 +37,17 @@ char	*find_value(t_list **var_list, char *tmp2)
 char	*join_dollar(char *tmp, char *tmp2, char *tmp3)
 {
 	char	*ret;
+	char	*ret1;
 
 	ret = ft_strjoin(tmp, tmp2);
 	if (tmp2)
 		free(tmp2);
 	if (tmp)
 		free(tmp);
-	ret = ft_strjoin(ret, tmp3);
+	ret1 = ft_strjoin(ret, tmp3);
+	if (ret)
+		free(ret);
 	if (tmp3)
 		free(tmp3);
-	return (ret);
+	return (ret1);
 }

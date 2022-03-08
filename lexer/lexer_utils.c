@@ -12,14 +12,14 @@
 
 #include "minishell.h"
 
-void	*ft_quotes_abort(char ***arr, int size)
+void	*ft_quotes_abort(char **arr, int size)
 {
 	int	i;
 
 	i = 0;
 	while (i <= size)
 	{
-		free(arr[0][i]);
+		free(arr[i]);
 		i++;
 	}
 	free(arr);
@@ -48,7 +48,7 @@ int	get_quotes_len(char *str, char c, int *i)
 	return (len);
 }
 
-char	**get_quotes_str(char ***res, char **str, char c, int size)
+char	**get_quotes_str(char **res, char **str, char c, int size)
 {
 	int		i;
 	int		j;
@@ -65,16 +65,16 @@ char	**get_quotes_str(char ***res, char **str, char c, int size)
 			i++;
 		start = i;
 		len = get_quotes_len(dup, c, &i);
-		res[0][j] = (char *)malloc(sizeof(char) * len + 1);
-		if (!res[0][j])
+		res[j] = (char *)malloc(sizeof(char) * (len + 1));
+		if (!res[j])
 			return (ft_quotes_abort(res, size));
 		if (dup[start] == '\'' || dup[start] == '\"')
 			start++;
-		ft_strlcpy(res[0][j], &dup[start], len + 1);
+		ft_strlcpy(res[j], &dup[start], len + 1);
 		j++;
 	}
-	res[0][j] = NULL;
-	return (*res);
+	res[j] = NULL;
+	return (res);
 }
 
 int	get_quotes_arrlen(char const *s, char c)
@@ -120,5 +120,5 @@ char	**ft_quotes_split(char const *str, char c)
 	result = (char **)malloc(sizeof(char *) * (size + 1));
 	if (!result)
 		return (NULL);
-	return (get_quotes_str(&result, &s, c, size + 1));
+	return (get_quotes_str(result, &s, c, size + 1));
 }

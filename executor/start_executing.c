@@ -25,17 +25,19 @@ int	ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	envp = ft_make_env(var_list);
 	path_list = ft_parse_path(var_list, tokens->cmd[0]);
 	if (!path_list)
+	{
+		ft_clear_arr(envp);
 		return (1);
+	}
 	tmp_path2 = ft_find_path(path_list, tokens->cmd[0]);
-	printf("check here\n");
 	if (tmp_path2 == NULL)
-		executor_path = tokens->cmd[0];
+		executor_path = ft_strdup(tokens->cmd[0]);
 	else
 		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
+	ft_clear_arr(path_list);
 	if (ft_add_status(var_list, ft_execute_cmd(executor_path, tokens, misc, envp))
 		== 0)
 		return (0);
-	ft_clear_arr(path_list);
 	ft_clear_arr(envp);
 	free(tmp_path);
 	free(executor_path);
@@ -135,5 +137,7 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
+	if (misc.fdpipe)
+		free(misc.fdpipe);
 	return (1);
 }

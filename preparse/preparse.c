@@ -12,17 +12,17 @@
 
 #include "minishell.h"
 
-char	*preparse_delim(char *prompt, int i)
+char	*preparse_delim(char *input, int i)
 {
 	char	*tmp;
 
-	tmp = ft_strdup(prompt);
+	tmp = ft_strdup(input);
 	while (tmp[++i] != '\0')
 	{
 		if (tmp[i] == '\'' || tmp[i] == '\"')
 			preparse_quotes(tmp, &i);
 		if ((tmp[i] == ' ' || tmp[i] == '\t') && i == 0)
-			tmp = delim_str(prompt, &i, tmp);
+			tmp = delim_str(input, &i, tmp);
 		else if ((tmp[i] == ' ' || tmp[i] == '\t') && (i != 0)
 			&& (tmp[i + 1] != ' ' && tmp[i + 1] != '\t' && tmp[i + 1] != '\0'))
 		{
@@ -34,10 +34,12 @@ char	*preparse_delim(char *prompt, int i)
 			}
 		}
 		else if (tmp[i] == ' ' || tmp[i] == '\t')
-			tmp = delim_str(prompt, &i, tmp);
+			tmp = delim_str(input, &i, tmp);
 		if (!tmp)
 			return (NULL);
 	}
+	if (input)
+	free(input);
 	return (tmp);
 }
 
@@ -104,7 +106,7 @@ int	preparse_redir(char *prompt, int i)
 	return (1);
 }
 
-char	*preparse(char *prompt)
+char	*preparse(char *input)
 {
 	int		i;
 	char	*tmp;
@@ -112,22 +114,21 @@ char	*preparse(char *prompt)
 
 	i = -1;
 	tmp = NULL;
-	check_eof(prompt);
-	tmp2 = ft_strdup(prompt);
+	tmp2 = ft_strdup(input);
 	if (unmatched_quotes(tmp2, i) == 0)
-		return (prep_clear("Unmatched quotes", tmp, prompt));
+		return (prep_clear("Unmatched quotes", tmp, input));
 	tmp = preparse_delim(tmp2, i);
 	if (!tmp)
 		return (NULL);
 	if (tmp[0] == '\0')
-		return (prep_clear(NULL, tmp, prompt));
+		return (prep_clear(NULL, tmp, input));
 	while (tmp[++i])
 	{
 		if (!(preparse_redir(tmp, i)))
-			return (prep_clear("Syntax error with redir symbol", tmp, prompt));
+			return (prep_clear("Syntax error with redir symbol", tmp, input));
 		if (!(preparse_pipe(tmp, i)))
-			return (prep_clear("Unclosed Pipe", tmp, prompt));
+			return (prep_clear("Unclosed Pipe", tmp, input));
 	}
-	free(prompt);
+	free(input);
 	return (tmp);
 }

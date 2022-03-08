@@ -29,6 +29,6 @@ char	*prep_clear(char *str, char *tmp, char *prompt);
 char	*delim_str(char *prompt, int *i, char *tmp);
 
 // Utils
-char	*str_delete_part(char *prompt, int start, int end, int flag_mid);
+char	*str_delete_part(char *input, int start, int end, int flag_mid);
 
 #endif
