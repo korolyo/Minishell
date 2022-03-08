@@ -58,7 +58,7 @@ char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp);
 int		find_type(char *prompt, int j, int *i);
 char	*join_dollar(char *tmp, char *tmp2, char *tmp3);
 char	*find_value(t_list **var_list, char *tmp2);
-t_tlist	*open_file(char *name, int type, t_tlist *tmp_head);
+void	open_file(char *name, int type, t_tlist **tmp_head);
 
 // UTILS:
 t_tlist	*tlistnew(int type);
@@ -66,6 +66,5 @@ void	tlistadd_back(t_tlist **head_token, t_tlist *newtoken);
 void	tlist_clear(t_tlist *head);
 void	free_array(char **array);
 int		is_key(char c);
-t_list	*save_var(char **envp);
 
 #endif

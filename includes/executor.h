@@ -76,9 +76,8 @@ void	ft_restore_fd(int tmp_in, int tmp_out);
 int		ft_check_if_var(char **args, t_list **var_list, int task_id);
 int		ft_check_var(char *var, char *check_cmd);
 void	init_misc(t_misc *misc, t_tlist *tokens);
-int		ft_del_elem(t_list *list, t_list **head, void (*del)(void *));
-void	(ft_del_var)(void *var);
-int		ft_var_utils(t_list **var_list, char *var_name, char *new_value, int
-			var_id);
+int		ft_var_utils(t_list **var_list, char *var_name, char *new_value,
+			int var_id);
+t_list	*save_var(void);
 
 #endif

@@ -25,25 +25,6 @@ int	ft_pwd(char **args, t_list **var_list)
 	return (1);
 }
 
-int	ft_unset(char **args, t_list **var_list)
-{
-	t_list	*tmp_list;
-	int		index;
-
-	index = 1;
-	while (args[index] != NULL)
-	{
-		tmp_list = ft_find_var(var_list, args[index]);
-		if (tmp_list == NULL)
-			ft_check_var(args[index], "unset");
-		else
-			ft_del_elem(tmp_list, var_list, ft_del_var);
-		index++;
-	}
-	g_exit_status = 0;
-	return (0);
-}
-
 int	ft_env(char **args, t_list **var_list)
 {
 	t_list	*tmp;
@@ -75,28 +56,18 @@ int	ft_env(char **args, t_list **var_list)
 
 int	ft_exit(char **args, t_list **var_list)
 {
-	// int	lvl;
-	// t_var	*tmp_var;
-	// t_list	*tmp_list;
+	t_var		*tmp_var;
+	t_list		*tmp_list;
 
 	(void)args;
 	printf("exit\n");
-	// tmp_list = ft_find_var(var_list, "SHLVL");
-	// tmp_var = (t_var *)tmp_list->content;
-	// if (tmp_var->value[0] == '2)
-	// {
-	ft_clear_vars(*var_list);
-	// 	//TODO: здесь очистить все
-	// }
-	// else
-	// 	lvl = ft_change_lvl(var_list, 0);
-	// tmp_var = (t_var *)((*var_list)->content);
-	// if (tmp_var->value)
-	// 	free(tmp_var->value);
-	// if (tmp_var->name)
-	// 	free(tmp_var->name);
-	// free(tmp_var);
-//	free(var_list);
-	exit(EXIT_SUCCESS);
+	tmp_list = ft_find_var(var_list, "SHLVL");
+	tmp_var = (t_var *)tmp_list->content;
+	if (tmp_var->value[0] == '2')
+	{
+		ft_clear_vars(*var_list);
+		exit(EXIT_SUCCESS);
+	}
+	ft_change_lvl(var_list, 0);
 	return (1);
 }

@@ -23,7 +23,7 @@ int	ft_clear_arr(char **arr)
 	int	index;
 
 	index = 0;
-	while(arr[index] != NULL)
+	while (arr[index] != NULL)
 	{
 		free(arr[index]);
 		index++;

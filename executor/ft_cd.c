@@ -31,7 +31,7 @@ int	ft_change_pwd(t_list ***var_list, char *new_path)
 {
 	t_list	*tmp_list;
 	t_var	*tmp_var;
-	char 	*new_path2;
+	char	*new_path2;
 
 	tmp_list = ft_find_var(*var_list, "PWD");
 	tmp_var = (t_var *)tmp_list->content;
@@ -71,7 +71,6 @@ int	ft_cd(char **args, t_list **var_list)
 	t_list	*tmp_list;
 	t_var	*tmp_var;
 
-	g_exit_status = 0;
 	if (args[1] == NULL)
 	{
 		tmp_list = ft_find_var(var_list, "HOME");

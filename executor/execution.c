@@ -36,6 +36,17 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
+void	ft_start_heredoc(t_tlist *tokens, t_misc *misc, int *tmp_in, int
+*tmp_out)
+{
+	if (tokens->stop_word)
+		here_doc_input(tokens);
+	if (misc->num_of_pipes > 0)
+		pipe_switch(tokens, misc);
+	if (misc->num_of_pipes > 0 || tokens->stop_word)
+		ft_redirection(tokens, tmp_in, tmp_out);
+}
+
 int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 {
 	pid_t	pid;
@@ -47,12 +58,7 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	catch_heredoc_sig();
 	if (pid == 0)
 	{
-		if (tokens->stop_word)
-			here_doc_input(tokens);
-		if (misc->num_of_pipes > 0)
-			pipe_switch(tokens, misc);
-		if (misc->num_of_pipes > 0 || tokens->stop_word)
-			ft_redirection(tokens, &tmp_in, &tmp_out);
+		ft_start_heredoc(tokens, misc, &tmp_in, &tmp_out);
 		if (execve(path, tokens->cmd, NULL))
 			ft_cmd_error(tokens->cmd[0]);
 		exit(EXIT_SUCCESS);
@@ -66,76 +72,5 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 		g_exit_status = ft_wait_pid(pid);
 	}
 	ft_restore_fd(tmp_in, tmp_out);
-	return (1);
-}
-
-char	*ft_find_path(char **path_list, char *executor_name)
-{
-	DIR				*dir;
-	struct dirent	*ent;
-	int				index;
-
-	index = 0;
-	while (path_list[index] != NULL)
-	{
-		dir = opendir(path_list[index]);
-		if (dir != NULL)
-		{
-			ent = readdir(dir);
-			while (ent != NULL)
-			{
-				if (!ft_strncmp(ent->d_name, executor_name, MAX_FILENAME))
-				{
-					if (closedir(dir) != 0)
-						return (NULL);
-					return (path_list[index]);
-				}
-				ent = readdir(dir);
-			}
-		}
-		if (closedir(dir) != 0)
-			return (NULL);
-		index++;
-	}
-	return (NULL);
-}
-
-char	**ft_parse_path(t_list **var_list, char *cmd)
-{
-	const char	*path;
-	char		**path_list;
-	t_list		*tmp_list;
-	t_var		*tmp_var;
-
-	tmp_list = ft_find_var(var_list, "PATH");
-	if (!tmp_list)
-	{
-		printf("minishell: %s: No such file or directory\n", cmd);
-		return (NULL);
-	}
-	tmp_var = (t_var *)tmp_list->content;
-	path = tmp_var->value;
-	path_list = ft_split(path, ':');
-	if (!path_list)
-		return (NULL);
-	return (path_list);
-}
-
-int	ft_join_path(char *args, char *tmp_path, char **path_list, char **exec_path)
-{
-	tmp_path = ft_strjoin("/", &args[0]);
-	if (!tmp_path)
-	{
-		ft_clear_arr(path_list);
-		return (0);
-	}
-	*exec_path = ft_strjoin(ft_find_path(path_list, args), tmp_path);
-	if (!*exec_path)
-	{
-		free(path_list);
-		free(tmp_path);
-		return (0);
-	}
-	free(tmp_path);
 	return (1);
 }
