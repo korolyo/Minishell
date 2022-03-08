@@ -26,7 +26,7 @@ SOURCES_LIST	= 	main.c \
 					prompt.c \
 
 CC		= gcc
-CFLAGS	=	-Werror -Wall -Wextra -g -I $(READLINE_INC)
+CFLAGS	=	-Werror -Wall -Wextra -g -fsanitize=address -I $(READLINE_INC)
 LIBRARIES =	-lft -lreadline\
 	-L$(LIBFT_DIRECTORY) \
 

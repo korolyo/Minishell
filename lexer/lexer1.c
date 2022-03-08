@@ -122,7 +122,6 @@ void	lexer_cmd(t_tlist **tokens, char *cmd)
 		}
 	}
 	tmp_list->cmd = ft_quotes_split(tmp_cmd, ' ');
-	free(tmp_cmd);
-	if (cmd)
-		free(cmd);
+	if (tmp_cmd)
+		free(tmp_cmd);
 }
