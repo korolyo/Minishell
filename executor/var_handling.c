@@ -42,7 +42,7 @@ int	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id)
 	tmp_list = ft_find_var(var_list, var_name);
 	if (tmp_list == NULL)
 	{
-		var = ft_strjoin(var_name,"=");
+		var = ft_strjoin(var_name, "=");
 		var1 = ft_strjoin(var, new_value);
 		ft_save_var(var_list, var1, var_id);
 		free(var);
@@ -142,7 +142,7 @@ int	ft_save_var(t_list **var_list, char *var, int var_id)
 		if (variable->value != NULL)
 			free(variable->value);
 		free(variable);
-		return(1);
+		return (1);
 	}
 	else
 	variable->is_exported = var_id;
