@@ -18,27 +18,19 @@ int	ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	char	*executor_path;
 	char	*tmp_path;
 	char	*tmp_path2;
-	char 	**envp;
 
 	tmp_path = NULL;
 	executor_path = NULL;
-	envp = ft_make_env(var_list);
 	path_list = ft_parse_path(var_list, tokens->cmd[0]);
-	if (!path_list)
-	{
-		ft_clear_arr(envp);
-		return (1);
-	}
 	tmp_path2 = ft_find_path(path_list, tokens->cmd[0]);
 	if (tmp_path2 == NULL)
 		executor_path = ft_strdup(tokens->cmd[0]);
 	else
 		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
+	if (!ft_strncmp(executor_path, "./minishell", 11))
+		ft_change_lvl(var_list, 1);
 	ft_clear_arr(path_list);
-	if (ft_add_status(var_list, ft_execute_cmd(executor_path, tokens, misc, envp))
-		== 0)
-		return (0);
-	ft_clear_arr(envp);
+	ft_execute_cmd(executor_path, tokens, misc);
 	free(tmp_path);
 	free(executor_path);
 	return (1);
@@ -109,13 +101,7 @@ int	ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 		}
 	}
 	if (index == 7)
-	{
-		if (ft_execution(tokens, var_list, misc) == 0)
-		{
-			ft_add_status(var_list, 127);
-			return (ft_cmd_error(tokens->cmd[0]));
-		}
-	}
+		ft_execution(tokens, var_list, misc);
 	return (1);
 }
 

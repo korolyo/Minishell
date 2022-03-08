@@ -60,31 +60,3 @@ int	ft_add_status(t_list **var_list, int status)
 	ft_chng_var(var_list, "?", new_value, 0);
 	return (1);
 }
-
-char **ft_make_env(t_list **var_list)
-{
-	char	**env_list;
-	char 	*tmp_value;
-	int		count;
-	t_list	*tmp_list;
-	t_var	*tmp_var;
-
-	count = 0;
-	tmp_list = *var_list;
-	env_list = malloc(sizeof(char *) * (ft_lstsize(tmp_list)));
-	while (tmp_list)
-	{
-		tmp_var = (t_var *)tmp_list->content;
-		if (tmp_var->is_exported == 1)
-		{
-			tmp_value = ft_strjoin(tmp_var->name, "=");
-			env_list[count] = ft_strjoin(tmp_value, tmp_var->value);
-			free(tmp_value);
-			count++;
-		}
-		tmp_list = tmp_list->next;
-	}
-	env_list[count] = NULL;
-	return (env_list);
-
-}

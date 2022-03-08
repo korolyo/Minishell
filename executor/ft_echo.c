@@ -45,5 +45,6 @@ int	ft_echo(char **args, t_list **var_list)
 		ft_print_echo(args[index], &len, &index);
 	if (flag != 0)
 		printf("\n");
+	g_exit_status = 0;
 	return (1);
 }

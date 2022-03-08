@@ -70,14 +70,13 @@ char	**ft_parse_path(t_list **var_list, char *cmd);
 char	*ft_find_path(char **path_list, char *executor_name);
 int		ft_join_path(char *args, char *tmp_path, char **path_list,
 			char **executor_path);
-int		ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc, char **envp);
+int		ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc);
 int		ft_redirection(t_tlist *tokens, int *tmp_in, int *tmp_out);
 void	ft_restore_fd(int tmp_in, int tmp_out);
 int		ft_check_if_var(char **args, t_list **var_list, int task_id);
 int		ft_check_var(char *var, char *check_cmd);
 void	init_misc(t_misc *misc, t_tlist *tokens);
-void	print_var_list(t_list **var_list);
 int		ft_del_elem(t_list *list, t_list **head, void (*del)(void *));
 void	(ft_del_var)(void *var);
-char	**ft_make_env(t_list **var_list);
+
 #endif
