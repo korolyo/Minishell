@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	print_var_list(t_list **var_list) //TODO убрать эту функцию, она для дебага
+void	print_var_list(t_list **var_list) //TODO убрать
 {
 	t_list	*tmp;
 	t_var	*var;
