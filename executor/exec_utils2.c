@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+int ft_var_utils(t_list **var_list, char *var_name, char *new_value, int var_id)
+{
+	char	*var;
+	char	*var1;
+
+	var = ft_strjoin(var_name, "=");
+	var1 = ft_strjoin(var, new_value);
+	ft_save_var(var_list, var1, var_id);
+	free(var);
+	free(var1);
+	return (1);
+}
+
 int	ft_check_var(char *var, char *check_cmd)
 {
 	int	i;

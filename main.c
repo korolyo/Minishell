@@ -96,7 +96,7 @@ int	main(int argc, char **argv, char **envp)
 			lexer(input, &tokens, &var_list);
 			ft_start(tokens, &var_list);
 		}
-		ft_add_status(&var_list, g_exit_status);
+		ft_add_status(&var_list);
 		clear_all(input, tokens, prompt);
 	}
 }
