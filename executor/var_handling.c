@@ -36,19 +36,10 @@ int	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id)
 {
 	t_list	*tmp_list;
 	t_var	*tmp_val;
-	char	*var;
-	char	*var1;
 
 	tmp_list = ft_find_var(var_list, var_name);
 	if (tmp_list == NULL)
-	{
-		var = ft_strjoin(var_name, "=");
-		var1 = ft_strjoin(var, new_value);
-		ft_save_var(var_list, var1, var_id);
-		free(var);
-		free(var1);
-		return (1);
-	}
+		return (ft_var_utils(var_list, var_name, new_value, var_id));
 	tmp_val = (t_var *)tmp_list->content;
 	if (!new_value)
 	{
@@ -99,21 +90,12 @@ t_var	*ft_make_var(char *var, t_var *variable, t_list **var_list, int id)
 	while (var[len1] != '=' && var[len1] != '\0')
 		len1++;
 	variable->name = malloc(sizeof(char) * (len1 + 1));
-	if (!variable->name)
-	{
-		free(var);
-		return (NULL);
-	}
 	ft_strlcpy(variable->name, var, len1 + 1);
 	while (var[len1++] != '\0')
 		len2++;
 	variable->value = malloc(sizeof(char) * (len2 + 1));
-	if (!variable->value)
-		free(variable->name);
 	if (len2 > 0)
-	{
 		ft_strlcpy(variable->value, &var[len1 - len2], len2 + 1);
-	}
 	else
 		variable->value = NULL;
 	if (ft_find_var(var_list, variable->name))
@@ -130,8 +112,6 @@ int	ft_save_var(t_list **var_list, char *var, int var_id)
 	t_list	*new_val;
 	void	*tmp_ptr;
 
-	if (!var || !var_list)
-		return (0);
 	variable = malloc(sizeof(t_var));
 	if (!variable)
 		return (ft_clear_vars(*var_list));
@@ -144,7 +124,6 @@ int	ft_save_var(t_list **var_list, char *var, int var_id)
 		free(variable);
 		return (1);
 	}
-	else
 	variable->is_exported = var_id;
 	tmp_ptr = variable;
 	new_val = ft_lstnew(tmp_ptr);

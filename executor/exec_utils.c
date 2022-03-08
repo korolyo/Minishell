@@ -23,7 +23,7 @@ int	ft_clear_arr(char **arr)
 	int	index;
 
 	index = 0;
-	while(arr[index] != NULL)
+	while (arr[index] != NULL)
 	{
 		free(arr[index]);
 		index++;
@@ -52,11 +52,11 @@ int	ft_change_lvl(t_list **var_list, int id)
 	return (lvl);
 }
 
-int	ft_add_status(t_list **var_list, int status)
+int	ft_add_status(t_list **var_list)
 {
 	char	*new_value;
 
-	new_value = ft_itoa(status);
+	new_value = ft_itoa(g_exit_status);
 	ft_chng_var(var_list, "?", new_value, 0);
 	return (1);
 }

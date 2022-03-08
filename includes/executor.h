@@ -64,7 +64,7 @@ int		ft_chng_var(t_list **var_list, char *var_name,
 			char *new_value, int var_id);
 int		ft_change_lvl(t_list **var_list, int id);
 int		ft_clear_arr(char **arr);
-int		ft_add_status(t_list **var_list, int status);
+int		ft_add_status(t_list **var_list);
 int		ft_cmd_error(char *cmd);
 char	**ft_parse_path(t_list **var_list, char *cmd);
 char	*ft_find_path(char **path_list, char *executor_name);
@@ -76,8 +76,8 @@ void	ft_restore_fd(int tmp_in, int tmp_out);
 int		ft_check_if_var(char **args, t_list **var_list, int task_id);
 int		ft_check_var(char *var, char *check_cmd);
 void	init_misc(t_misc *misc, t_tlist *tokens);
-int		ft_del_elem(t_list *list, t_list **head, void (*del)(void *));
-void	(ft_del_var)(void *var);
+int		ft_var_utils(t_list **var_list, char *var_name, char *new_value,
+			int var_id);
 t_list	*save_var(void);
 
 #endif

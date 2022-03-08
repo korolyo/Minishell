@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+int	ft_var_utils(t_list **var_list, char *var_name, char *new_value, int var_id)
+{
+	char	*var;
+	char	*var1;
+
+	var = ft_strjoin(var_name, "=");
+	var1 = ft_strjoin(var, new_value);
+	ft_save_var(var_list, var1, var_id);
+	free(var);
+	free(var1);
+	return (1);
+}
+
 int	ft_check_var(char *var, char *check_cmd)
 {
 	int	i;
@@ -21,7 +34,8 @@ int	ft_check_var(char *var, char *check_cmd)
 		|| (var[i] == '_' && var[i + 1] != '\0'))
 	{
 		while (ft_isdigit(var[i]) || ft_isalpha(var[i]) || var[i] == '_'
-			|| var[i] == '$' || var[i] == '\\' || var[i] == '%' || var[i] == '/')
+			|| var[i] == '$' || var[i] == '\\' || var[i] == '%'
+			|| var[i] == '/')
 			i++;
 	}
 	if (var[i] != '\0')
@@ -32,34 +46,30 @@ int	ft_check_var(char *var, char *check_cmd)
 	return (1);
 }
 
-void	(ft_del_var)(void *var)
+int	ft_check_if_var(char **args, t_list **var_list, int task_id)
 {
-	t_var	*tmp_var;
+	int	index;
 
-	tmp_var = (t_var *)(var);
-	free(tmp_var->value);
-	free(tmp_var->name);
-	free(tmp_var);
-	tmp_var = NULL;
-}
-
-int	ft_del_elem(t_list *list, t_list **head, void (*del)(void *))
-{
-	t_list	*tmp;
-
-	tmp = *head;
-	if (list == *head)
+	index = 0;
+	while (args[index] != NULL)
 	{
-		tmp = (*head)->next;
-		del((*head)->content);
-		free(*head);
-		*head = tmp;
-		return (1);
+		if (ft_strchr(args[index], '=') == NULL)
+		{
+			if (task_id == 0)
+				return (ft_cmd_error(args[index]));
+			return (-1);
+		}
+		index++;
 	}
-	while (tmp->next != list)
-		tmp = tmp->next;
-	tmp->next = list->next;
-	del(list->content);
-	free(list);
+	if (args[index] == NULL)
+	{
+		index = 0;
+		while (args[index] != NULL)
+		{
+			if (!ft_save_var(var_list, args[index], 0))
+				return (0);
+			index++;
+		}
+	}
 	return (1);
 }

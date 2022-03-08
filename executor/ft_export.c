@@ -12,20 +12,6 @@
 
 #include "minishell.h"
 
-void	print_var_list(t_list **var_list) //TODO убрать
-{
-	t_list	*tmp;
-	t_var	*var;
-
-	tmp = *var_list;
-	while (tmp)
-	{
-		var = (t_var *)tmp->content;
-		printf("%s\n", var->name);
-		tmp = tmp->next;
-	}
-}
-
 void	ft_print_export(char **sorted_env, t_list **var_list, int len)
 {
 	t_list	*tmp;

@@ -22,7 +22,9 @@ SOURCES_LIST	= 	main.c \
 					executor/ft_cd.c \
 					executor/ft_echo.c \
 					executor/ft_export.c \
+					executor/ft_unset.c \
 					executor/make_redirection.c \
+					executor/path_handler.c \
 					prompt.c \
 
 CC		= gcc
