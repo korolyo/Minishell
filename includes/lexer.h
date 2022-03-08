@@ -58,6 +58,7 @@ char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp);
 int		find_type(char *prompt, int j, int *i);
 char	*join_dollar(char *tmp, char *tmp2, char *tmp3);
 char	*find_value(t_list **var_list, char *tmp2);
+t_tlist	*open_file(char *name, int type, t_tlist *tmp_head);
 
 // UTILS:
 t_tlist	*tlistnew(int type);

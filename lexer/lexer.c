@@ -12,6 +12,30 @@
 
 #include "minishell.h"
 
+char	*lexer_quotes(char *prompt, int *i, t_list **var_list)
+{
+	char	*tmp;
+
+	tmp = ft_strdup(prompt);
+	if (tmp[*i] == '\'')
+		preparse_quotes(tmp, i);
+	if (tmp[*i] == '\"')
+	{
+		(*i)++;
+		while (tmp[*i] != '\"')
+		{
+			if (tmp[(*i)] == '$')
+			{
+				tmp = lexer_dollar(tmp, i, var_list);
+				(*i)--;
+			}
+			(*i)++;
+		}
+	}
+	free(prompt);
+	return (tmp);
+}
+
 char	*lexer_pipe(t_tlist **tokens, int *i, char *tmp)
 {
 	t_tlist	*tmp_cmds;
