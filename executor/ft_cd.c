@@ -71,6 +71,7 @@ int	ft_cd(char **args, t_list **var_list)
 	t_list	*tmp_list;
 	t_var	*tmp_var;
 
+	g_exit_status = 0;
 	if (args[1] == NULL)
 	{
 		tmp_list = ft_find_var(var_list, "HOME");
@@ -88,7 +89,7 @@ int	ft_cd(char **args, t_list **var_list)
 		if (chdir(args[1]) != 0)
 		{
 			printf("minishell: cd: %s: %s\n", args[1], strerror(errno));
-			ft_chng_var(var_list, "?", "127", 0);
+			g_exit_status = 127;
 			return (1);
 		}
 		return (ft_change_pwd(&var_list, args[1]));

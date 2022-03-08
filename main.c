@@ -99,5 +99,6 @@ int	main(int argc, char **argv, char **envp)
 			tlist_clear(tokens);
 			free(input);
 		}
+		ft_add_status(&var_list, g_exit_status);
 	}
 }

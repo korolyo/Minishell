@@ -21,6 +21,7 @@ int	ft_pwd(char **args, t_list **var_list)
 	tmp_list = ft_find_var(var_list, "PWD");
 	tmp_var = (t_var *)tmp_list->content;
 	printf("%s\n", tmp_var->value);
+	g_exit_status = 0;
 	return (1);
 }
 
@@ -39,6 +40,7 @@ int	ft_unset(char **args, t_list **var_list)
 			ft_del_elem(tmp_list, var_list, ft_del_var);
 		index++;
 	}
+	g_exit_status = 0;
 	return (0);
 }
 

@@ -36,17 +36,13 @@ int	ft_wait_pid(pid_t pid)
 	return (status);
 }
 
-int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc, char **envp)
+int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 {
 	pid_t	pid;
-	int		status;
-	int		redir_id;
 	int		tmp_in;
 	int		tmp_out;
 
-	status = 0;
-	(void)envp;
-	redir_id = ft_redirection(tokens, &tmp_in, &tmp_out);
+	ft_redirection(tokens, &tmp_in, &tmp_out);
 	pid = fork();
 	catch_heredoc_sig();
 	if (pid == 0)
@@ -66,13 +62,11 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc, char **envp)
 	else
 	{
 		if (misc->num_of_pipes > 0)
-		{
 			close(misc->fdpipe[1]);
-		}
-		status = ft_wait_pid(pid);
+		g_exit_status = ft_wait_pid(pid);
 	}
 	ft_restore_fd(tmp_in, tmp_out);
-	return (status);
+	return (1);
 }
 
 char	*ft_find_path(char **path_list, char *executor_name)
