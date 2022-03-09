@@ -12,34 +12,6 @@
 
 #include "minishell.h"
 
-void	ft_print_export(char **sorted_env, t_list **var_list, int len)
-{
-	t_list	*tmp;
-	t_var	*tmp_var;
-	int		i;
-
-	i = 0;
-	while (sorted_env[i] != NULL)
-	{
-		if (sorted_env[i][0] == '_' && sorted_env[i][1] == '\0')
-			i++;
-		tmp = ft_find_var(var_list, sorted_env[i]);
-		tmp_var = (t_var *)tmp->content;
-		printf("declare -x %s", tmp_var->name);
-		if (tmp_var->value != NULL && tmp_var->value[0] != '\0')
-			printf("=\"%s\"", tmp_var->value);
-		printf("\n");
-		i++;
-	}
-	i = 0;
-	while (i < len)
-	{
-		free(sorted_env[i]);
-		i++;
-	}
-	free(sorted_env);
-}
-
 int	ft_sort(char **sorted_name, t_list **var_list, int num)
 {
 	char	*tmp;
@@ -95,6 +67,43 @@ int	ft_sort_env(t_list **var_list)
 	return (1);
 }
 
+void	ft_save2(t_list **var_list, char *var, char *name, char *value)
+{
+	if (value != NULL)
+		ft_chng_var(var_list, name, value, 1);
+	else
+	{
+		if (!ft_strchr(var, '='))
+			free(name);
+		else
+			ft_chng_var(var_list, name, "", 1);
+	}
+}
+
+int	ft_export_save(t_list **var_list, char *var)
+{
+	t_list	*tmp_var;
+	t_var	*tmp;
+	char	*var_name;
+	char	*var_value;
+
+	var_name = NULL;
+	var_value = NULL;
+	ft_make_var(var, &var_name, &var_value);
+	if (!ft_check_var(var_name, "export"))
+		return (0);
+	tmp_var = ft_find_var(var_list, var_name);
+	if (tmp_var == NULL)
+		ft_make_list(var_list, var_name, var_value, 1);
+	else
+	{
+		tmp = tmp_var->content;
+		tmp->is_exported = 1;
+		ft_save2(var_list, var, var_name, var_value);
+	}
+	return (1);
+}
+
 int	ft_export(char **args, t_list **var_list)
 {
 	int		i;
@@ -107,7 +116,7 @@ int	ft_export(char **args, t_list **var_list)
 	}
 	while (args[i] != NULL)
 	{
-		ft_save_var(var_list, args[i], 1);
+		ft_export_save(var_list, args[i]);
 		i++;
 	}
 	g_exit_status = 0;

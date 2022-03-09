@@ -51,6 +51,7 @@ char	**ft_parse_path(t_list **var_list, char *cmd)
 	if (!tmp_list)
 	{
 		printf("minishell: %s: No such file or directory\n", cmd);
+		g_exit_status = 127;
 		return (NULL);
 	}
 	tmp_var = (t_var *)tmp_list->content;

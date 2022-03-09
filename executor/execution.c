@@ -33,7 +33,6 @@ int	ft_wait_pid(pid_t pid)
 		if (WIFEXITED(status) || WIFSIGNALED(status))
 			return (status);
 	}
-	return (status);
 }
 
 void	ft_start_heredoc(t_tlist *tokens, t_misc *misc, int *tmp_in, int
@@ -45,6 +44,14 @@ void	ft_start_heredoc(t_tlist *tokens, t_misc *misc, int *tmp_in, int
 		pipe_switch(tokens, misc);
 	if (misc->num_of_pipes > 0 || tokens->stop_word)
 		ft_redirection(tokens, tmp_in, tmp_out);
+}
+
+int	ft_clear_execution(char **path_list, char *tmp_path, char *executor_path)
+{
+	ft_clear_arr(path_list);
+	free(tmp_path);
+	free(executor_path);
+	return (1);
 }
 
 int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)

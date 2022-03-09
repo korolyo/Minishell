@@ -22,18 +22,20 @@ int	ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	tmp_path = NULL;
 	executor_path = NULL;
 	path_list = ft_parse_path(var_list, tokens->cmd[0]);
+	if (!path_list)
+		return (0);
 	tmp_path2 = ft_find_path(path_list, tokens->cmd[0]);
 	if (tmp_path2 == NULL)
 		executor_path = ft_strdup(tokens->cmd[0]);
 	else
 		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
 	if (!ft_strncmp(executor_path, "./minishell", 11))
+	{
 		ft_change_lvl(var_list, 1);
-	ft_clear_arr(path_list);
+		return (ft_clear_execution(path_list, tmp_path, executor_path));
+	}
 	ft_execute_cmd(executor_path, tokens, misc);
-	free(tmp_path);
-	free(executor_path);
-	return (1);
+	return (ft_clear_execution(path_list, tmp_path, executor_path));
 }
 
 int	ft_start_redir(t_tlist *tokens, t_misc *misc, int *tmp_in, int *tmp_out)
@@ -51,8 +53,7 @@ int	ft_builings(t_tlist *tokens, t_misc *misc, t_list **var_list, int *index)
 	int				tmp_in;
 	int				tmp_out;
 	static t_cmd	builtins[] = {
-	{"echo",		ft_echo},
-	{"cd",		ft_cd},
+	{"echo", ft_echo}, {"cd", ft_cd},
 	{"pwd",		ft_pwd},
 	{"export",	ft_export},
 	{"unset",		ft_unset},
@@ -66,6 +67,8 @@ int	ft_builings(t_tlist *tokens, t_misc *misc, t_list **var_list, int *index)
 		tmp_out = 0;
 		redir_id = ft_start_redir(tokens, misc, &tmp_in, &tmp_out);
 		*index = builtins[*index].f_cmd(tokens->cmd, var_list);
+		if (*index != 0)
+			g_exit_status = 0;
 		if (redir_id == 1)
 			ft_restore_fd(tmp_in, tmp_out);
 		return (1);

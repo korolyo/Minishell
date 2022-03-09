@@ -59,7 +59,7 @@ char	*dollar_string(char *input, t_list **var_list)
 
 	i = 0;
 	tmp = ft_strdup(input);
-	while (tmp[i])
+	while (tmp[i] != '\0')
 	{
 		if (tmp[i] == '\'')
 		{

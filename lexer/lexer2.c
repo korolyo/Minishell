@@ -24,6 +24,8 @@ char	*find_value(t_list **var_list, char *tmp2)
 		tmp4 = ft_find_var(var_list, tmp2);
 		if (!tmp4 && tmp2[0] != '$')
 			ret = NULL;
+		if (tmp2[0] == '$')
+			ret = ft_strdup("$");
 		else if (tmp4)
 		{
 			tmp5 = (t_var *) tmp4->content;

@@ -37,6 +37,11 @@ INCLUDES = -I$(LIBFT_HEADERS) -I$(HEADERS_DIR)
 
 HEADERS_LIST = \
 	minishell.h\
+	lexer.h\
+	executor.h\
+	preparser.h\
+	prompt.h\
+	signal.h\
 
 HEADERS_DIR	=	./includes/
 HEADERS =	$(addprefix $(HEADERS_DIR), $(HEADERS_LIST))

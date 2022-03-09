@@ -87,11 +87,12 @@ int	main(void)
 		sig_init();
 		prompt = create_prompt();
 		input = readline(prompt);
+		if (input)
+			add_history(input);
 		check_eof(input, var_list);
+		input = preparse(input);
 		if (input)
 		{
-			add_history(input);
-			input = preparse(input);
 			lexer(input, &tokens, &var_list);
 			ft_start(tokens, &var_list);
 		}

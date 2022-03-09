@@ -57,30 +57,7 @@ int	ft_chng_var(t_list **var_list, char *var_name, char *new_value, int var_id)
 	return (1);
 }
 
-int	ft_clear_vars(t_list *var_list)
-{
-	t_var	*tmp_var;
-
-	if (var_list == NULL)
-		return (0);
-	ft_clear_vars(var_list->next);
-	if (var_list->content)
-	{
-		tmp_var = (t_var *)(var_list->content);
-		if (tmp_var->value)
-			free(tmp_var->value);
-		if (tmp_var->name)
-			free(tmp_var->name);
-		free(tmp_var);
-		tmp_var = NULL;
-	}
-	var_list->next = NULL;
-	if (var_list)
-		free(var_list);
-	return (0);
-}
-
-t_var	*ft_make_var(char *var, t_var *variable, t_list **var_list, int id)
+void	ft_make_var(char *var, char **var_name, char **var_value)
 {
 	size_t	len1;
 	size_t	len2;
@@ -89,24 +66,18 @@ t_var	*ft_make_var(char *var, t_var *variable, t_list **var_list, int id)
 	len2 = 0;
 	while (var[len1] != '=' && var[len1] != '\0')
 		len1++;
-	variable->name = malloc(sizeof(char) * (len1 + 1));
-	ft_strlcpy(variable->name, var, len1 + 1);
+	*var_name = malloc(sizeof(char) * (len1 + 1));
+	ft_strlcpy(*var_name, var, len1 + 1);
 	while (var[len1++] != '\0')
 		len2++;
-	variable->value = malloc(sizeof(char) * (len2 + 1));
+	*var_value = malloc(sizeof(char) * (len2 + 1));
 	if (len2 > 0)
-		ft_strlcpy(variable->value, &var[len1 - len2], len2 + 1);
+		ft_strlcpy(*var_value, &var[len1 - len2], len2 + 1);
 	else
-		variable->value = NULL;
-	if (ft_find_var(var_list, variable->name))
-	{
-		ft_chng_var(var_list, variable->name, variable->value, id);
-		return (NULL);
-	}
-	return (variable);
+		*var_value = NULL;
 }
 
-int	ft_save_var(t_list **var_list, char *var, int var_id)
+int	ft_make_list(t_list **var_list, char *var_name, char *var_value, int var_id)
 {
 	t_var	*variable;
 	t_list	*new_val;
@@ -115,20 +86,33 @@ int	ft_save_var(t_list **var_list, char *var, int var_id)
 	variable = malloc(sizeof(t_var));
 	if (!variable)
 		return (ft_clear_vars(*var_list));
-	if (!ft_make_var(var, variable, var_list, var_id))
-	{
-		if (variable->name != NULL)
-			free(variable->name);
-		if (variable->value != NULL)
-			free(variable->value);
-		free(variable);
-		return (1);
-	}
+	variable->name = ft_strdup(var_name);
+	variable->value = ft_strdup(var_value);
 	variable->is_exported = var_id;
+	free(var_name);
+	free(var_value);
 	tmp_ptr = variable;
 	new_val = ft_lstnew(tmp_ptr);
 	if (!new_val)
 		return (ft_clear_vars(*var_list));
 	ft_lstadd_back(var_list, new_val);
 	return (1);
+}
+
+int	ft_save_var(t_list **var_list, char *var, int var_id)
+{
+	char	*var_name;
+	char	*var_value;
+
+	var_name = NULL;
+	var_value = NULL;
+	if (ft_isdigit(var[0]))
+		return (ft_cmd_error(var));
+	ft_make_var(var, &var_name, &var_value);
+	if (ft_find_var(var_list, var_name))
+	{
+		ft_chng_var(var_list, var_name, var_value, 1);
+		return (1);
+	}
+	return (ft_make_list(var_list, var_name, var_value, var_id));
 }
