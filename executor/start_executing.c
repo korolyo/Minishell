@@ -104,14 +104,13 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 	if (misc.num_of_pipes > 0)
 		misc.fdpipe = pipes(&misc);
 	cmd_kind(tokens);
-	if (tokens->cmd[0] == NULL)
-		return (1);
 	while (tokens)
 	{
 		ft_start_execution(tokens, var_list, &misc);
 		misc.i++;
 		tokens = tokens->next;
 	}
+	close_pipes(misc.fdpipe, misc.cmd_count);
 	g_exit_status = ft_wait_pid(misc.cmd_count);
 	if (misc.fdpipe)
 		free(misc.fdpipe);
