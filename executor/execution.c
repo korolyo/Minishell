@@ -21,8 +21,11 @@ int	ft_wait_pid(int n)
 	while (i < n)
 	{
 		wait(&status);
-		if (WIFEXITED(status) && status != 0)
-			g_exit_status = 127;
+		if (WIFSIGNALED(status))
+			status = 130;
+		else
+			status = WEXITSTATUS(status);
+		if (WIFEXITED(status) || WIFSIGNALED(status))
 		i++;
 	}
 	return (status);
