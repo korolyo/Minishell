@@ -12,16 +12,61 @@
 
 #include "minishell.h"
 
+void	ft_print_export(char **sorted_env, t_list **var_list, int len)
+{
+	t_list	*tmp;
+	t_var	*tmp_var;
+	int		i;
+
+	i = 0;
+	while (sorted_env[i] != NULL)
+	{
+		if (sorted_env[i][0] == '_' && sorted_env[i][1] == '\0')
+			i++;
+		tmp = ft_find_var(var_list, sorted_env[i]);
+		tmp_var = (t_var *)tmp->content;
+		printf("declare -x %s", tmp_var->name);
+		if (tmp_var->value != NULL && tmp_var->value[0] != '\0')
+			printf("=\"%s\"", tmp_var->value);
+		printf("\n");
+		i++;
+	}
+	i = 0;
+	while (i < len)
+	{
+		free(sorted_env[i]);
+		i++;
+	}
+	free(sorted_env);
+}
+
 int	ft_pwd(char **args, t_list **var_list)
 {
 	t_list	*tmp_list;
 	t_var	*tmp_var;
+	char	*dir;
 
 	(void)args;
+	dir = NULL;
 	tmp_list = ft_find_var(var_list, "PWD");
-	tmp_var = (t_var *)tmp_list->content;
-	printf("%s\n", tmp_var->value);
-	g_exit_status = 0;
+	if (!tmp_list)
+	{
+		printf("%s\n", getcwd(dir, 4096));
+		free(dir);
+		return (1);
+	}
+	else
+	{
+		tmp_var = (t_var *)tmp_list->content;
+		printf("%s\n", tmp_var->value);
+	}
+	return (1);
+}
+
+int	error_env(void)
+{
+	printf("minishell: env: No such file or directory\n");
+	g_exit_status = 127;
 	return (1);
 }
 
@@ -34,10 +79,7 @@ int	ft_env(char **args, t_list **var_list)
 	tmp = *var_list;
 	(void)args;
 	if (!ft_find_var(var_list, "PATH"))
-	{
-		printf("minishell: env: No such file or directory\n");
-		return (1);
-	}
+		return (error_env());
 	while (tmp)
 	{
 		next = tmp->next;

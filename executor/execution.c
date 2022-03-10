@@ -12,26 +12,19 @@
 
 #include "minishell.h"
 
-int	ft_wait_pid(pid_t pid)
+int	ft_wait_pid(int n)
 {
-	int		status;
-	pid_t	wpid;
+	int i;
+	int status;
 
-	wpid = 0;
-	while (1)
+
+	i = 0;
+	while (i < n)
 	{
-		wpid = waitpid(pid, &status, 0);
-		if (wpid == -1)
-		{
-			perror("WAIT_PID");
-			return (0);
-		}
-		if (WIFSIGNALED(status))
-			status = 130;
-		else
-			status = WEXITSTATUS(status);
-		if (WIFEXITED(status) || WIFSIGNALED(status))
-			return (status);
+		wait(&status);
+		if (WIFEXITED(status) && status != 0)
+			g_exit_status = 127;
+		i++;
 	}
 	return (status);
 }
@@ -45,6 +38,14 @@ void	ft_start_heredoc(t_tlist *tokens, t_misc *misc, int *tmp_in, int
 		pipe_switch(tokens, misc);
 	if (misc->num_of_pipes > 0 || tokens->stop_word)
 		ft_redirection(tokens, tmp_in, tmp_out);
+}
+
+int	ft_clear_execution(char **path_list, char *tmp_path, char *executor_path)
+{
+	ft_clear_arr(path_list);
+	free(tmp_path);
+	free(executor_path);
+	return (1);
 }
 
 int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
@@ -69,7 +70,6 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	{
 		if (misc->num_of_pipes > 0)
 			close(misc->fdpipe[1]);
-		g_exit_status = ft_wait_pid(pid);
 	}
 	ft_restore_fd(tmp_in, tmp_out);
 	return (1);

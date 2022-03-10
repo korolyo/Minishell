@@ -66,19 +66,30 @@ int	ft_cd_prev_dir(t_list ***var_list)
 	return (i);
 }
 
-int	ft_cd(char **args, t_list **var_list)
+int	ft_cd_home(t_list **var_list)
 {
 	t_list	*tmp_list;
 	t_var	*tmp_var;
+	char	*path;
 
-	if (args[1] == NULL)
+	tmp_list = ft_find_var(var_list, "HOME");
+	if (!tmp_list)
 	{
-		tmp_list = ft_find_var(var_list, "HOME");
-		tmp_var = (t_var *)tmp_list->content;
-		if (chdir(tmp_var->value) != 0)
-			return (0);
-		return (ft_change_pwd(&var_list, tmp_var->value));
+		printf("minishell: cd: HOME not set\n");
+		g_exit_status = 1;
+		return (0);
 	}
+	tmp_var = (t_var *)tmp_list->content;
+	if (chdir(tmp_var->value) != 0)
+		return (0);
+	path = ft_strdup(tmp_var->value);
+	return (ft_change_pwd(&var_list, path));
+}
+
+int	ft_cd(char **args, t_list **var_list)
+{
+	if (args[1] == NULL)
+		return (ft_cd_home(var_list));
 	if (!(ft_strncmp(args[1], ".", 2)))
 		return (1);
 	if (!(ft_strncmp(args[1], "..", 3)))
@@ -88,8 +99,8 @@ int	ft_cd(char **args, t_list **var_list)
 		if (chdir(args[1]) != 0)
 		{
 			printf("minishell: cd: %s: %s\n", args[1], strerror(errno));
-			g_exit_status = 127;
-			return (1);
+			g_exit_status = 1;
+			return (0);
 		}
 		return (ft_change_pwd(&var_list, args[1]));
 	}

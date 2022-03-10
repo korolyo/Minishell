@@ -15,7 +15,8 @@
 int	ft_cmd_error(char *cmd)
 {
 	printf("minishell: %s: command not found\n", cmd);
-	return (1);
+	g_exit_status = 127;
+	return (0);
 }
 
 int	ft_clear_arr(char **arr)
@@ -41,6 +42,8 @@ int	ft_change_lvl(t_list **var_list, int id)
 	t_var	*tmp_var;
 
 	tmp_list = ft_find_var(var_list, "SHLVL");
+	if (!tmp_list)
+		return (1);
 	tmp_var = (t_var *)tmp_list->content;
 	lvl = ft_atoi(tmp_var->value);
 	if (id == 0)

@@ -20,9 +20,9 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 	int		j;
 
 	tmp = ft_substr(prompt, 0, (*i));
-	(*i)++;
 	j = 0;
-	if (prompt[*i] == ' ' || prompt[*i] == '\0')
+	tmp2 = NULL;
+	if (prompt[++(*i)] == ' ' || prompt[*i] == '\0')
 		tmp2 = ft_strdup("$");
 	if (ft_isdigit(prompt[*i]))
 		(*i)++;
@@ -32,9 +32,9 @@ char	*lexer_dollar(char *prompt, int *i, t_list **var_list)
 		while (is_key(prompt[*i]) || prompt[*i] == '?')
 			(*i)++;
 		tmp2 = ft_substr(prompt, j, (*i) - j);
+		tmp2 = find_value(var_list, tmp2);
 	}
 	tmp3 = ft_substr(prompt, (*i), ft_strlen(prompt) - (*i));
-	tmp2 = find_value(var_list, tmp2);
 	*i = j + ft_strlen(tmp2) - 3;
 	free(prompt);
 	tmp = join_dollar(tmp, tmp2, tmp3);

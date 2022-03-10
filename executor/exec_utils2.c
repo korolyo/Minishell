@@ -40,6 +40,8 @@ int	ft_check_var(char *var, char *check_cmd)
 	}
 	if (var[i] != '\0')
 	{
+		if (check_cmd == NULL)
+			return (ft_cmd_error(var));
 		printf("minishell: %s: '%s': not a valid identifier\n", check_cmd, var);
 		return (0);
 	}
@@ -72,4 +74,27 @@ int	ft_check_if_var(char **args, t_list **var_list, int task_id)
 		}
 	}
 	return (1);
+}
+
+int	ft_clear_vars(t_list *var_list)
+{
+	t_var	*tmp_var;
+
+	if (var_list == NULL)
+		return (0);
+	ft_clear_vars(var_list->next);
+	if (var_list->content)
+	{
+		tmp_var = (t_var *)(var_list->content);
+		if (tmp_var->value)
+			free(tmp_var->value);
+		if (tmp_var->name)
+			free(tmp_var->name);
+		free(tmp_var);
+		tmp_var = NULL;
+	}
+	var_list->next = NULL;
+	if (var_list)
+		free(var_list);
+	return (0);
 }
