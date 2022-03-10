@@ -111,5 +111,5 @@ int	ft_exit(char **args, t_list **var_list)
 		exit(EXIT_SUCCESS);
 	}
 	ft_change_lvl(var_list, 0);
-	return (1);
+	exit(EXIT_SUCCESS);
 }
