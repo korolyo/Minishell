@@ -75,6 +75,7 @@ t_list	*save_var(void);
 int		ft_make_list(t_list **var_list, char *var_name, char *var_value,
 			int var_id);
 int		ft_add_status(t_list **var_list);
+int		ft_wait_pid(pid_t pid);
 
 //Utils
 int		ft_clear_arr(char **arr);

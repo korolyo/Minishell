@@ -114,6 +114,7 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 		misc.i++;
 		tokens = tokens->next;
 	}
+	g_exit_status = ft_wait_pid(misc.cmd_count);
 	if (misc.fdpipe)
 		free(misc.fdpipe);
 	return (1);
