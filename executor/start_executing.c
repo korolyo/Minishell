@@ -61,6 +61,8 @@ int	ft_builings(t_tlist *tokens, t_misc *misc, t_list **var_list, int *index)
 		tmp_out = 0;
 		redir_id = ft_start_redir(tokens, misc, &tmp_in, &tmp_out);
 		*index = builtins[*index].f_cmd(tokens->cmd, var_list);
+		if (*index == 0)
+			g_exit_status = 127;
 		if (redir_id == 1)
 			ft_restore_fd(tmp_in, tmp_out);
 		return (1);
@@ -109,7 +111,7 @@ int	ft_start(t_tlist *tokens, t_list **var_list)
 	}
 	close_pipes(misc.fdpipe, misc.cmd_count);
 	if (i == 7)
-		g_exit_status = ft_wait_pid(misc.cmd_count);
+		ft_wait_pid(misc.cmd_count);
 	if (misc.fdpipe)
 		free(misc.fdpipe);
 	return (1);
