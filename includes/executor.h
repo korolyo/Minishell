@@ -54,10 +54,11 @@ void	ft_print_export(char **sorted_env, t_list **var_list, int len);
 int		ft_start(t_tlist *tokens, t_list **var_list);
 int		ft_start_execution(t_tlist *tokens, t_list **var_list, t_misc *misc);
 int		ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc);
-int		ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc);
+int		ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc, char **env);
 int		ft_redirection(t_tlist *tokens, int *tmp_in, int *tmp_out);
 void	ft_restore_fd(int tmp_in, int tmp_out);
 void	init_misc(t_misc *misc, t_tlist *tokens);
+char	**ft_make_env(t_list **var_list);
 
 //Var handling
 t_list	*ft_find_var(t_list **var_list, char *var_name);

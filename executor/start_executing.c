@@ -18,9 +18,10 @@ int	ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 	char	*executor_path;
 	char	*tmp_path;
 	char	*tmp_path2;
+	char	**env;
 
 	tmp_path = NULL;
-	executor_path = NULL;
+	env = NULL;
 	path_list = ft_parse_path(var_list, tokens->cmd[0]);
 	if (!path_list)
 		return (0);
@@ -29,12 +30,9 @@ int	ft_execution(t_tlist *tokens, t_list **var_list, t_misc *misc)
 		executor_path = ft_strdup(tokens->cmd[0]);
 	else
 		ft_join_path(tokens->cmd[0], tmp_path, path_list, &executor_path);
-	if (!ft_strncmp(executor_path, "./minishell", 11))
-	{
-		ft_change_lvl(var_list, 1);
-		return (ft_clear_execution(path_list, tmp_path, executor_path));
-	}
-	ft_execute_cmd(executor_path, tokens, misc);
+	env = ft_make_env(var_list);
+	ft_execute_cmd(executor_path, tokens, misc, env);
+	ft_clear_arr(env);
 	return (ft_clear_execution(path_list, tmp_path, executor_path));
 }
 

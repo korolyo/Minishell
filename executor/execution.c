@@ -14,9 +14,8 @@
 
 int	ft_wait_pid(int n)
 {
-	int i;
-	int status;
-
+	int	i;
+	int	status;
 
 	i = 0;
 	while (i < n)
@@ -48,7 +47,7 @@ int	ft_clear_execution(char **path_list, char *tmp_path, char *executor_path)
 	return (1);
 }
 
-int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
+int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc, char **env)
 {
 	pid_t	pid;
 	int		tmp_in;
@@ -60,7 +59,7 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	if (pid == 0)
 	{
 		ft_start_heredoc(tokens, misc, &tmp_in, &tmp_out);
-		if (execve(path, tokens->cmd, NULL))
+		if (execve(path, tokens->cmd, env))
 			ft_cmd_error(tokens->cmd[0]);
 		exit(EXIT_SUCCESS);
 	}
