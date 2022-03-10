@@ -60,17 +60,13 @@ int	ft_execute_cmd(char *path, t_tlist *tokens, t_misc *misc)
 	if (pid == 0)
 	{
 		ft_start_heredoc(tokens, misc, &tmp_in, &tmp_out);
+		close_pipes(misc->fdpipe, misc->cmd_count);
 		if (execve(path, tokens->cmd, NULL))
 			ft_cmd_error(tokens->cmd[0]);
 		exit(EXIT_SUCCESS);
 	}
 	else if (pid < 0)
 		perror("minishell");
-	else
-	{
-		if (misc->num_of_pipes > 0)
-			close(misc->fdpipe[1]);
-	}
 	ft_restore_fd(tmp_in, tmp_out);
 	return (1);
 }
