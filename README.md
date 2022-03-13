@@ -30,6 +30,12 @@ then just ` Make `
 ... and run ` ./minishell `
 
 Enjoy)
+
+
+
+
+
+
 ![minichill1](https://user-images.githubusercontent.com/64440240/158073017-15ff450d-4903-4779-8f10-feaecf8c8372.gif)
 
 ## Theory:
