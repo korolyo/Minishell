@@ -30,7 +30,7 @@ then just ` Make `
 ... and run ` ./minishell `
 
 Enjoy)
-
+![Minishell](../../minichill1.gif)
 ## Theory:
 ____
 
